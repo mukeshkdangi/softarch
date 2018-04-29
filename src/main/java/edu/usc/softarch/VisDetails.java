@@ -3,11 +3,14 @@ package edu.usc.softarch;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * @Author : Mukesh Dangi
+ */
 
 public class VisDetails {
 
@@ -21,60 +24,58 @@ public class VisDetails {
 
 
 
-    public static  Map<String, List<String>>  getDependencyInfo() throws IOException {
+    public static Map<String, List<String>> createDependencyInfo() {
+        try {
 
-        File file = new File(dep_fileName);
-        List<String> lines = FileUtils.readLines(file);
+            File file = new File(dep_fileName);
+            List<String> lines = FileUtils.readLines(file);
 
 
-        lines.stream().forEach(str -> {
+            lines.stream().forEach(str -> {
 
-            System.out.println(str);
+                System.out.println(str);
 
-            String[] depenArray = str.split(" ");
-            List<String> depList;
-            Map<String, String> typeCountMap;
+                String[] depenArray = str.split(" ");
+                List<String> depList;
+                Map<String, String> typeCountMap;
 
-            if (dependencMap.get(depenArray[1]) == null) {
-                depList = new ArrayList<>();
-                typeCountMap = new HashMap<>();
-            } else {
-                depList = dependencMap.get(depenArray[1]);
-            }
-            depList.add(depenArray[2]);
-            dependencMap.put(depenArray[1], depList);
-            System.out.println(dependencMap);
+                if (dependencMap.get(depenArray[1]) == null) {
+                    depList = new ArrayList<>();
+                    typeCountMap = new HashMap<>();
+                } else {
+                    depList = dependencMap.get(depenArray[1]);
+                }
+                depList.add(depenArray[2]);
+                dependencMap.put(depenArray[1], depList);
+            });
 
-        });
-        getClusterInfo(dependencMap);
+        } catch (Exception e) {
+        }
 
         return dependencMap;
     }
 
 
-    public static  Map<String, String>  getClusterInfo( Map<String, List<String>> dependencMap ) throws IOException {
+    public static Map<String, String> createClusterInfo() {
 
-        File file = new File(clusters_fn);
-        List<String> lines = FileUtils.readLines(file);
+        try {
+            File file = new File(clusters_fn);
+            List<String> lines = FileUtils.readLines(file);
 
 
-        lines.stream().forEach(str -> {
+            lines.stream().forEach(str -> {
 
-            System.out.println(str);
+                System.out.println(str);
 
-            String[] depenArray = str.split(" ");
-            String filePath = depenArray[2];
-            filePath = filePath.substring(filePath.lastIndexOf("/")+1).replace(".java","");
-            clusterMap.put(filePath, depenArray[1]);
-            System.out.println(clusterMap);
+                String[] depenArray = str.split(" ");
+                String filePath = depenArray[2];
+                filePath = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".java", "");
+                clusterMap.put(filePath, depenArray[1]);
+                System.out.println(clusterMap);
 
-        });
-
+            });
+        } catch (Exception e) {
+        }
         return clusterMap;
     }
-
-
-
-
-
 }

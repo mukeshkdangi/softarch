@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 
 /**
- *
  * @author Mukesh Dangi
  */
 
 
 @RestController
-public class  VisController {
+public class VisController {
 
     @RequestMapping("/")
     public String welcome(Map<String, Object> model) {
@@ -30,7 +29,7 @@ public class  VisController {
     }
 
     @PostMapping(value = "/saveDetails") // it only support port method
-    public String saveDetails( ModelMap modelMap, HttpServletRequest httpRe) {
+    public String saveDetails(ModelMap modelMap, HttpServletRequest httpRe) {
 
 
         modelMap.put("trainerID", "Success");
@@ -39,8 +38,8 @@ public class  VisController {
     }
 
     @RequestMapping(value = "/getVisDetails", method = RequestMethod.GET)
-    public  Map<String, List<String>>  getTrainingScheduleLink() throws IOException {
-        return VisDetails.mergeTwoFiles();
+    public void getTrainingScheduleLink() throws IOException {
+        new VisProcessorImpl().init();
     }
 
 }
