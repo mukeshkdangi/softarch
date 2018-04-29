@@ -38,8 +38,8 @@ public class VisController {
     }
 
     @RequestMapping(value = "/getVisDetails", method = RequestMethod.GET)
-    public void getTrainingScheduleLink() throws IOException {
-        new VisProcessorImpl().init();
+    public Map<String, Map<String, Integer>> getTrainingScheduleLink() throws IOException {
+        return new VisProcessorImpl().init();
     }
 
 }

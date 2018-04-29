@@ -23,7 +23,6 @@ public class VisDetails {
     private static Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
 
 
-
     public static Map<String, List<String>> createDependencyInfo() {
         try {
 
@@ -69,13 +68,63 @@ public class VisDetails {
 
                 String[] depenArray = str.split(" ");
                 String filePath = depenArray[2];
-                filePath = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".java", "");
-                clusterMap.put(filePath, depenArray[1]);
+                String fileName = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".java", "");
+                clusterMap.put(fileName, depenArray[1]);
                 System.out.println(clusterMap);
 
             });
         } catch (Exception e) {
         }
         return clusterMap;
+    }
+
+    public static Map<String, Map<String, Integer>> CreateLevelOneMap() {
+
+        dependencMap.forEach((key, value) -> {
+
+            String keyString = key;
+            String fileName = keyString.substring(keyString.lastIndexOf(".") + 1);
+            List<String> depencyFiles = value;
+
+            String fileType = getFileTypeFromClusterMap(fileName);
+
+            Map<String, Integer> typeCountMap = new HashMap<>();
+
+            if (levelOneMap.get(fileType) != null) {
+                typeCountMap = levelOneMap.get(fileType);
+            }
+
+            levelOneMap.put(fileType, updateFileTypeCount(depencyFiles, typeCountMap));
+
+
+        });
+        return levelOneMap;
+
+    }
+
+    private static Map<String, Integer> updateFileTypeCount(List<String> depencyFiles, Map<String, Integer> typeCountMap) {
+
+
+        depencyFiles.stream().forEach(file -> {
+
+
+            file = file.substring(file.lastIndexOf(".") + 1);
+            String fileTypeLocal = getFileTypeFromClusterMap(file);
+
+            if (typeCountMap.get(fileTypeLocal) == null) {
+                typeCountMap.put(fileTypeLocal, 1);
+            } else {
+                typeCountMap.put(fileTypeLocal, typeCountMap.get(fileTypeLocal) + 1);
+            }
+        });
+        return typeCountMap;
+    }
+
+    public static String getFileTypeFromClusterMap(String fileName) {
+        String type = "no_match";
+        if (clusterMap.get(fileName) != null) {
+            type = clusterMap.get(fileName);
+        }
+        return type;
     }
 }

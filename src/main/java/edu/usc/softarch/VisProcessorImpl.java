@@ -1,15 +1,17 @@
 package edu.usc.softarch;
 
+import java.util.Map;
+
 /**
  * @Author : Mukesh Dangi
  */
 
 public class VisProcessorImpl extends AbstractVisProcessor {
 
-    public void init() {
+    public Map<String, Map<String, Integer>> init() {
         this.preprocess();
         this.process();
-        this.postprocess();
+        return this.postprocess();
     }
 
     @Override
@@ -25,7 +27,7 @@ public class VisProcessorImpl extends AbstractVisProcessor {
     }
 
     @Override
-    public void postprocess() {
-
+    public Map<String, Map<String, Integer>> postprocess() {
+      return  VisDetails.CreateLevelOneMap();
     }
 }
