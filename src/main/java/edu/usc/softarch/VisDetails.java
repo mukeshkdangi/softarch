@@ -3,10 +3,7 @@ package edu.usc.softarch;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author : Mukesh Dangi
@@ -14,16 +11,21 @@ import java.util.Map;
 
 public class VisDetails {
 
-    private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
+   // private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
 
-    private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
+   // private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
+
+    Scanner scan = new Scanner(System.in);
+    private  String dep_fileName = scan.nextLine();
+    private  String clusters_fn = scan.nextLine();
+
 
     private static Map<String, String> clusterMap = new HashMap<>();
     private static Map<String, List<String>> dependencMap = new HashMap<>();
     private static Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
 
 
-    public static Map<String, List<String>> createDependencyInfo() {
+    public  Map<String, List<String>> createDependencyInfo() {
         try {
 
             File file = new File(dep_fileName);
@@ -55,7 +57,7 @@ public class VisDetails {
     }
 
 
-    public static Map<String, String> createClusterInfo() {
+    public  Map<String, String> createClusterInfo() {
 
         try {
             File file = new File(clusters_fn);

@@ -16,8 +16,8 @@ public class VisProcessorImpl extends AbstractVisProcessor {
 
     @Override
     public void preprocess() {
-        VisDetails.createClusterInfo();
-        VisDetails.createDependencyInfo();
+        new VisDetails().createClusterInfo();
+        new VisDetails().createDependencyInfo();
 
     }
 
