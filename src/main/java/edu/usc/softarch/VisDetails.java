@@ -16,7 +16,7 @@ public class VisDetails {
 
     private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
 
-    private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
+    private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
 
     private static Map<String, String> clusterMap = new HashMap<>();
     private static Map<String, List<String>> dependencMap = new HashMap<>();
@@ -124,6 +124,7 @@ public class VisDetails {
         String type = "no_match";
         if (clusterMap.get(fileName) != null) {
             type = clusterMap.get(fileName);
+            System.out.println(clusterMap);
         }
         return type;
     }
