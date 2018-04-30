@@ -3,7 +3,10 @@ package edu.usc.softarch;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : Mukesh Dangi
@@ -11,21 +14,28 @@ import java.util.*;
 
 public class VisDetails {
 
-   // private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
+    private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
 
-   // private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
-
-    Scanner scan = new Scanner(System.in);
-    private  String dep_fileName = scan.nextLine();
-    private  String clusters_fn = scan.nextLine();
-
-
-    private static Map<String, String> clusterMap = new HashMap<>();
-    private static Map<String, List<String>> dependencMap = new HashMap<>();
-    private static Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
+     private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
+   // public String dep_fileName;
+   // public String clusters_fn;
+    private Map<String, String> clusterMap = new HashMap<>();
+    private Map<String, List<String>> dependencMap = new HashMap<>();
+    private Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
 
 
-    public  Map<String, List<String>> createDependencyInfo() {
+    public void init(String depedency_file, String cluster_dep_file) {
+
+      //  this.dep_fileName = depedency_file;
+       // this.clusters_fn = cluster_dep_file;
+
+
+        clusterMap = new HashMap<>();
+        dependencMap = new HashMap<>();
+        levelOneMap = new HashMap<>();
+    }
+
+    public Map<String, List<String>> createDependencyInfo() {
         try {
 
             File file = new File(dep_fileName);
@@ -57,7 +67,7 @@ public class VisDetails {
     }
 
 
-    public  Map<String, String> createClusterInfo() {
+    public Map<String, String> createClusterInfo() {
 
         try {
             File file = new File(clusters_fn);
@@ -80,7 +90,7 @@ public class VisDetails {
         return clusterMap;
     }
 
-    public static Map<String, Map<String, Integer>> CreateLevelOneMap() {
+    public Map<String, Map<String, Integer>> CreateLevelOneMap() {
 
         dependencMap.forEach((key, value) -> {
 
@@ -104,7 +114,7 @@ public class VisDetails {
 
     }
 
-    private static Map<String, Integer> updateFileTypeCount(List<String> depencyFiles, Map<String, Integer> typeCountMap) {
+    private Map<String, Integer> updateFileTypeCount(List<String> depencyFiles, Map<String, Integer> typeCountMap) {
 
 
         depencyFiles.stream().forEach(file -> {
@@ -122,7 +132,7 @@ public class VisDetails {
         return typeCountMap;
     }
 
-    public static String getFileTypeFromClusterMap(String fileName) {
+    public String getFileTypeFromClusterMap(String fileName) {
         String type = "no_match";
         if (clusterMap.get(fileName) != null) {
             type = clusterMap.get(fileName);

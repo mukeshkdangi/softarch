@@ -8,7 +8,7 @@ import java.util.Map;
 
 public abstract class AbstractVisProcessor {
 
-    public  abstract void preprocess();
+    public  abstract void preprocess(String s1, String s2);
 
     public  abstract void process();
 

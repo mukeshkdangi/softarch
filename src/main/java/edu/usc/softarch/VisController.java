@@ -1,18 +1,11 @@
 package edu.usc.softarch;
 
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import com.google.gson.Gson;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author Mukesh Dangi
@@ -22,7 +15,7 @@ import com.google.gson.Gson;
 @RestController
 public class VisController {
 
-    @RequestMapping("/")
+    @RequestMapping("/welcome")
     public String welcome(Map<String, Object> model) {
 
         return "welcome";
@@ -37,9 +30,9 @@ public class VisController {
         return "viewDetails"; // welcome is view name. It will call welcome.jsp
     }
 
-    @RequestMapping(value = "/getVisDetails", method = RequestMethod.GET)
-    public Map<String, Map<String, Integer>> getTrainingScheduleLink() throws IOException {
-        return new VisProcessorImpl().init();
+    @GetMapping(value = "/getVisDetails")
+    public Map<String, Map<String, Integer>> getLevelOne(){
+        return new VisProcessorImpl().init("","");
     }
 
 }

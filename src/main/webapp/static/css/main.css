@@ -1,0 +1,27 @@
+.box { text-align: center;}
+.box h3 {background:#0094ff;color:white;padding-left:200px; text-align: center;width:60pc}
+.box p {color:#333;padding:10px; text-align: center;width:60pc}
+.box {
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-topleft:5px;
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-top-left-radius:5px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
