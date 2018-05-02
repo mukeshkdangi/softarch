@@ -1,5 +1,6 @@
-package edu.usc.softarch;
+package edu.usc.softarch.LevelOnePojo;
 
+import edu.usc.softarch.LevelOnePojo.CategoryList;
 import lombok.Builder;
 import lombok.Data;
 

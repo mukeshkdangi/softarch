@@ -1,4 +1,4 @@
-package edu.usc.softarch;
+package edu.usc.softarch.LevelOnePojo;
 
 import lombok.Data;
 

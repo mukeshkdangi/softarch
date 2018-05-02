@@ -1,9 +1,7 @@
 package edu.usc.softarch;
 
-import edu.usc.softarch.levelTwoPojo.ClusterNames;
-import edu.usc.softarch.levelTwoPojo.FileTypeMap;
-import edu.usc.softarch.levelTwoPojo.LevelTwoInfo;
-import edu.usc.softarch.levelTwoPojo.ListOfFiles;
+import com.google.gson.Gson;
+import edu.usc.softarch.levelTwoPojo.*;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -138,17 +136,29 @@ public class VisDetails {
 
             levelOneMap.put(fileType, updateFileTypeCount(depencyFiles, typeCountMap));
 
+            //TODO
+            //DependencyNameCategory inputDeps = DependencyNameCategory.builder().category(fileType).name(fileName).build();
+            //DependencyNameCategory outputDeps = DependencyNameCategory.builder().category(fileType).name(fileName).build();
+            List<DependencyNameCategory> inputDeps = new ArrayList<>();
+            List<DependencyNameCategory> outputDeps = new ArrayList<>();
 
-            ListOfFiles listOfFiles = ListOfFiles.builder().linesOfCode(linesOfCode).category(category).fileSize(fileSize).
+            //TODO
+            ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(100).category(fileType).fileSize(100.00).
                     inputDeps(inputDeps).outputDeps(outputDeps).
-                    pathToFile(pathToFile).vulnerable(vulnerable);
+                    pathToFile("file_path").vulnerable(true).build();
+            List<ListOfFiles> listOfFiles = new ArrayList<>();
+            listOfFiles.add(filesDetails);
+
             String nameOfCluster = "";
             ClusterNames clusterNames = ClusterNames.builder().nameOfCluster(nameOfCluster).listOfFiles(listOfFiles).build();
-            FileTypeMap fileTypeMap = FileTypeMap.builder().name(fileName).clusterNames(clusterNames).build()
+            FileTypeMap fileTypeMap = FileTypeMap.builder().name(fileName).clusterNames(clusterNames).build();
             listOfLevelTwoInfo.add(fileTypeMap);
 
         });
         levelTwoInfo.setFileTypeMaps(listOfLevelTwoInfo);
+
+        System.out.println("***************************************");
+        System.out.println(new Gson().toJson(levelTwoInfo));
         return levelOneMap;
 
     }
