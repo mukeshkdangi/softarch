@@ -30,7 +30,7 @@ public class VisController {
         return "viewDetails"; // welcome is view name. It will call welcome.jsp
     }
 
-    @GetMapping(value = "/getVisDetails")
+    @GetMapping(value = "/getLevelOneDetails")
     public Map<String, Map<String, Integer>> getLevelOne(){
         return new VisProcessorImpl().init("","");
     }

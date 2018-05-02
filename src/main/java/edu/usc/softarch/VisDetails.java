@@ -1,5 +1,9 @@
 package edu.usc.softarch;
 
+import edu.usc.softarch.levelTwoPojo.ClusterNames;
+import edu.usc.softarch.levelTwoPojo.FileTypeMap;
+import edu.usc.softarch.levelTwoPojo.LevelTwoInfo;
+import edu.usc.softarch.levelTwoPojo.ListOfFiles;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -24,9 +28,13 @@ public class VisDetails {
      * clusterMap : File A name without path->> {File A Name without path, file A type}
      */
 
-    private Map<String, String> clusterMap = new HashMap<>();
+    private Map<String, List<String>> clusterMap = new HashMap<>();
     private Map<String, Map<String, String>> dependencMap = new HashMap<>();
     private Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
+    /**
+     * Level 3 Map {File Category Key -> {List of Maps  {File 1 -> type}}}
+     */
+    private Map<String, List<Map<String, String>>> levelTwoMap = new HashMap<>();
 
     /**
      * @param depedency_file
@@ -82,19 +90,21 @@ public class VisDetails {
     /**
      * @return
      */
-    public Map<String, String> createClusterInfo() {
+    public Map<String, List<String>> createClusterInfo() {
 
         try {
             File file = new File(clusters_fn);
             List<String> lines = FileUtils.readLines(file);
-
 
             lines.stream().forEach(str -> {
 
                 String[] depenArray = str.split(" ");
                 String filePath = depenArray[2];
                 String fileName = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".java", "");
-                clusterMap.put(fileName, depenArray[1]);
+                List<String> fileFullPathType = new ArrayList<>();
+                fileFullPathType.add(filePath);
+                fileFullPathType.add(depenArray[1]);
+                clusterMap.put(fileName, fileFullPathType);
                 System.out.println(clusterMap);
 
             });
@@ -107,6 +117,10 @@ public class VisDetails {
      * @return
      */
     public Map<String, Map<String, Integer>> CreateLevelOneMap() {
+
+        LevelTwoInfo levelTwoInfo = LevelTwoInfo.builder().build();
+        List<FileTypeMap> listOfLevelTwoInfo = new ArrayList<>();
+
 
         dependencMap.forEach((key, value) -> {
 
@@ -125,7 +139,16 @@ public class VisDetails {
             levelOneMap.put(fileType, updateFileTypeCount(depencyFiles, typeCountMap));
 
 
+            ListOfFiles listOfFiles = ListOfFiles.builder().linesOfCode(linesOfCode).category(category).fileSize(fileSize).
+                    inputDeps(inputDeps).outputDeps(outputDeps).
+                    pathToFile(pathToFile).vulnerable(vulnerable);
+            String nameOfCluster = "";
+            ClusterNames clusterNames = ClusterNames.builder().nameOfCluster(nameOfCluster).listOfFiles(listOfFiles).build();
+            FileTypeMap fileTypeMap = FileTypeMap.builder().name(fileName).clusterNames(clusterNames).build()
+            listOfLevelTwoInfo.add(fileTypeMap);
+
         });
+        levelTwoInfo.setFileTypeMaps(listOfLevelTwoInfo);
         return levelOneMap;
 
     }
@@ -160,7 +183,7 @@ public class VisDetails {
     public String getFileTypeFromClusterMap(String fileName) {
         String type = "no_match";
         if (clusterMap.get(fileName) != null) {
-            type = clusterMap.get(fileName);
+            type = clusterMap.get(fileName).get(1);
             System.out.println(clusterMap);
         }
         return type;
