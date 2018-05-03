@@ -1,6 +1,9 @@
 package edu.usc.softarch;
 
 import com.google.gson.Gson;
+import edu.usc.softarch.LevelOnePojo.Category;
+import edu.usc.softarch.LevelOnePojo.Dependency;
+import edu.usc.softarch.LevelOnePojo.LevelOneInfo;
 import edu.usc.softarch.levelTwoPojo.*;
 import org.apache.commons.io.FileUtils;
 
@@ -10,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * @Author : Mukesh Dangi
  */
-
 public class VisDetails {
 
     private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
@@ -114,14 +117,19 @@ public class VisDetails {
     /**
      * @return
      */
-    public Map<String, Map<String, Integer>> CreateLevelOneMap() {
+    public Map<String, Map<String, Integer>> CreateLevelMap() {
 
         LevelTwoInfo levelTwoInfo = LevelTwoInfo.builder().build();
         List<FileTypeMap> listOfLevelTwoInfo = new ArrayList<>();
 
+        // Level 1
+
+        LevelOneInfo levelOneInfo = LevelOneInfo.builder().build();
+        List<Category> levelOne = new ArrayList<>();
+        System.out.println("dependencMap" + dependencMap);
 
         dependencMap.forEach((key, value) -> {
-
+            List<Dependency> dependencyList = new ArrayList<>();
             String keyString = key;
             String fileName = keyString.substring(keyString.lastIndexOf(".") + 1);
             Map<String, String> depencyFiles = value;
@@ -133,10 +141,9 @@ public class VisDetails {
             if (levelOneMap.get(fileType) != null) {
                 typeCountMap = levelOneMap.get(fileType);
             }
-
             levelOneMap.put(fileType, updateFileTypeCount(depencyFiles, typeCountMap));
 
-            
+
             /**
              * Level 3 Starts Here
              */
@@ -159,12 +166,49 @@ public class VisDetails {
             listOfLevelTwoInfo.add(fileTypeMap);
 
         });
+
+        /**
+         * Level 1
+         */
+
+        levelOneMap.forEach((key, value) -> {
+            List<Dependency> dependencyList = new ArrayList<>();
+            Map<String, Integer> countMap = new HashMap<>();
+            value.forEach((fileName, dependencyCount) -> {
+                
+                Integer fileCount = countMap.get("counts");
+                countMap.put("counts", fileCount == null ? dependencyCount : (fileCount + dependencyCount));
+                Dependency dependencyInfo = Dependency.builder().count(dependencyCount).nameOfCategory(fileName).build();
+                dependencyList.add(dependencyInfo);
+            });
+
+            Category category = Category.builder().category(key).numberOfFiles(countMap.get("counts")).dependency(dependencyList).build();
+            levelOne.add(category);
+        });
+        levelOneInfo.setLevelOne(levelOne);
         levelTwoInfo.setFileTypeMaps(listOfLevelTwoInfo);
 
-        System.out.println("***************************************");
+        System.out.println("*******************Level 1111111111********************");
+        System.out.println(new Gson().toJson(levelOne));
+
+        System.out.println("******************** Level 33333333333*******************");
         System.out.println(new Gson().toJson(levelTwoInfo));
         return levelOneMap;
 
+    }
+
+    /**
+     * @param dependencyList
+     * @param levelOneMap
+     * @param fileType
+     * @return
+     */
+    private List<Dependency> getDependencyList(List<Dependency> dependencyList, Map<String, Map<String, Integer>> levelOneMap, String fileType) {
+        levelOneMap.get(fileType).forEach((key, value) -> {
+            Dependency dependencyInfo = Dependency.builder().count(value).nameOfCategory(key).build();
+            dependencyList.add(dependencyInfo);
+        });
+        return dependencyList;
     }
 
     /**
@@ -186,6 +230,7 @@ public class VisDetails {
             } else {
                 typeCountMap.put(fileTypeLocal, typeCountMap.get(fileTypeLocal) + 1);
             }
+
         });
         return typeCountMap;
     }
@@ -198,7 +243,6 @@ public class VisDetails {
         String type = "no_match";
         if (clusterMap.get(fileName) != null) {
             type = clusterMap.get(fileName).get(1);
-            System.out.println(clusterMap);
         }
         return type;
     }

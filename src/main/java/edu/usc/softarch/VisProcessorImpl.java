@@ -31,6 +31,6 @@ public class VisProcessorImpl extends AbstractVisProcessor {
 
     @Override
     public Map<String, Map<String, Integer>> postprocess() {
-        return visDetailsIns.CreateLevelOneMap();
+        return visDetailsIns.CreateLevelMap();
     }
 }

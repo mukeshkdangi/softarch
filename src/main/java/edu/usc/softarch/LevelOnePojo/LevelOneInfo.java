@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 @Builder
-public class VisLOnePojo {
-    List<Category> level1;
+public class LevelOneInfo {
+    List<Category> levelOne;
 }
