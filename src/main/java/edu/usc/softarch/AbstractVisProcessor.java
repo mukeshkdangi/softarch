@@ -12,7 +12,7 @@ public abstract class AbstractVisProcessor {
 
     public  abstract void process();
 
-    public  abstract Map<String, Map<String, Integer>> postprocess();
+    public  abstract VisInformation postprocess();
 
 
 }

@@ -3,7 +3,6 @@ package edu.usc.softarch;
 import com.google.gson.Gson;
 import edu.usc.softarch.LevelOnePojo.Category;
 import edu.usc.softarch.LevelOnePojo.Dependency;
-import edu.usc.softarch.LevelOnePojo.LevelOneInfo;
 import edu.usc.softarch.levelTwoPojo.*;
 import org.apache.commons.io.FileUtils;
 
@@ -22,8 +21,7 @@ public class VisDetails {
     private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
 
     private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
-    // public String dep_fileName;
-    // public String clusters_fn;
+
     /**
      * dependencMap : fileA -> {File B: File B type}
      * clusterMap : File A name without path->> {File A Name without path, file A type}
@@ -65,18 +63,15 @@ public class VisDetails {
 
             lines.stream().forEach(str -> {
 
-                System.out.println(str);
-
                 String[] depenArray = str.split(" ");
                 Map<String, String> innerDepMap;
-                Map<String, String> typeCountMap;
 
                 if (dependencMap.get(depenArray[1]) == null) {
                     innerDepMap = new HashMap<>();
-                    typeCountMap = new HashMap<>();
                 } else {
                     innerDepMap = dependencMap.get(depenArray[1]);
                 }
+
                 String fileTypeLocal = getFileTypeFromClusterMap(depenArray[2]);
                 innerDepMap.put(depenArray[2], fileTypeLocal);
                 dependencMap.put(depenArray[1], innerDepMap);
@@ -106,6 +101,7 @@ public class VisDetails {
                 fileFullPathType.add(filePath);
                 fileFullPathType.add(depenArray[1]);
                 clusterMap.put(fileName, fileFullPathType);
+
                 System.out.println(clusterMap);
 
             });
@@ -117,14 +113,13 @@ public class VisDetails {
     /**
      * @return
      */
-    public Map<String, Map<String, Integer>> CreateLevelMap() {
+    public VisInformation CreateLevelMap() {
 
         LevelTwoInfo levelTwoInfo = LevelTwoInfo.builder().build();
         List<FileTypeMap> listOfLevelTwoInfo = new ArrayList<>();
 
         // Level 1
 
-        LevelOneInfo levelOneInfo = LevelOneInfo.builder().build();
         List<Category> levelOne = new ArrayList<>();
         System.out.println("dependencMap" + dependencMap);
 
@@ -152,7 +147,9 @@ public class VisDetails {
             //DependencyNameCategory outputDeps = DependencyNameCategory.builder().category(fileType).name(fileName).build();
             List<DependencyNameCategory> inputDeps = new ArrayList<>();
             List<DependencyNameCategory> outputDeps = new ArrayList<>();
-
+            DependencyNameCategory dependecnyFiles = DependencyNameCategory.builder().category("sql").name("File A").build();
+            inputDeps.add(dependecnyFiles);
+            outputDeps.add(dependecnyFiles);
             //TODO
             ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(100).category(fileType).fileSize(100.00).
                     inputDeps(inputDeps).outputDeps(outputDeps).
@@ -175,7 +172,7 @@ public class VisDetails {
             List<Dependency> dependencyList = new ArrayList<>();
             Map<String, Integer> countMap = new HashMap<>();
             value.forEach((fileName, dependencyCount) -> {
-                
+
                 Integer fileCount = countMap.get("counts");
                 countMap.put("counts", fileCount == null ? dependencyCount : (fileCount + dependencyCount));
                 Dependency dependencyInfo = Dependency.builder().count(dependencyCount).nameOfCategory(fileName).build();
@@ -185,31 +182,39 @@ public class VisDetails {
             Category category = Category.builder().category(key).numberOfFiles(countMap.get("counts")).dependency(dependencyList).build();
             levelOne.add(category);
         });
-        levelOneInfo.setLevelOne(levelOne);
-        levelTwoInfo.setFileTypeMaps(listOfLevelTwoInfo);
 
-        System.out.println("*******************Level 1111111111********************");
-        System.out.println(new Gson().toJson(levelOne));
+        /**
+         * Level 3 Updates
+         */
+        levelOneMap.forEach((key, value) -> {
+            //TODO
+            //DependencyNameCategory inputDeps = DependencyNameCategory.builder().category(fileType).name(fileName).build();
+            //DependencyNameCategory outputDeps = DependencyNameCategory.builder().category(fileType).name(fileName).build();
+            List<DependencyNameCategory> inputDeps = new ArrayList<>();
+            List<DependencyNameCategory> outputDeps = new ArrayList<>();
+            DependencyNameCategory dependecnyFiles = DependencyNameCategory.builder().category("sql").name("File A").build();
+            inputDeps.add(dependecnyFiles);
+            outputDeps.add(dependecnyFiles);
+            //TODO
+            ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(100).category(key).fileSize(100.00).
+                    inputDeps(inputDeps).outputDeps(outputDeps).
+                    pathToFile("file_path").vulnerable(true).build();
+            List<ListOfFiles> listOfFiles = new ArrayList<>();
+            listOfFiles.add(filesDetails);
+
+            String nameOfCluster = "";
+            ClusterNames clusterNames = ClusterNames.builder().nameOfCluster(nameOfCluster).listOfFiles(listOfFiles).build();
+            FileTypeMap fileTypeMap = FileTypeMap.builder().name(fileName).clusterNames(clusterNames).build();
+            listOfLevelTwoInfo.add(fileTypeMap);
+        });
 
         System.out.println("******************** Level 33333333333*******************");
         System.out.println(new Gson().toJson(levelTwoInfo));
-        return levelOneMap;
+
+        return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).build();
 
     }
 
-    /**
-     * @param dependencyList
-     * @param levelOneMap
-     * @param fileType
-     * @return
-     */
-    private List<Dependency> getDependencyList(List<Dependency> dependencyList, Map<String, Map<String, Integer>> levelOneMap, String fileType) {
-        levelOneMap.get(fileType).forEach((key, value) -> {
-            Dependency dependencyInfo = Dependency.builder().count(value).nameOfCategory(key).build();
-            dependencyList.add(dependencyInfo);
-        });
-        return dependencyList;
-    }
 
     /**
      * @param depencyFiles

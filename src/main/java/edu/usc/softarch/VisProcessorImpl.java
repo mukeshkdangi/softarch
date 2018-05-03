@@ -12,7 +12,7 @@ public class VisProcessorImpl extends AbstractVisProcessor {
     private String depedency_files;
     private String cluster_dep_files;
 
-    public Map<String, Map<String, Integer>> init(String dependency_file, String cluster_dep_file) {
+    public VisInformation init(String dependency_file, String cluster_dep_file) {
         this.preprocess(dependency_file, cluster_dep_file);
         this.process();
         return this.postprocess();
@@ -30,7 +30,7 @@ public class VisProcessorImpl extends AbstractVisProcessor {
     }
 
     @Override
-    public Map<String, Map<String, Integer>> postprocess() {
+    public VisInformation postprocess() {
         return visDetailsIns.CreateLevelMap();
     }
 }

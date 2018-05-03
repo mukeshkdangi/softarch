@@ -8,5 +8,4 @@ import java.util.List;
 @Data
 @Builder
 public class LevelTwoInfo {
-    private List<FileTypeMap> fileTypeMaps;
 }
