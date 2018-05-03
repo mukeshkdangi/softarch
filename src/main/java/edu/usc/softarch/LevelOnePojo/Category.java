@@ -7,7 +7,8 @@ import java.util.List;
 
 @Builder
 @Data
-public class CategoryList {
+public class Category {
     private String category;
     private List<Dependency> dependency;
+    private int numberOfFiles;
 }
