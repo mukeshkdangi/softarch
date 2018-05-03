@@ -204,7 +204,7 @@ public class VisDetails {
 
             String nameOfCluster = "";
             ClusterNames clusterNames = ClusterNames.builder().nameOfCluster(nameOfCluster).listOfFiles(listOfFiles).build();
-            FileTypeMap fileTypeMap = FileTypeMap.builder().name(fileName).clusterNames(clusterNames).build();
+            FileTypeMap fileTypeMap = FileTypeMap.builder().name(key).clusterNames(clusterNames).build();
             listOfLevelTwoInfo.add(fileTypeMap);
         });
 
