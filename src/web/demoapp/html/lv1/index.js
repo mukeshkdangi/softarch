@@ -10,6 +10,11 @@ for (var i = 0 ; i < number_of_circle ; i++) {
   angles.push(i * Math.PI * 2 / number_of_circle)
 }
 
+var categoryToIndex = {};
+for (var i = 0 ; i < datas.length ; i++) {
+    categoryToIndex[datas[i].category] = i
+}
+
 
 for (var i = 0 ; i < number_of_circle ; i++) {
   var a = {}
@@ -20,9 +25,12 @@ for (var i = 0 ; i < number_of_circle ; i++) {
 var paths = []
 
 for (var i = 0 ; i < number_of_circle ; i++) {
-  for (var j = 0 ; j < datas[i]['links'].length; j++) {
+  for (var j = 0 ; j < datas[i]['dependency'].length; j++) {
     var from_pos = datas[i];
-    var to_pos = datas[datas[i]['links'][j]];
+    var dep_key = (datas[i]['dependency'][j]).nameOfCategory
+    if (dep_key === datas[i].category)
+      continue;
+    var to_pos = datas[categoryToIndex[dep_key]]
 
     var length = Math.sqrt(Math.abs(Math.pow(from_pos.y - to_pos.y, 2) + Math.pow(from_pos.x - to_pos.x, 2)))
     var diff_x = (from_pos.x - to_pos.x) * small_circle_radias / length
@@ -49,9 +57,9 @@ var circleAttributes = circles
                        .attr("cx", function (d) { return d['x']; })
                        .attr("cy", function (d) { return d['y']; })
                        .attr("r", small_circle_radias )
-                       .style("fill", function(d) { return d['color'];})
+                       .style("fill", function(d) { return color[d['category']];})
                        .style("cursor", "pointer")
-                       .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.name });
+                       .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.category });
 
 svgContainer.append("svg:defs").append("svg:marker")
       .attr("id", "triangle")
@@ -84,7 +92,7 @@ var text = svgContainer.selectAll("text")
 var textLabels = text
                  .attr("x", function(d) { return d.x; })
                  .attr("y", function(d) { return d.y; })
-                 .text( function (d) { return d.name })
+                 .text( function (d) { return d.category })
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")
                  .style("text-anchor", "middle")
