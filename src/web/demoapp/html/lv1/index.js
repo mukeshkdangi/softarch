@@ -1,5 +1,5 @@
 
-var square_h = Math.min(window.innerHeight, window.innerWidth) - 10
+var square_h = Math.min(window.innerHeight - 40, window.innerWidth) - 10
 var number_of_circle = lv1_data.length;
 var radius_offset = 2.8;
 var big_circle_radias = square_h / radius_offset;

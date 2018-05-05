@@ -1,8 +1,13 @@
-.bar-chart {
-  background-color: #C7D9D9;
-  }
-  
-.bar {
-   fill: #115D8C;
-   }
+body {
+  margin: 0px;
+}
 
+#title {
+  background: black;
+  color: white;
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 5px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 25px;
+}
