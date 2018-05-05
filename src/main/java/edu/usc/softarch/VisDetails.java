@@ -3,13 +3,18 @@ package edu.usc.softarch;
 import com.google.gson.Gson;
 import edu.usc.softarch.LevelOnePojo.Category;
 import edu.usc.softarch.LevelOnePojo.Dependency;
+import edu.usc.softarch.Utils.FileUtility;
 import edu.usc.softarch.levelTwoPojo.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 
 /**
@@ -73,12 +78,12 @@ public class VisDetails {
                 String[] depenArray = str.split(" ");
                 Map<String, String> innerDepMap;
                 innerDepMap = dependencMap.get(depenArray[1]) == null ? new HashMap<>() : dependencMap.get(depenArray[1]);
-                String fileTypeLocal = getFileTypeFromClusterMap(depenArray[2]);
+                String fileTypeLocal = FileUtility.getFileTypeFromClusterMap(depenArray[2], clusterMap);
                 innerDepMap.put(depenArray[2], fileTypeLocal);
                 dependencMap.put(depenArray[1], innerDepMap);
 
                 innerDepMap = outDependencMap.get(depenArray[2]) == null ? new HashMap<>() : outDependencMap.get(depenArray[2]);
-                fileTypeLocal = getFileTypeFromClusterMap(depenArray[1]);
+                fileTypeLocal = FileUtility.getFileTypeFromClusterMap(depenArray[1], clusterMap);
                 innerDepMap.put(depenArray[1], fileTypeLocal);
                 outDependencMap.put(depenArray[2], innerDepMap);
             });
@@ -133,7 +138,7 @@ public class VisDetails {
                 String fileName = keyString.substring(keyString.lastIndexOf(".") + 1);
                 Map<String, String> depencyFiles = value;
 
-                String fileType = getFileTypeFromClusterMap(fileName);
+                String fileType = FileUtility.getFileTypeFromClusterMap(fileName, clusterMap);
                 Map<String, Integer> typeCountMap = new HashMap<>();
 
                 if (levelOneMap.get(fileType) != null) {
@@ -149,7 +154,7 @@ public class VisDetails {
 
                 String keyString = key;
                 String fileName = keyString.substring(keyString.lastIndexOf(".") + 1);
-                String fileType = getFileTypeFromClusterMap(fileName);
+                String fileType = FileUtility.getFileTypeFromClusterMap(fileName, clusterMap);
                 Map<String, String> inComingDependency = dependencMap.get(key);
                 Map<String, String> outGoingDependency = outDependencMap.get(key);
 
@@ -191,9 +196,6 @@ public class VisDetails {
              * Level 3 Updates
              */
 
-            System.out.println("levelThreeMap" + levelThreeMap);
-
-
             levelThreeMap.forEach((key, value) -> {
                 fileNameAndType = new HashMap<>();
                 FileTypeMap fileTypeMap = FileTypeMap.builder().build();
@@ -219,10 +221,18 @@ public class VisDetails {
                             listOutGoingDep.add(outputDeps);
                         });
                     }
+                    String file_path = FileUtility.getFilePathFromClusterMap(fileNam, clusterMap);
+                    int linesOfCode = 100;
+                    double fileSize = 100.00;
+                    if (StringUtils.isNotBlank(file_path)) {
+                        File file = new File(file_path);
+                        linesOfCode = FileUtility.getLineCount(file);
+                        fileSize = Math.round(file.length() / 1024);
+                    }
 
-                    ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(100).category(key).fileSize(100.00).
+                    ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(linesOfCode).category(key).fileSize(fileSize).
                             inputDeps(listInComingDep).outputDeps(listOutGoingDep).name(fileNam).
-                            pathToFile("file_path").vulnerable(true).build();
+                            pathToFile(file_path).vulnerable(true).build();
                     listOfFiles.add(filesDetails);
 
                 });
@@ -233,10 +243,6 @@ public class VisDetails {
                 listOfLevelTwoInfo.add(fileTypeMap);
 
             });
-
-
-            System.out.println("******************** Level 33333333333*******************");
-            System.out.println(new Gson().toJson(levelTwoInfo));
 
             return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).build();
         } catch (Exception e) {
@@ -259,7 +265,7 @@ public class VisDetails {
 
 
             file = file.substring(file.lastIndexOf(".") + 1);
-            String fileTypeLocal = getFileTypeFromClusterMap(file);
+            String fileTypeLocal = FileUtility.getFileTypeFromClusterMap(file, clusterMap);
 
             if (typeCountMap.get(fileTypeLocal) == null) {
                 typeCountMap.put(fileTypeLocal, 1);
@@ -271,16 +277,5 @@ public class VisDetails {
         return typeCountMap;
     }
 
-    /**
-     * @param fileName
-     * @return
-     */
-    public String getFileTypeFromClusterMap(String fileName) {
-        String type = "no_match";
-        fileName = fileName.substring(fileName.lastIndexOf(".") + 1);
-        if (clusterMap.get(fileName) != null) {
-            type = clusterMap.get(fileName).get(1);
-        }
-        return type;
-    }
+
 }
