@@ -2,13 +2,20 @@
 var SVG_HEIGHT = svgHeight;
 var SVG_WIDTH = svgWidth;
 var DEPENDENCIES_BOX_HEIGHT = 50;
-var DEPENDENCIES_BOX_WIDTH = 200;
+var DEPENDENCIES_BOX_WIDTH = 500;
 var DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT = 50;
-var CIRCLE_COLOR = '#ccc'
+var CIRCLE_COLOR = '#ccc';
+var diameter = svgHeight;
+var margin = 20;
+var g = undefined;
+var g2 = undefined;
+var svg = undefined;
+var circle = undefined;
+var lv2_data = {};
+function drawSVG(root, data) {
+    lv2_data = data;
+    svg = d3.select("svg");
 
-var svg = d3.select("svg"),
-    margin = 20,
-    diameter = +svg.attr("height"),
     g = svg.append("g").attr("transform", "translate(" + svg.attr("width") / 2 + "," + svg.attr("height") / 2 + ")");
     g2 = svg.append("g");
 
@@ -21,8 +28,6 @@ var pack = d3.pack()
     .size([diameter - margin, diameter - margin])
     .padding(2);
 
-d3.json("data/" + cluster_name + "_data.json", function(error, root) {
-  if (error) throw error;
 
   root = d3.hierarchy(root)
       .sum(function(d) { return d.size; })
@@ -32,17 +37,24 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
       nodes = pack(root).descendants(),
       view;
 
-  var circle = g.selectAll("circle")
+  circle = g.selectAll("circle")
     .data(nodes)
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-      .on("click", function(d) { g2.attr("display", "none"); zoom(d); d3.event.stopPropagation(); });
+      .on("click", function(d) { 
+          g2.attr("display", "none"); 
+          zoom(d); 
+          d3.event.stopPropagation(); 
+        });
 
     var text = g.selectAll(".label")
     .data(nodes)
     .enter().append("text")
     .attr("class", "label")
+    .style("fill", function(d){
+        return d.data.vulnerable ? "red": "black"
+    })
     .style("fill-opacity", function(d) { 
         return d.parent === root ||  (d == focus) && !d.children || (!focus.children &&focus.parent == d.parent) ? 1 : 0; 
     })
@@ -58,13 +70,14 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
       .on("click", function() { g2.attr("display", "none"); zoom(root); });
 
   zoomTo([root.x, root.y, root.r * 2 + margin], 1);
-
+}
   function zoom(d) {
     var focus0 = focus; focus = d;
     d_offset = (d == focus) && !d.children? 0.3:1;
     var transition = d3.transition().duration(d3.event.altKey ? 7500 : 750)
     .tween("zoom", function(d) {
-      var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+      var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin])
+    //   i.on("end", alert("done"));
       return function(t) { zoomTo(i(t), d_offset); };
     })
 
@@ -99,31 +112,28 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
         });
         circle.attr("r", function(d) { return d.r * k; });
     }
-});
-
-    var usedp1 = true
+// });
     function prepareSubLv2Data(focus) {
         var number_of_left_box = 0;
         var number_of_right_box = 0;
-        var dp = focus.data.dependencies
-        for (var i =0; i < dp.length ; i++) {
-            if (dp[i]['type'] == 0) {
-                number_of_left_box++;
-            } else {
-                number_of_right_box++;
-            }
+        var deps = []
+        var inputDeps = focus.data.inputDeps;
+        for (var i = 0; i < inputDeps.length ; i++) {
+            inputDeps[i]['x'] = DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT
+            inputDeps[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + i * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  inputDeps.length);
+            inputDeps[i]['type'] = 0
+            inputDeps[i]['c'] = category_to_color[inputDeps[i].category]
+            deps.push(inputDeps[i])
         }
-        for (var i = 0; i < dp.length ; i++) {
-            if (dp[i]['type'] == 0) {
-                dp[i]['x'] = DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT
-                dp[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + i * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  number_of_left_box);
-            } else {
-                dp[i]['x'] = SVG_WIDTH - DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT - DEPENDENCIES_BOX_WIDTH;
-                dp[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + (i - number_of_left_box)  * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  number_of_right_box);
-            }
+        var outputDeps = focus.data.outputDeps;
+        for (var i = 0; i < outputDeps.length ; i++) {
+            outputDeps[i]['x'] = SVG_WIDTH - DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT - DEPENDENCIES_BOX_WIDTH;
+            outputDeps[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + i * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  outputDeps.length);
+            outputDeps[i]['type'] = 1
+            outputDeps[i]['c'] = category_to_color[outputDeps[i].category]
+            deps.push(outputDeps[i])
         }
-        usedp1 = !usedp1;
-        return dp;
+        return deps;
     }
 
     function clearSubLv2View() {
@@ -135,13 +145,14 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
     }
 
     function drawBoxAndTextSubLv2View(dp) {
+        var height = dp.length < 15 ? DEPENDENCIES_BOX_HEIGHT: DEPENDENCIES_BOX_HEIGHT/2
         var rect = g2.selectAll("rect")
         .data(dp)
         .enter().append("rect")
         .attr("x", function(d) { return d.x; })
         .attr("y", function(d) { return d.y; })
         .attr("width", DEPENDENCIES_BOX_WIDTH)
-        .attr("height", DEPENDENCIES_BOX_HEIGHT)
+        .attr("height", height)
         .attr("class", "in_depedences_box")
         .style("fill", function(d) { return d.c; })
 
@@ -149,7 +160,7 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
         .data(dp)
         .enter().append("text")
         .attr("x", function(d) { return d.x + DEPENDENCIES_BOX_WIDTH / 2; })
-        .attr("y", function(d) { return d.y + DEPENDENCIES_BOX_HEIGHT / 2; })
+        .attr("y", function(d) { return d.y + height / 2; })
         .attr("dy", ".35em")
         .attr("text-anchor", "middle")
         .attr("font-size", "15px")
@@ -157,13 +168,20 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
     }
 
     function drawCircleAndTextSubLv2View(circleAttr) {
-        var circles = g2.append("circle");
+        var circles = g2.selectAll("circle").data([circleAttr]).enter().append("circle");
 
         var circleAttributes = circles
-                       .attr("cx",circleAttr.x)
-                       .attr("cy", circleAttr.y)
-                       .attr("r", circleAttr.r )
-                       .style("fill", CIRCLE_COLOR);
+                       .attr("cx",function(d) { return d.x; })
+                       .attr("cy", function(d) { return d.y; })
+                       .attr("r", function(d) { return d.r; })
+                       .style("fill", CIRCLE_COLOR)
+                       .style("cursor", "pointer")
+                        .style("z-index", "20")
+                        .on("click", function(d) {
+                            var elementPos = lv2_data.map(function(x) {return x.name; }).indexOf(d.name);
+                            overlay(lv2_data[elementPos])
+                            d3.event.stopPropagation(); 
+                        })
 
         var text =  g2.append("text")
                        .attr("x", circleAttr.x)
@@ -171,6 +189,9 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
                        .attr("dy", ".35em")
                        .attr("text-anchor", "middle")
                        .attr("font-size", "15px")
+                       .attr("fill", function(d) { 
+                            return circleAttr.vulnerable? "red": "black"
+                        })
                        .text(circleAttr.name)
     }
 
@@ -237,9 +258,63 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
         clearSubLv2View()
         var dp = prepareSubLv2Data(focus)
         drawBoxAndTextSubLv2View(dp)
-        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r * 2 + margin};
+        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:100, vulnerable: focus.data.vulnerable}; 
         drawCircleAndTextSubLv2View(circleAttr)
         var lines = prepareLineData(dp, circleAttr)
         drawLineSubLv2View(lines)
         g2.attr("display", "inline");
     }
+
+
+    function overlay(data) {
+        if (document.getElementById("overlay")) {
+            document.getElementById("overlay").remove();
+          }
+        var overlay = document.createElement("div");
+        overlay.setAttribute("id","overlay");
+        var tempDiv = document.createElement("div");
+        var buttonDiv = document.createElement("div");
+        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
+        tempDiv.append(buttonDiv);
+        var containerDiv = document.createElement("div");
+        containerDiv.classList.add("containerDiv");
+        var informationDiv = document.createElement("div");
+        informationDiv.classList.add("informationDiv");
+        
+        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
+        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
+        var TEXT_LIMIT = 55
+        for (x of data.inputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        informationDiv.innerHTML += "</ul>"
+        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
+        for (x of data.outputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        informationDiv.innerHTML += "</ul>"
+
+        containerDiv.append(informationDiv);
+        
+        var imageDiv = document.createElement("div");
+        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
+        
+        containerDiv.append(imageDiv);
+        tempDiv.append(containerDiv);
+        overlay.append(tempDiv);
+        document.body.append(overlay);
+        document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeOverlay() {
+            document.getElementById("overlay").style.display = "none";
+        }
