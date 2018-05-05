@@ -56,7 +56,7 @@ public class S3Manager {
 
     public static void createS3Client() {
         Region region = Region.getRegion(Regions.US_EAST_1);
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAIBLXIRSYKGG2DBFQ", "WIGClxAuvq3/UljJIZck+oWKXtTETvDeOm4iGyDd");
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials("", "");
         s3Client = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion(region.getName())
                 .build();
