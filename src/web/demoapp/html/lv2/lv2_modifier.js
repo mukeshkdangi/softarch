@@ -1,93 +1,153 @@
 var lv2_data = [{
-    "name": "FlowMessage",
-    "clusterNames": {
-        "nameOfCluster": "",
-        "listOfFiles": [{
+    "nameOfCluster": "classNameA",
+    "listOfFiles": [{
+            "name": "FileA",
             "inputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
+                    "name": "FileB",
+                    "category": "io"
+                },
+                {
+                    "name": "FileC",
+                    "category": "sql"
+                }
+            ],
             "outputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
-            "pathToFile": "/a/b/FlowMessage.java",
-            "linesOfCode": 100,
-            "category": "io",
-            "fileSize": 100,
+                    "name": "FileD",
+                    "category": "networking"
+                },
+                {
+                    "name": "FileE",
+                    "category": "graphics"
+                }
+            ],
+            "inputOverallCategories": [
+                "io",
+                "sql"
+            ],
+            "outputOverallCategories": [
+                "networking",
+                "graphics"
+            ],
+            "pathToFile": "/jena-core/src/main/test",
+            "linesOfCode": 4521,
+            "category": "sql",
+            "fileSize": 32,
             "vulnerable": true
-        }]
-    }
+        },
+        {
+            "name": "FileX",
+            "inputDeps": [{
+                    "name": "FileB",
+                    "category": "io"
+                },
+                {
+                    "name": "FileC",
+                    "category": "sql"
+                }
+            ],
+            "outputDeps": [{
+                    "name": "FileD",
+                    "category": "networking"
+                },
+                {
+                    "name": "FileE",
+                    "category": "graphics"
+                }
+            ],
+            "inputOverallCategories": [
+                "io",
+                "sql"
+            ],
+            "outputOverallCategories": [
+                "networking",
+                "graphics"
+            ],
+            "pathToFile": "/jena-core/src/main/test",
+            "linesOfCode": 4521,
+            "category": "sql",
+            "fileSize": 32,
+            "vulnerable": true
+        }
+    ]
 },
 {
-    "name": "StatusListener",
-    "clusterNames": {
-        "nameOfCluster": "",
-        "listOfFiles": [{
+    "nameOfCluster": "classNameB",
+    "listOfFiles": [{
+            "name": "FileA",
             "inputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
+                    "name": "FileB",
+                    "category": "io"
+                },
+                {
+                    "name": "FileC",
+                    "category": "sql"
+                }
+            ],
             "outputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
-            "pathToFile": "/a/b/StatusListener.java",
-            "linesOfCode": 100,
-            "category": "io",
-            "fileSize": 100,
+                    "name": "FileD",
+                    "category": "networking"
+                },
+                {
+                    "name": "FileE",
+                    "category": "graphics"
+                }
+            ],
+            "inputOverallCategories": [
+                "io",
+                "sql"
+            ],
+            "outputOverallCategories": [
+                "networking",
+                "graphics"
+            ],
+            "pathToFile": "/jena-core/src/main/test",
+            "linesOfCode": 4521,
+            "category": "sql",
+            "fileSize": 32,
             "vulnerable": true
-        }]
-    }
-},
-{
-    "name": "MessageFormatMessage",
-    "clusterNames": {
-        "nameOfCluster": "",
-        "listOfFiles": [{
+        },
+        {
+            "name": "FileX",
             "inputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
+                    "name": "FileB",
+                    "category": "io"
+                },
+                {
+                    "name": "FileC",
+                    "category": "sql"
+                }
+            ],
             "outputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
-            "pathToFile": "/a/StatusListener.java",
-            "linesOfCode": 100,
-            "category": "graphics",
-            "fileSize": 100,
+                    "name": "FileD",
+                    "category": "networking"
+                },
+                {
+                    "name": "FileE",
+                    "category": "graphics"
+                }
+            ],
+            "inputOverallCategories": [
+                "io",
+                "sql"
+            ],
+            "outputOverallCategories": [
+                "networking",
+                "graphics"
+            ],
+            "pathToFile": "/jena-core/src/main/test",
+            "linesOfCode": 4521,
+            "category": "sql",
+            "fileSize": 32,
             "vulnerable": true
-        }]
-    }
-},
-{
-    "name": "ReusableObjectMessage",
-    "size": 3938,
-    "clusterNames": {
-        "nameOfCluster": "",
-        "listOfFiles": [{
-            "inputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
-            "outputDeps": [{
-                "name": "File A",
-                "category": "sql"
-            }],
-            "pathToFile": "file_path",
-            "linesOfCode": 100,
-            "category": "graphics",
-            "fileSize": 100,
-            "vulnerable": true
-        }]
-    }
-}]
+        }
+    ]
+}
+]
 
 var directory_structure = { name: "sql", children: []}
 for (ele of lv2_data) {
-    var name = ele['name']
-    var fileDetail = ele.clusterNames.listOfFiles[0];
+    var name = ele['nameOfCluster']
+    var fileDetail = ele.listOfFiles[0];
     var inputDeps = fileDetail.inputDeps;
     var outputDeps = fileDetail.outputDeps;
     var pathToFile = fileDetail.pathToFile;

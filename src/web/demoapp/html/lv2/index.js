@@ -239,7 +239,7 @@ var pack = d3.pack()
         clearSubLv2View()
         var dp = prepareSubLv2Data(focus)
         drawBoxAndTextSubLv2View(dp)
-        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r * 0.8};
+        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r * 0.6};
         drawCircleAndTextSubLv2View(circleAttr)
         var lines = prepareLineData(dp, circleAttr)
         drawLineSubLv2View(lines)

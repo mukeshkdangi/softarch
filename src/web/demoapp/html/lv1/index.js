@@ -1,6 +1,6 @@
 
 var square_h = Math.min(window.innerHeight, window.innerWidth) - 10
-var number_of_circle = datas.length;
+var number_of_circle = lv1_data.length;
 var radius_offset = 2.8;
 var big_circle_radias = square_h / radius_offset;
 var small_circle_radias = (square_h - (square_h / radius_offset) * 2) / 2; //120 * number_of_circle /  6.0;
@@ -11,26 +11,26 @@ for (var i = 0 ; i < number_of_circle ; i++) {
 }
 
 var categoryToIndex = {};
-for (var i = 0 ; i < datas.length ; i++) {
-    categoryToIndex[datas[i].category] = i
+for (var i = 0 ; i < lv1_data.length ; i++) {
+    categoryToIndex[lv1_data[i].category] = i
 }
 
 
 for (var i = 0 ; i < number_of_circle ; i++) {
   var a = {}
-  datas[i]['x'] = big_circle_radias + small_circle_radias + (big_circle_radias * Math.cos(angles[i]));
-  datas[i]['y'] = big_circle_radias + small_circle_radias + (big_circle_radias * Math.sin(angles[i]));
+  lv1_data[i]['x'] = big_circle_radias + small_circle_radias + (big_circle_radias * Math.cos(angles[i]));
+  lv1_data[i]['y'] = big_circle_radias + small_circle_radias + (big_circle_radias * Math.sin(angles[i]));
 }
 
 var paths = []
 
 for (var i = 0 ; i < number_of_circle ; i++) {
-  for (var j = 0 ; j < datas[i]['dependency'].length; j++) {
-    var from_pos = datas[i];
-    var dep_key = (datas[i]['dependency'][j]).nameOfCategory
-    if (dep_key === datas[i].category)
+  for (var j = 0 ; j < lv1_data[i]['dependency'].length; j++) {
+    var from_pos = lv1_data[i];
+    var dep_key = (lv1_data[i]['dependency'][j]).nameOfCategory
+    if (dep_key === lv1_data[i].category)
       continue;
-    var to_pos = datas[categoryToIndex[dep_key]]
+    var to_pos = lv1_data[categoryToIndex[dep_key]]
 
     var length = Math.sqrt(Math.abs(Math.pow(from_pos.y - to_pos.y, 2) + Math.pow(from_pos.x - to_pos.x, 2)))
     var diff_x = (from_pos.x - to_pos.x) * small_circle_radias / length
@@ -49,7 +49,7 @@ var svgContainer = d3.select("body").append("svg")
                                      .attr("transform", "translate(" + window.innerWidth / 4 + "," + 0 + ")");
  
 var circles = svgContainer.selectAll("circle")
-                           .data(datas)
+                           .data(lv1_data)
                            .enter()
                           .append("circle");
 
@@ -86,7 +86,7 @@ for (var i = 0 ; i < paths.length ; i++) {
 }
  
 var text = svgContainer.selectAll("text")
-                        .data(datas)
+                        .data(lv1_data)
                         .enter()
                         .append("text");
 var textLabels = text
