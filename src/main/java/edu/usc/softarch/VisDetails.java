@@ -39,6 +39,7 @@ public class VisDetails {
     private Map<String, List<Map<String, String>>> levelTwoMap = new HashMap<>();
 
     Map<String, List<List<Map<String, String>>>> levelThreeMap = new LinkedHashMap<>();
+    Map<String, String> fileNameAndType = new HashMap<>();
 
     /**
      * @param depedency_file
@@ -194,12 +195,15 @@ public class VisDetails {
 
 
             levelThreeMap.forEach((key, value) -> {
-
+                fileNameAndType = new HashMap<>();
+                FileTypeMap fileTypeMap = FileTypeMap.builder().build();
+                List<ListOfFiles> listOfFiles = new ArrayList<>();
                 value.forEach(listListofMaps -> {
-                    FileTypeMap fileTypeMap = FileTypeMap.builder().build();
                     Map<String, String> inComingDependencies = listListofMaps.get(0);
                     Map<String, String> outGoingDependencies = listListofMaps.get(1);
-                    Map<String, String> fileNameAndType = listListofMaps.get(2);
+                    fileNameAndType = listListofMaps.get(2);
+
+                    String fileNam = fileNameAndType.entrySet().iterator().next().getKey();
 
                     List<DependencyNameCategory> listInComingDep = new ArrayList<>();
                     List<DependencyNameCategory> listOutGoingDep = new ArrayList<>();
@@ -217,17 +221,16 @@ public class VisDetails {
                     }
 
                     ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(100).category(key).fileSize(100.00).
-                            inputDeps(listInComingDep).outputDeps(listOutGoingDep).
+                            inputDeps(listInComingDep).outputDeps(listOutGoingDep).name(fileNam).
                             pathToFile("file_path").vulnerable(true).build();
-                    List<ListOfFiles> listOfFiles = new ArrayList<>();
                     listOfFiles.add(filesDetails);
 
-                    String fileName = fileNameAndType.entrySet().iterator().next().getKey();
-                    ClusterNames clusterNames = ClusterNames.builder().nameOfCluster(fileName).listOfFiles(listOfFiles).build();
-                    fileTypeMap = fileTypeMap.builder().name(key).clusterNames(clusterNames).build();
-                    listOfLevelTwoInfo.add(fileTypeMap);
                 });
 
+
+                ClusterNames clusterNames = ClusterNames.builder().nameOfCluster("").listOfFiles(listOfFiles).build();
+                fileTypeMap = fileTypeMap.builder().name(key).clusterNames(clusterNames).build();
+                listOfLevelTwoInfo.add(fileTypeMap);
 
             });
 
