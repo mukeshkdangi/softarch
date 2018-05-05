@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : Mukesh Dangi
@@ -16,4 +17,5 @@ import java.util.List;
 public class VisInformation {
     private List<Category> levelOne;
     private List<FileTypeMap> levelTwo;
+    private Map<String, String> cloudInfo;
 }

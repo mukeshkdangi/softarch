@@ -1,8 +1,9 @@
 package edu.usc.softarch;
 
-import com.google.gson.Gson;
+import com.amazonaws.services.s3.AmazonS3;
 import edu.usc.softarch.LevelOnePojo.Category;
 import edu.usc.softarch.LevelOnePojo.Dependency;
+import edu.usc.softarch.S3upload.S3Manager;
 import edu.usc.softarch.Utils.FileUtility;
 import edu.usc.softarch.levelTwoPojo.*;
 import org.apache.commons.io.FileUtils;
@@ -10,23 +11,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 
 /**
  * @Author : Mukesh Dangi
  */
-public class VisDetails {
 
-    private final static Logger LOGGER = Logger.getLogger(VisDetails.class.getName());
+public class VisualizationEngine {
 
-    private static String dep_fileName = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_deps.rsf";
-
-    private static String clusters_fn = "/Users/mukesh/Desktop/RELAX_log4j_2.7_1.0.0a/log4j-api_relax_clusters_fn.rsf";
 
     /**
      * dependencMap : fileA -> {File B: File B type}
@@ -38,13 +32,16 @@ public class VisDetails {
 
     private Map<String, Map<String, String>> outDependencMap = new HashMap<>();
     private Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
+
+    private Map<String, Integer> filesWithOutGoingDependency = new HashMap<>();
+
     /**
      * Level 3 Map {File Category Key -> {List of Maps  {File 1 -> type}}}
      */
     private Map<String, List<Map<String, String>>> levelTwoMap = new HashMap<>();
 
-    Map<String, List<List<Map<String, String>>>> levelThreeMap = new LinkedHashMap<>();
-    Map<String, String> fileNameAndType = new HashMap<>();
+    private Map<String, List<List<Map<String, String>>>> levelThreeMap = new LinkedHashMap<>();
+    private Map<String, String> fileNameAndType = new HashMap<>();
 
     /**
      * @param depedency_file
@@ -61,6 +58,7 @@ public class VisDetails {
         dependencMap = new HashMap<>();
         levelOneMap = new HashMap<>();
         levelThreeMap = new HashMap<>();
+        S3Manager.createS3Client();
     }
 
     /**
@@ -68,9 +66,7 @@ public class VisDetails {
      */
     public Map<String, Map<String, String>> createDependencyInfo() {
         try {
-
-            File file = new File(dep_fileName);
-            List<String> lines = FileUtils.readLines(file);
+            List<String> lines = FileUtils.readLines(S3Manager.getFileFromS3("log4j-api_deps.rsf"));
 
 
             lines.stream().forEach(str -> {
@@ -101,7 +97,7 @@ public class VisDetails {
     public Map<String, List<String>> createClusterInfo() {
 
         try {
-            File file = new File(clusters_fn);
+            File file = S3Manager.getFileFromS3("log4j-api_relax_clusters_fn.rsf");
             List<String> lines = FileUtils.readLines(file);
 
             lines.stream().forEach(str -> {
@@ -201,6 +197,7 @@ public class VisDetails {
                 FileTypeMap fileTypeMap = FileTypeMap.builder().build();
                 List<ListOfFiles> listOfFiles = new ArrayList<>();
                 value.forEach(listListofMaps -> {
+                    int numberOfOutDep = 0;
                     Map<String, String> inComingDependencies = listListofMaps.get(0);
                     Map<String, String> outGoingDependencies = listListofMaps.get(1);
                     fileNameAndType = listListofMaps.get(2);
@@ -220,6 +217,7 @@ public class VisDetails {
                             DependencyNameCategory outputDeps = DependencyNameCategory.builder().category(fileType).name(fileName).build();
                             listOutGoingDep.add(outputDeps);
                         });
+                        numberOfOutDep = outGoingDependencies.size();
                     }
                     String file_path = FileUtility.getFilePathFromClusterMap(fileNam, clusterMap);
                     int linesOfCode = 100;
@@ -229,6 +227,7 @@ public class VisDetails {
                         linesOfCode = FileUtility.getLineCount(file);
                         fileSize = Math.round(file.length() / 1024);
                     }
+                    filesWithOutGoingDependency.put(fileNam, numberOfOutDep);
 
                     ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(linesOfCode).category(key).fileSize(fileSize).
                             inputDeps(listInComingDep).outputDeps(listOutGoingDep).name(fileNam).
@@ -244,7 +243,17 @@ public class VisDetails {
 
             });
 
-            return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).build();
+            filesWithOutGoingDependency = filesWithOutGoingDependency.entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(30)
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                            (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+            Map<String, String> fileWithType = new HashMap<>();
+            filesWithOutGoingDependency.keySet().parallelStream().forEach((key -> {
+                fileWithType.put(key, FileUtility.getFileTypeFromClusterMap(key, clusterMap));
+            }));
+
+            return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).cloudInfo(fileWithType).build();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,13 +1,11 @@
 package edu.usc.softarch;
 
-import java.util.Map;
-
 /**
  * @Author : Mukesh Dangi
  */
 public class VisProcessorImpl extends AbstractVisProcessor {
 
-    private VisDetails visDetailsIns = new VisDetails();
+    private VisualizationEngine visDetailsIns = new VisualizationEngine();
 
     private String depedency_files;
     private String cluster_dep_files;
