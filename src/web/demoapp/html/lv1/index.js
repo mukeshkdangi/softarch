@@ -92,15 +92,22 @@ for (var i = 0 ; i < paths.length ; i++) {
                        .attr("stroke", "black")
                        .attr("marker-end", "url(#triangle)");
 }
+
+var text_label = []
+for (var i = 0 ; i < lv1_data.length ; i++) {
+  var d = lv1_data[i]
+  text_label.push({x: d.x, y: d.y - 10, text: d.category})
+  text_label.push({x: d.x, y: d.y + 30, text: d.numberOfFiles})
+}
  
 var text = svgContainer.selectAll("text")
-                        .data(lv1_data)
+                        .data(text_label)
                         .enter()
                         .append("text");
 var textLabels = text
                  .attr("x", function(d) { return d.x; })
                  .attr("y", function(d) { return d.y; })
-                 .text( function (d) { return d.category })
+                 .text( function (d) { return d.text})
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")
                  .style("text-anchor", "middle")
