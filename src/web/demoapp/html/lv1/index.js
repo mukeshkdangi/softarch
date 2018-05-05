@@ -24,6 +24,14 @@ for (var i = 0 ; i < number_of_circle ; i++) {
 
 var paths = []
 
+// find max dependency
+var max_deps = 0
+for (var i = 0 ; i < number_of_circle ; i++) {
+  for (var j = 0 ; j < lv1_data[i]['dependency'].length; j++) {
+    max_deps = Math.max(max_deps, lv1_data[i]['dependency'][j].count);
+  }
+}
+
 for (var i = 0 ; i < number_of_circle ; i++) {
   for (var j = 0 ; j < lv1_data[i]['dependency'].length; j++) {
     var from_pos = lv1_data[i];
@@ -38,8 +46,8 @@ for (var i = 0 ; i < number_of_circle ; i++) {
 
     var start_position = {'x': from_pos.x - diff_x, 'y': from_pos.y - diff_y}
     var end_position = {'x': to_pos.x + diff_x, 'y': to_pos.y + diff_y}
-    
-    paths.push({'s': start_position, 'e': end_position})
+    var num_deps = lv1_data[i]['dependency'][j].count
+    paths.push({'s': start_position, 'e': end_position, 'thickness': 0.5 + 5 * num_deps/max_deps})
   }
 }
 
@@ -80,7 +88,7 @@ for (var i = 0 ; i < paths.length ; i++) {
                        .attr("y1", start_pos.y)
                        .attr("x2", end_pos.x)
                        .attr("y2", end_pos.y)          
-                       .attr("stroke-width", 1)
+                       .attr("stroke-width", paths[i].thickness)
                        .attr("stroke", "black")
                        .attr("marker-end", "url(#triangle)");
 }
