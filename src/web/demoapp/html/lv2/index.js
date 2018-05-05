@@ -21,8 +21,6 @@ var pack = d3.pack()
     .size([diameter - margin, diameter - margin])
     .padding(2);
 
-d3.json("data/" + cluster_name + "_data.json", function(error, root) {
-  if (error) throw error;
 
   root = d3.hierarchy(root)
       .sum(function(d) { return d.size; })
@@ -37,7 +35,11 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-      .on("click", function(d) { g2.attr("display", "none"); zoom(d); d3.event.stopPropagation(); });
+      .on("click", function(d) { 
+          g2.attr("display", "none"); 
+          zoom(d); 
+          d3.event.stopPropagation(); 
+        });
 
     var text = g.selectAll(".label")
     .data(nodes)
@@ -99,31 +101,28 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
         });
         circle.attr("r", function(d) { return d.r * k; });
     }
-});
-
-    var usedp1 = true
+// });
     function prepareSubLv2Data(focus) {
         var number_of_left_box = 0;
         var number_of_right_box = 0;
-        var dp = focus.data.dependencies
-        for (var i =0; i < dp.length ; i++) {
-            if (dp[i]['type'] == 0) {
-                number_of_left_box++;
-            } else {
-                number_of_right_box++;
-            }
+        var deps = []
+        var inputDeps = focus.data.inputDeps;
+        for (var i = 0; i < inputDeps.length ; i++) {
+            inputDeps[i]['x'] = DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT
+            inputDeps[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + i * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  inputDeps.length);
+            inputDeps[i]['type'] = 0
+            inputDeps[i]['c'] = category_to_color[inputDeps[i].category]
+            deps.push(inputDeps[i])
         }
-        for (var i = 0; i < dp.length ; i++) {
-            if (dp[i]['type'] == 0) {
-                dp[i]['x'] = DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT
-                dp[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + i * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  number_of_left_box);
-            } else {
-                dp[i]['x'] = SVG_WIDTH - DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT - DEPENDENCIES_BOX_WIDTH;
-                dp[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + (i - number_of_left_box)  * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  number_of_right_box);
-            }
+        var outputDeps = focus.data.outputDeps;
+        for (var i = 0; i < outputDeps.length ; i++) {
+            outputDeps[i]['x'] = SVG_WIDTH - DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT - DEPENDENCIES_BOX_WIDTH;
+            outputDeps[i]['y'] = (DEPENDENCIES_BOX_HEIGHT / 2) + i * ((SVG_HEIGHT - 2 * DEPENDENCIES_BOX_HEIGHT) /  outputDeps.length);
+            outputDeps[i]['type'] = 1
+            outputDeps[i]['c'] = category_to_color[outputDeps[i].category]
+            deps.push(outputDeps[i])
         }
-        usedp1 = !usedp1;
-        return dp;
+        return deps;
     }
 
     function clearSubLv2View() {
@@ -163,7 +162,10 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
                        .attr("cx",circleAttr.x)
                        .attr("cy", circleAttr.y)
                        .attr("r", circleAttr.r )
-                       .style("fill", CIRCLE_COLOR);
+                       .style("fill", CIRCLE_COLOR)
+                       .on("click", function(d) { 
+                            overlay(0)
+                        });
 
         var text =  g2.append("text")
                        .attr("x", circleAttr.x)
@@ -237,9 +239,36 @@ d3.json("data/" + cluster_name + "_data.json", function(error, root) {
         clearSubLv2View()
         var dp = prepareSubLv2Data(focus)
         drawBoxAndTextSubLv2View(dp)
-        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r * 2 + margin};
+        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r * 0.8};
         drawCircleAndTextSubLv2View(circleAttr)
         var lines = prepareLineData(dp, circleAttr)
         drawLineSubLv2View(lines)
         g2.attr("display", "inline");
     }
+
+
+    function overlay(category,positionInt) {
+        lvl3[category][positionInt]
+        var overlay = document.createElement("div");
+        overlay.setAttribute("id","overlay");
+        var tempDiv = document.createElement("div");
+        var buttonDiv = document.createElement("div");
+        buttonDiv.innerHTML = "<button class='closeBtn' onclick='document.getElementById(\'overlay\').style.display = \'none\'>X</button>";
+        tempDiv.append(buttonDiv);
+        var containerDiv = document.createElement("div");
+        containerDiv.classList.add("containerDiv");
+        var informationDiv = document.createElement("div");
+        informationDiv.classList.add("informationDiv");
+        
+        informationDiv.innerHTML = "<div><h3>Name of File</h3><hr><div class='fileInfo'><p>Lines of Code: 12344</p><p>File Size: 12Mb</p><p>Path to File: /jena-core/src/main/test</p><p>Input Dependencies</p><ul><li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        containerDiv.append(informationDiv);
+        
+        var imageDiv = document.createElement("div");
+        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/300x400'></div>";
+        
+        containerDiv.append("imageDiv");
+        tempDiv.append(containerDiv);
+        overlay.append(tempDiv);
+        document.body.append(overlay);
+        document.getElementById('overlay').style.display = 'block';
+        }

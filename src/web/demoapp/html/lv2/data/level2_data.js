@@ -1,4 +1,4 @@
-{
+var lv2_data = {"sql":{
 	"name": "flare",
 	"children": [{
 		"name": "analytics",
@@ -9732,4 +9732,5 @@
 			"size": 16540
 		}]
 	}]
+}
 }

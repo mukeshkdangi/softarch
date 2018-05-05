@@ -57,7 +57,7 @@ var circleAttributes = circles
                        .attr("cx", function (d) { return d['x']; })
                        .attr("cy", function (d) { return d['y']; })
                        .attr("r", small_circle_radias )
-                       .style("fill", function(d) { return color[d['category']];})
+                       .style("fill", function(d) { return category_to_color[d['category']];})
                        .style("cursor", "pointer")
                        .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.category });
 

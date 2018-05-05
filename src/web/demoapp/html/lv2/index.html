@@ -4,6 +4,10 @@
       <meta charset="utf-8">
       <link rel="stylesheet" href="index.css">
       <script src="https://d3js.org/d3.v4.min.js"></script>
+      <script src="data/graphics_data.js"></script>
+      <script src="../javascript/color.js"></script>
+      <script src="../lv2/lv2_modifier.js"></script>
+
       <script>
         function getParameterByName(name, url) {
           if (!url) url = window.location.href;
@@ -16,6 +20,7 @@
         }
         var cluster_name = getParameterByName("cluster_name");
         if (cluster_name === undefined) cluster_name = "sql";
+        var root = directory_structure//level2_data//{ "name": cluster_name, "children": lv2_data[cluster_name]}
       </script>
   </head>
   <body>

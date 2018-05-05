@@ -40,3 +40,50 @@ svg { position:fixed; top:0; left:0; height:100%; width:100% }
   #infoi {
     z-index: 10;
   }
+
+  html,body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  #overlay {
+    position: fixed;
+      display: none;
+      width: 100%;
+      height: 100%;
+      top: 0; 
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 100;
+      cursor: pointer;
+  }
+  .closeBtn {
+    float: right;
+      margin: 20px;
+      padding: 5px;
+      font-size: 10px;
+  }
+  .classImageDiv {
+    float: right;
+  }
+  .informationDiv {
+    float: left;
+    height: 400px;
+    width: 300px;
+    background-color: white;
+    border-radius: 2%;
+    overflow-y: scroll;
+    padding: 5px;
+    overflow-x: none;
+  }
+  .containerDiv {
+    width: 70%;
+    margin: 8.5% auto;
+    padding: 10px;
+  }
+  h3 {
+    font-size: 17px;
+  }
+      

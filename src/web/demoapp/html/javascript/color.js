@@ -1,4 +1,4 @@
-var color = {
+var category_to_color = {
     "sql": "#F99157",
     "gui": "#FAC863",
     "io": "#99C794",
