@@ -4,6 +4,13 @@
       <meta charset="utf-8">
       <link rel="stylesheet" href="index.css">
       <script src="https://d3js.org/d3.v4.min.js"></script>
+      <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">        <title>CSCI578-Project</title>
+
+      <script src="../data/data.js"></script>
+      <!-- <script src="data/graphics_data.js"></script> -->
+      <script src="../javascript/color.js"></script>
+      <script src="../lv2/lv2_modifier.js"></script>
+
       <script>
         function getParameterByName(name, url) {
           if (!url) url = window.location.href;
@@ -14,18 +21,36 @@
           if (!results[2]) return '';
           return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        var cluster_name = getParameterByName("cluster_name");
-        if (cluster_name === undefined) cluster_name = "sql";
+        var category = getParameterByName("cluster_name");
+        if (category === undefined) category = "sql";
       </script>
   </head>
   <body>
-      <svg id="svg-container" width="1333" height="800"></svg>
+      <div id="title">CSCI578 - Final Project <button id="back-button" onClick="window.location.href='/lv1/index.html'">Go back to Lv1</button></div>
+      <div id="svg-container"><svg id="main-svg" width="1333" height="800"></svg></div>
       <script>
         var svgWidth = window.innerWidth;
-        var svgHeight = window.innerHeight;
-        var d = document.getElementById("svg-container");
-        d.setAttribute("width", svgWidth)
-        d.setAttribute("height", svgHeight)
+        var svgHeight = window.innerHeight - 40;
+        var d = document.getElementById("main-svg");
+        d.setAttribute("width", svgWidth);
+        d.setAttribute("height", svgHeight);
+        window.onload = function(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                var a = xhttp.responseText;
+                var data = JSON.parse(a);
+                var category_position = data["levelTwo"].map(function(x) {return x.name; }).indexOf(category)
+                var lv2_data = data["levelTwo"][category_position].clusterNames.listOfFiles
+                var root = modifyData(lv2_data, category)
+                drawSVG(root, lv2_data);
+              }
+          };
+          xhttp.open("GET", "/data/data.json", true);
+          xhttp.send();
+
+        }
+       
       </script>
       <script src="index.js"></script>
   </body>

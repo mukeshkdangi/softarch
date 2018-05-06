@@ -1,0 +1,174 @@
+<html>
+  <head>
+      <link type="text/css" rel="stylesheet" href="../lv1/index.css">
+      <link type="text/css" rel="stylesheet" href="../lv2/index.css">      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="../data/data.js"></script>
+    <script src="cloud.js"></script>
+  </head>
+  <body>
+      <div id="title">
+          CSCI578 - Final Project
+          <button onClick="window.location.href='../lv1/index.html'">Back to Lv1</button>
+      </div>
+    <div id="chart"></div>
+    <script>
+      var  text_string = "";
+      var dict = {}
+      window.onload = function(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                var a = xhttp.responseText;
+                var data = JSON.parse(a);
+                var cloudInfos = data["cloudInfo"]
+                dict = cloudInfos;
+                var counter = 30
+                for (key of Object.keys(cloudInfos)) {
+                  for (var i = 0 ; i < counter ; i++) {
+                    text_string += key + " "
+                  }
+                  counter--;
+                }
+                drawWordCloud(text_string);
+              }
+          };
+          xhttp.open("GET", "/data/data.json", true);
+          xhttp.send();
+
+        }
+
+      function drawWordCloud(text_string){
+        var word_count = {};
+        var words = text_string.split(/[ '\-\(\)\*":;\[\]|{},.!?]+/);
+          if (words.length == 1){
+            word_count[words[0]] = 1;
+          } else {
+            words.forEach(function(word){
+              var word = word;
+              if (word != "" && word.length>1){
+                if (word_count[word]){
+                  word_count[word]++;
+                } else {
+                  word_count[word] = 1;
+                }
+              }
+            })
+          }
+
+        var svg_location = "#chart";
+        var width = $(document).width();
+        var height = $(document).height();
+
+        var fill = d3.scale.category20();
+          console.log(word_count)
+        var word_entries = d3.entries(word_count);
+        var xScale = d3.scale.linear()
+           .domain([0, d3.max(word_entries, function(d) {
+              return d.value;
+            })
+           ])
+           .range([10,100]);
+
+        d3.layout.cloud().size([width, height])
+          .timeInterval(20)
+          .words(word_entries)
+          .fontSize(function(d) { return xScale(+d.value); })
+          .text(function(d) { return d.key; })
+          .rotate(function() { return ~~(Math.random() * 2) * 90; })
+          .font("Impact")
+          .on("end", draw)
+          .start();
+
+        function draw(words) {
+          console.log(words)
+          d3.select(svg_location).append("svg")
+              .attr("width", width)
+              .attr("height", height)
+            .append("g")
+              .attr("transform", "translate(" + [width >> 1, height >> 1] + ")")
+            .selectAll("text")
+              .data(words)
+            .enter().append("text")
+              .style("font-size", function(d) { return xScale(d.value) + "px"; })
+              .style("font-family", "Impact")
+              .style("fill", function(d, i) { return fill(i); })
+              .attr("text-anchor", "middle")
+              .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+              })
+              .on({
+                "click":  function(d) {
+                  console.log(d.text);
+                  var category = dict[d.text];
+                  var category_position = data["levelTwo"].map(function(x) {return x.name; }).indexOf(category)
+                  var listOfFiles = data["levelTwo"][category_position].clusterNames.listOfFiles;
+                  var data_position = listOfFiles.map(function(x) {return x.name; }).indexOf(d.text)
+                  var word_cloud_detail = listOfFiles[data_position]
+
+                  overlay(word_cloud_detail)
+                }, 
+              })
+              .text(function(d) { return d.key; });
+        }
+
+        d3.layout.cloud().stop();
+      }
+    </script>
+    <script>
+      function overlay(data) {
+        if (document.getElementById("overlay")) {
+          document.getElementById("overlay").remove();
+        }
+        var overlay = document.createElement("div");
+        overlay.setAttribute("id","overlay");
+        var tempDiv = document.createElement("div");
+        var buttonDiv = document.createElement("div");
+        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
+        tempDiv.append(buttonDiv);
+        var containerDiv = document.createElement("div");
+        containerDiv.classList.add("containerDiv");
+        var informationDiv = document.createElement("div");
+        informationDiv.classList.add("informationDiv");
+        
+        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
+        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
+        var TEXT_LIMIT = 55
+        for (x of data.inputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        informationDiv.innerHTML += "</ul>"
+        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
+        for (x of data.outputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        informationDiv.innerHTML += "</ul>"
+
+        containerDiv.append(informationDiv);
+        
+        var imageDiv = document.createElement("div");
+        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
+        
+        containerDiv.append(imageDiv);
+        tempDiv.append(containerDiv);
+        overlay.append(tempDiv);
+        document.body.append(overlay);
+        document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeOverlay() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+  </body>
+</html>

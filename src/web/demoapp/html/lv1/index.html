@@ -1,11 +1,33 @@
 <html>
     <head>
-        <link rel="stylesheet" href="index.css">
-        <title>CSCI578-Project</title>
+        <link type="text/css" rel="stylesheet" href="index.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">        <title>CSCI578-Project</title>
     </head>
-    <body>                
+    <body>     
+        <div id="title">
+            CSCI578 - Final Project
+            <button onClick="window.location.href='../word-cloud/word-cloud.html'">Word Cloud</button>
+        </div>
+
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="lv1_data.js"></script>
+        <!-- <script src="../data/data.js"></script> -->
+        <script src="../javascript/color.js"></script>
         <script src="index.js"></script>
+        <script>
+            window.onload = function(){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var a = xhttp.responseText;
+                        var data = JSON.parse(a);
+                        var lv1_data = data["levelOne"]
+                        drawSVG(lv1_data);
+                    }
+                };
+                xhttp.open("GET", "/data/data.json", true);
+                xhttp.send();
+
+                }
+        </script>
     </body>
 </html>
