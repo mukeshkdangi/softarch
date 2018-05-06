@@ -5,7 +5,7 @@
       <link rel="stylesheet" href="index.css">
       <script src="https://d3js.org/d3.v4.min.js"></script>
       <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">        <title>CSCI578-Project</title>
-
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <script src="../javascript/color.js"></script>
       <script src="../lv2/lv2_modifier.js"></script>
 
@@ -24,11 +24,22 @@
       </script>
   </head>
   <body>
-      <div id="title">CSCI578 - Final Project <button id="back-button" onClick="window.location.href='/lv1/index.html'">Go back to Lv1</button></div>
+      <div id="title">CSCI578 - Final Project 
+        <button id="back-button" onClick="window.location.href='/lv1/index.html'">Go back to Lv1</button>
+      </div>
+      <div id="legend">Legend :
+          <i class="fa fa-circle" style="color:#F99157"></i> sql
+          <i class="fa fa-circle" style="color:#FAC863"></i> gui
+          <i class="fa fa-circle" style="color:#99C794"></i> io
+          <i class="fa fa-circle" style="color:#5FB3B3"></i> networking
+          <i class="fa fa-circle" style="color:#6699CC"></i> sound
+          <i class="fa fa-circle" style="color:#C594C5"></i> graphics
+          <i class="fa fa-circle" style="color:#eef5db"></i> no_match
+      </div>
       <div id="svg-container"><svg id="main-svg" width="1333" height="800"></svg></div>
       <script>
         var svgWidth = window.innerWidth;
-        var svgHeight = window.innerHeight - 40;
+        var svgHeight = window.innerHeight - 70;
         var d = document.getElementById("main-svg");
         d.setAttribute("width", svgWidth);
         d.setAttribute("height", svgHeight);
