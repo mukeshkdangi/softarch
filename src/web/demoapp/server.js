@@ -5,7 +5,7 @@ const app = express();
 const request = require('request');
 var router = express.Router();
 var debug = true;
-var local = true;
+var local = false;
 app.use(express.static(path.join(__dirname, 'html')));
 
 app.get('/', (req, res) => {
