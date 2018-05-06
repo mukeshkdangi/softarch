@@ -1,6 +1,5 @@
 package edu.usc.softarch;
 
-import com.amazonaws.services.s3.AmazonS3;
 import edu.usc.softarch.LevelOnePojo.Category;
 import edu.usc.softarch.LevelOnePojo.Dependency;
 import edu.usc.softarch.S3upload.S3Manager;
@@ -223,15 +222,20 @@ public class VisualizationEngine {
                     int linesOfCode = 100;
                     double fileSize = 100.00;
                     if (StringUtils.isNotBlank(file_path)) {
-                        File file = new File(file_path);
+                        file_path = file_path.replace("https://s3.amazonaws.com/softarch/", "");
+                        File file = null;
+                        try {
+                            file = S3Manager.getFileFromS3(file_path);
+                        } catch (Exception e) {
+                        }
                         linesOfCode = FileUtility.getLineCount(file);
-                        fileSize = Math.round(file.length() / 1024);
+                        fileSize = file == null ? fileSize : Math.round(file.length() / 1024);
                     }
                     filesWithOutGoingDependency.put(fileNam, numberOfOutDep);
 
                     ListOfFiles filesDetails = ListOfFiles.builder().linesOfCode(linesOfCode).category(key).fileSize(fileSize).
                             inputDeps(listInComingDep).outputDeps(listOutGoingDep).name(fileNam).
-                            pathToFile(file_path).vulnerable(true).build();
+                            pathToFile(file_path).vulnerable(false).build();
                     listOfFiles.add(filesDetails);
 
                 });
@@ -243,22 +247,39 @@ public class VisualizationEngine {
 
             });
 
-            filesWithOutGoingDependency = filesWithOutGoingDependency.entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(30)
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                            (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-
             Map<String, String> fileWithType = new HashMap<>();
-            filesWithOutGoingDependency.keySet().parallelStream().forEach((key -> {
-                fileWithType.put(key, FileUtility.getFileTypeFromClusterMap(key, clusterMap));
-            }));
+            fileWithType = this.crunchDataForWordCloud(fileWithType);
 
+            listOfLevelTwoInfo.parallelStream().forEach(list -> {
+                list.getClusterNames().getListOfFiles().forEach(files -> {
+                    if (filesWithOutGoingDependency.get(files.getName()) != null) {
+                        files.setVulnerable(true);
+                    }
+                });
+            });
             return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).cloudInfo(fileWithType).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
 
+    }
+
+    /**
+     * @param fileWithType
+     */
+    private Map<String, String> crunchDataForWordCloud(Map<String, String> fileWithType) {
+
+        filesWithOutGoingDependency = filesWithOutGoingDependency.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(30)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+
+        filesWithOutGoingDependency.keySet().parallelStream().forEach((key -> {
+            fileWithType.put(key, FileUtility.getFileTypeFromClusterMap(key, clusterMap));
+        }));
+        return fileWithType;
     }
 
 

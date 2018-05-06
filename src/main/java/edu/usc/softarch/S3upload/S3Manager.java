@@ -9,12 +9,12 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
 import com.amazonaws.services.s3.model.S3Object;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -25,6 +25,8 @@ import java.nio.file.StandardCopyOption;
 @Data
 public class S3Manager {
     private static AmazonS3 s3Client;
+    private static String KEY = "AKIAJYANWLBQGLIRO2YA";
+    private static String VALUE = "7S9mHyrxLpgd1aZD1x0TnNSkbCiOilAjwtOr27g0";
 
     public static File getFileFromS3(String fileKey) throws IOException {
         String bucketName = "softarch";
@@ -40,23 +42,14 @@ public class S3Manager {
     }
 
     private static File displayTextInputStream(InputStream input, String fileKey) throws IOException {
-        // Read the text input stream one line at a time and display each line.
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line = null;
-
         File tmp = File.createTempFile(fileKey, "");
         Files.copy(input, tmp.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
-        System.out.println();
         return tmp;
     }
 
     public static void createS3Client() {
         Region region = Region.getRegion(Regions.US_EAST_1);
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials("", "");
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(KEY, VALUE);
         s3Client = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion(region.getName())
                 .build();
