@@ -331,6 +331,10 @@ var pack = d3.pack()
         containerDiv.append(imageDiv);
         tempDiv.append(containerDiv);
         overlay.append(tempDiv);
+        imageDiv.onclick = function(event) {event.stopImmediatePropagation();}
+        informationDiv.onclick = function(event) {event.stopImmediatePropagation();}
+        overlay.onclick =  function(event) { closeOverlay()}
+
         document.body.append(overlay);
         document.getElementById('overlay').style.display = 'block';
         }
