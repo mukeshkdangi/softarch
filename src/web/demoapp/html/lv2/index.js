@@ -209,10 +209,18 @@ var pack = d3.pack()
                        .attr("dy", ".35em")
                        .attr("text-anchor", "middle")
                        .attr("font-size", "15px")
+                       .attr("id", "selected-circle")
                        .attr("fill", function(d) { 
                             return circleAttr.vulnerable? "red": "black"
                         })
                        .text(circleAttr.name)
+                       .style("cursor", "pointer")
+                       .on("click", function() {
+                            var classname = d3.select("#selected-circle").text();
+                            var elementPos = lv2_data.map(function(x) {return x.name; }).indexOf(classname);
+                            overlay(lv2_data[elementPos])
+                            d3.event.stopPropagation(); 
+                        })
     }
 
     function findDiffBtwPosition(pos, r) {
@@ -289,52 +297,58 @@ var pack = d3.pack()
     function overlay(data) {
         if (document.getElementById("overlay")) {
             document.getElementById("overlay").remove();
-          }
-        var overlay = document.createElement("div");
-        overlay.setAttribute("id","overlay");
-        var tempDiv = document.createElement("div");
-        var buttonDiv = document.createElement("div");
-        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
-        tempDiv.append(buttonDiv);
-        var containerDiv = document.createElement("div");
-        containerDiv.classList.add("containerDiv");
-        var informationDiv = document.createElement("div");
-        informationDiv.classList.add("informationDiv");
-        
-        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
-        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
-        var TEXT_LIMIT = 55
-        for (x of data.inputDeps) {
-            if (x.name.length > TEXT_LIMIT) {
-                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
-            } else {
-                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+        }
+        try {
+            var overlay = document.createElement("div");
+            overlay.setAttribute("id","overlay");
+            var tempDiv = document.createElement("div");
+            var buttonDiv = document.createElement("div");
+            buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
+            tempDiv.append(buttonDiv);
+            var containerDiv = document.createElement("div");
+            containerDiv.classList.add("containerDiv");
+            var informationDiv = document.createElement("div");
+            informationDiv.classList.add("informationDiv");
+            
+            informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
+            informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
+            var TEXT_LIMIT = 55
+            for (x of data.inputDeps) {
+                if (x.name.length > TEXT_LIMIT) {
+                    informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+                } else {
+                    informationDiv.innerHTML += "<li>" + x.name +"</li>"
+                }
             }
-        }
-        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
-        informationDiv.innerHTML += "</ul>"
-        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
-        for (x of data.outputDeps) {
-            if (x.name.length > TEXT_LIMIT) {
-                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
-            } else {
-                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+            informationDiv.innerHTML += "</ul>"
+            informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
+            for (x of data.outputDeps) {
+                if (x.name.length > TEXT_LIMIT) {
+                    informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+                } else {
+                    informationDiv.innerHTML += "<li>" + x.name +"</li>"
+                }
             }
-        }
-        informationDiv.innerHTML += "</ul>"
+            informationDiv.innerHTML += "</ul>"
 
-        containerDiv.append(informationDiv);
-        
-        var imageDiv = document.createElement("div");
-        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
-        
-        containerDiv.append(imageDiv);
-        tempDiv.append(containerDiv);
-        overlay.append(tempDiv);
-        document.body.append(overlay);
-        document.getElementById('overlay').style.display = 'block';
-        }
+            containerDiv.append(informationDiv);
+            
+            var imageDiv = document.createElement("div");
+            imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
+            
+            containerDiv.append(imageDiv);
+            tempDiv.append(containerDiv);
+            overlay.append(tempDiv);
+            imageDiv.onclick = function(event) {event.stopImmediatePropagation();}
+            informationDiv.onclick = function(event) {event.stopImmediatePropagation();}
+            overlay.onclick =  function(event) { closeOverlay()}
 
-        function closeOverlay() {
-            document.getElementById("overlay").style.display = "none";
-        }
+            document.body.append(overlay);
+            document.getElementById('overlay').style.display = 'block';
+        } catch (err) {}
+    }
+
+    function closeOverlay() {
+        document.getElementById("overlay").style.display = "none";
+    }
