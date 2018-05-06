@@ -45,6 +45,9 @@ var pack = d3.pack()
     .data(nodes)
     .enter().append("text")
     .attr("class", "label")
+    .style("fill", function(d){
+        return d.data.vulnerable ? "red": "black"
+    })
     .style("fill-opacity", function(d) { 
         return d.parent === root ||  (d == focus) && !d.children || (!focus.children &&focus.parent == d.parent) ? 1 : 0; 
     })
@@ -176,6 +179,9 @@ var pack = d3.pack()
                        .attr("dy", ".35em")
                        .attr("text-anchor", "middle")
                        .attr("font-size", "15px")
+                       .attr("fill", function(d) { 
+                            return circleAttr.vulnerable? "red": "black"
+                        })
                        .text(circleAttr.name)
     }
 
@@ -242,7 +248,7 @@ var pack = d3.pack()
         clearSubLv2View()
         var dp = prepareSubLv2Data(focus)
         drawBoxAndTextSubLv2View(dp)
-        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r};
+        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r, vulnerable: focus.data.vulnerable}; 
         drawCircleAndTextSubLv2View(circleAttr)
         var lines = prepareLineData(dp, circleAttr)
         drawLineSubLv2View(lines)

@@ -156,7 +156,7 @@ for (ele of lv2_data) {
     var linesOfCode = ele.linesOfCode;
     var category = ele.category;
     var fileSize = ele.fileSize
-    var valueable = ele.vulnerable;
+    var vulnerable = ele.vulnerable;
     
     var detail = {
         "name": name,
@@ -166,7 +166,7 @@ for (ele of lv2_data) {
         "linesOfCode": linesOfCode,
         "category": category,
         "size": fileSize,
-        "valueable": valueable
+        "vulnerable": vulnerable
     }
     var dir = pathToFile.split("/")
     var dir_level = pathToFile.indexOf(".java")? dir.length - 1 : dir.length;
