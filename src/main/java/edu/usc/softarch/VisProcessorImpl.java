@@ -1,5 +1,7 @@
 package edu.usc.softarch;
 
+import edu.usc.softarch.UMLDiagram.ClassDiagram;
+
 /**
  * @Author : Mukesh Dangi
  */
@@ -23,6 +25,7 @@ public class VisProcessorImpl extends AbstractVisProcessor {
 
     @Override
     public void process() {
+     //   new ClassDiagram().createClusterInfoForUML();
         visDetailsIns.createClusterInfo();
         visDetailsIns.createDependencyInfo();
     }
