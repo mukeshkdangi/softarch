@@ -4,11 +4,18 @@ var SVG_WIDTH = svgWidth;
 var DEPENDENCIES_BOX_HEIGHT = 50;
 var DEPENDENCIES_BOX_WIDTH = 500;
 var DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT = 50;
-var CIRCLE_COLOR = '#ccc'
+var CIRCLE_COLOR = '#ccc';
+var diameter = svgHeight;
+var margin = 20;
+var g = undefined;
+var g2 = undefined;
+var svg = undefined;
+var circle = undefined;
+var lv2_data = {};
+function drawSVG(root, data) {
+    lv2_data = data;
+    svg = d3.select("svg");
 
-var svg = d3.select("svg"),
-    margin = 20,
-    diameter = +svg.attr("height"),
     g = svg.append("g").attr("transform", "translate(" + svg.attr("width") / 2 + "," + svg.attr("height") / 2 + ")");
     g2 = svg.append("g");
 
@@ -30,7 +37,7 @@ var pack = d3.pack()
       nodes = pack(root).descendants(),
       view;
 
-  var circle = g.selectAll("circle")
+  circle = g.selectAll("circle")
     .data(nodes)
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
@@ -63,13 +70,14 @@ var pack = d3.pack()
       .on("click", function() { g2.attr("display", "none"); zoom(root); });
 
   zoomTo([root.x, root.y, root.r * 2 + margin], 1);
-
+}
   function zoom(d) {
     var focus0 = focus; focus = d;
     d_offset = (d == focus) && !d.children? 0.3:1;
     var transition = d3.transition().duration(d3.event.altKey ? 7500 : 750)
     .tween("zoom", function(d) {
-      var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+      var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin])
+    //   i.on("end", alert("done"));
       return function(t) { zoomTo(i(t), d_offset); };
     })
 
@@ -137,13 +145,14 @@ var pack = d3.pack()
     }
 
     function drawBoxAndTextSubLv2View(dp) {
+        var height = dp.length < 15 ? DEPENDENCIES_BOX_HEIGHT: DEPENDENCIES_BOX_HEIGHT/2
         var rect = g2.selectAll("rect")
         .data(dp)
         .enter().append("rect")
         .attr("x", function(d) { return d.x; })
         .attr("y", function(d) { return d.y; })
         .attr("width", DEPENDENCIES_BOX_WIDTH)
-        .attr("height", DEPENDENCIES_BOX_HEIGHT)
+        .attr("height", height)
         .attr("class", "in_depedences_box")
         .style("fill", function(d) { return d.c; })
 
@@ -151,7 +160,7 @@ var pack = d3.pack()
         .data(dp)
         .enter().append("text")
         .attr("x", function(d) { return d.x + DEPENDENCIES_BOX_WIDTH / 2; })
-        .attr("y", function(d) { return d.y + DEPENDENCIES_BOX_HEIGHT / 2; })
+        .attr("y", function(d) { return d.y + height / 2; })
         .attr("dy", ".35em")
         .attr("text-anchor", "middle")
         .attr("font-size", "15px")
@@ -249,7 +258,7 @@ var pack = d3.pack()
         clearSubLv2View()
         var dp = prepareSubLv2Data(focus)
         drawBoxAndTextSubLv2View(dp)
-        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r, vulnerable: focus.data.vulnerable}; 
+        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:100, vulnerable: focus.data.vulnerable}; 
         drawCircleAndTextSubLv2View(circleAttr)
         var lines = prepareLineData(dp, circleAttr)
         drawLineSubLv2View(lines)

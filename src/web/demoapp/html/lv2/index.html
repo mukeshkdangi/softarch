@@ -9,9 +9,6 @@
       <script src="../data/data.js"></script>
       <!-- <script src="data/graphics_data.js"></script> -->
       <script src="../javascript/color.js"></script>
-      <script>
-        var lv2_data = data["levelTwo"][0].clusterNames.listOfFiles
-      </script>
       <script src="../lv2/lv2_modifier.js"></script>
 
       <script>
@@ -24,9 +21,8 @@
           if (!results[2]) return '';
           return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        var cluster_name = getParameterByName("cluster_name");
-        if (cluster_name === undefined) cluster_name = "sql";
-        var root = directory_structure//level2_data//{ "name": cluster_name, "children": lv2_data[cluster_name]}
+        var category = getParameterByName("cluster_name");
+        if (category === undefined) category = "sql";
       </script>
   </head>
   <body>
@@ -36,8 +32,25 @@
         var svgWidth = window.innerWidth;
         var svgHeight = window.innerHeight - 40;
         var d = document.getElementById("main-svg");
-        d.setAttribute("width", svgWidth)
-        d.setAttribute("height", svgHeight)
+        d.setAttribute("width", svgWidth);
+        d.setAttribute("height", svgHeight);
+        window.onload = function(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                var a = xhttp.responseText;
+                var data = JSON.parse(a);
+                var category_position = data["levelTwo"].map(function(x) {return x.name; }).indexOf(category)
+                var lv2_data = data["levelTwo"][category_position].clusterNames.listOfFiles
+                var root = modifyData(lv2_data, category)
+                drawSVG(root, lv2_data);
+              }
+          };
+          xhttp.open("GET", "/data/data.json", true);
+          xhttp.send();
+
+        }
+       
       </script>
       <script src="index.js"></script>
   </body>

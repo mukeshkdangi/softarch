@@ -4,6 +4,7 @@
       <link type="text/css" rel="stylesheet" href="../lv2/index.css">      
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="../data/data.js"></script>
     <script src="cloud.js"></script>
   </head>
   <body>
@@ -13,8 +14,11 @@
       </div>
     <div id="chart"></div>
     <script>
-      var text_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempor pharetra sodales. Aenean convallis, erat at iaculis pretium, velit felis feugiat lectus, vitae rhoncus sem augue a velit. Phasellus sit.";
-    
+      var text_string = "StatusListener MultiformatMessage dolor sit amet, consectetur adipiscing elit. In tempor pharetra sodales. Aenean convallis, erat at iaculis pretium, velit felis feugiat lectus, vitae rhoncus sem augue a velit. Phasellus sit.";
+      var dict = {
+        "StatusListener" : "io",
+        "MultiformatMessage" : "io"
+      }
       $(document).ready(function () {
         drawWordCloud(text_string);
       });
@@ -26,7 +30,7 @@
             word_count[words[0]] = 1;
           } else {
             words.forEach(function(word){
-              var word = word.toLowerCase();
+              var word = word;
               if (word != "" && word.length>1){
                 if (word_count[word]){
                   word_count[word]++;
@@ -80,7 +84,13 @@
               .on({
                 "click":  function(d) {
                   console.log(d.text);
-                  overlay("sql",0)
+                  var category = dict[d.text];
+                  var category_position = data["levelTwo"].map(function(x) {return x.name; }).indexOf(category)
+                  var listOfFiles = data["levelTwo"][category_position].clusterNames.listOfFiles;
+                  var data_position = listOfFiles.map(function(x) {return x.name; }).indexOf(d.text)
+                  var word_cloud_detail = listOfFiles[data_position]
+
+                  overlay(word_cloud_detail)
                 }, 
               })
               .text(function(d) { return d.key; });
@@ -90,24 +100,44 @@
       }
     </script>
     <script>
-      function overlay(category,positionInt) {
-        // lvl3[category][positionInt]
+      function overlay(data) {
         var overlay = document.createElement("div");
         overlay.setAttribute("id","overlay");
         var tempDiv = document.createElement("div");
         var buttonDiv = document.createElement("div");
-        buttonDiv.innerHTML = "<button class='closeBtn' onClick='closeOverlay()'>X</button>";
+        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
         tempDiv.append(buttonDiv);
         var containerDiv = document.createElement("div");
         containerDiv.classList.add("containerDiv");
         var informationDiv = document.createElement("div");
         informationDiv.classList.add("informationDiv");
         
-        informationDiv.innerHTML = "<div><h3>Name of File</h3><hr><div class='fileInfo'><p>Lines of Code: 12344</p><p>File Size: 12Mb</p><p>Path to File: /jena-core/src/main/test</p><p>Input Dependencies</p><ul><li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
+        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
+        var TEXT_LIMIT = 55
+        for (x of data.inputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        informationDiv.innerHTML += "</ul>"
+        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
+        for (x of data.outputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        informationDiv.innerHTML += "</ul>"
+
         containerDiv.append(informationDiv);
         
         var imageDiv = document.createElement("div");
-        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/300x400'></div>";
+        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
         
         containerDiv.append(imageDiv);
         tempDiv.append(containerDiv);
@@ -117,7 +147,7 @@
         }
 
         function closeOverlay() {
-          document.getElementById('overlay').style.display = "none";
+            document.getElementById("overlay").style.display = "none";
         }
     </script>
   </body>
