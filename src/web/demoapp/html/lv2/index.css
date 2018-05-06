@@ -106,3 +106,19 @@
     cursor: pointer;
     font-size: 13px;
   }
+
+  #legend{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 8px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+  }
+
+  #legend i.fa.fa-circle{
+    padding: 0px 8px;
+  }
+
+  fa {
+    padding-left: 10px;
+  }
