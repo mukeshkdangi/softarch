@@ -98,7 +98,7 @@
     font-size: 25px;
   }
 
-  #back-button {
+.lv2-button {
     float: right;
     height: 30px;
     border-radius: 4px;
