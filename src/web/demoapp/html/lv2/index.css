@@ -76,6 +76,7 @@
     padding-left: 10px;
     overflow-x: hidden;
     word-wrap: break-word;
+    cursor: text;
   }
   .containerDiv {
     width: 70%;
