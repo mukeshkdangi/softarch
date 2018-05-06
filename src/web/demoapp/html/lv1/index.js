@@ -97,8 +97,8 @@ var angles = [];
   var text_label = []
   for (var i = 0 ; i < lv1_data.length ; i++) {
     var d = lv1_data[i]
-    text_label.push({x: d.x, y: d.y - 10, text: d.category})
-    text_label.push({x: d.x, y: d.y + 30, text: d.numberOfFiles})
+    text_label.push({x: d.x, y: d.y - 10, text: d.category, category: d.category})
+    text_label.push({x: d.x, y: d.y + 30, text: d.numberOfFiles, category: d.category})
   }
   
   var text = svgContainer.selectAll("text")
@@ -112,6 +112,8 @@ var angles = [];
                   .attr("font-family", "sans-serif")
                   .attr("font-size", "20px")
                   .style("text-anchor", "middle")
-                  .attr("fill", "black");
+                  .attr("fill", "black")
+                  .style("cursor", "pointer")
+                  .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.category });
 }
                  
