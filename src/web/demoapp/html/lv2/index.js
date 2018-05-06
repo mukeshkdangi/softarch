@@ -159,19 +159,20 @@ var pack = d3.pack()
     }
 
     function drawCircleAndTextSubLv2View(circleAttr) {
-        var circles = g2.append("circle");
+        var circles = g2.selectAll("circle").data([circleAttr]).enter().append("circle");
 
         var circleAttributes = circles
-                       .attr("cx",circleAttr.x)
-                       .attr("cy", circleAttr.y)
-                       .attr("r", circleAttr.r )
+                       .attr("cx",function(d) { return d.x; })
+                       .attr("cy", function(d) { return d.y; })
+                       .attr("r", function(d) { return d.r; })
                        .style("fill", CIRCLE_COLOR)
                        .style("cursor", "pointer")
-                    .style("z-index", "20")
-                       .on("click", function(d) { 
-                            overlay(0)
+                        .style("z-index", "20")
+                        .on("click", function(d) {
+                            var elementPos = lv2_data.map(function(x) {return x.name; }).indexOf(d.name);
+                            overlay(lv2_data[elementPos])
                             d3.event.stopPropagation(); 
-                        });
+                        })
 
         var text =  g2.append("text")
                        .attr("x", circleAttr.x)
@@ -256,8 +257,7 @@ var pack = d3.pack()
     }
 
 
-    function overlay(category,positionInt) {
-        // lvl3[category][positionInt]
+    function overlay(data) {
         var overlay = document.createElement("div");
         overlay.setAttribute("id","overlay");
         var tempDiv = document.createElement("div");
@@ -269,11 +269,32 @@ var pack = d3.pack()
         var informationDiv = document.createElement("div");
         informationDiv.classList.add("informationDiv");
         
-        informationDiv.innerHTML = "<div><h3>Name of File</h3><hr><div class='fileInfo'><p>Lines of Code: 12344</p><p>File Size: 12Mb</p><p>Path to File: /jena-core/src/main/test</p><p>Input Dependencies</p><ul><li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
+        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
+        var TEXT_LIMIT = 55
+        for (x of data.inputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        informationDiv.innerHTML += "</ul>"
+        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
+        for (x of data.outputDeps) {
+            if (x.name.length > TEXT_LIMIT) {
+                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+            } else {
+                informationDiv.innerHTML += "<li>" + x.name +"</li>"
+            }
+        }
+        informationDiv.innerHTML += "</ul>"
+
         containerDiv.append(informationDiv);
         
         var imageDiv = document.createElement("div");
-        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/300x400'></div>";
+        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
         
         containerDiv.append(imageDiv);
         tempDiv.append(containerDiv);
