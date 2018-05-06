@@ -5,5 +5,5 @@ var category_to_color = {
     "networking": "#5FB3B3",
     "sound": "#6699CC",
     "graphics": "#C594C5",
-    "no_match": "#eef5db"
+    "no_match": "#d6dcc5"
 }

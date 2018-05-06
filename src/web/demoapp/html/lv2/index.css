@@ -53,7 +53,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0,0,0,0.7);
       z-index: 100;
       cursor: pointer;
   }
@@ -67,15 +67,15 @@
     float: right;
   }
   .informationDiv {
-    float: left;
     height: 600px;
-    width: 450px;
+    width: 500px;
     background-color: white;
     border-radius: 2%;
     overflow-y: scroll;
     padding-left: 10px;
     overflow-x: hidden;
     word-wrap: break-word;
+    cursor: text;
   }
   .containerDiv {
     width: 70%;
@@ -83,9 +83,12 @@
     padding: 10px;
     overflow-x: hidden;
     word-wrap: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   h3 {
-    font-size: 17px;
+    font-size: 20px;
   }
       
   #title {
@@ -122,3 +125,57 @@
   fa {
     padding-left: 10px;
   }
+
+section {
+  width: 100%;
+  height: 85%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.spinner {
+  animation: rotate 1.4s linear infinite;
+  -webkit-animation: rotate 1.4s linear infinite;
+  -moz-animation: rotate 1.4s linear infinite;
+  width:130px;
+  height:130px;
+  position: relative;
+}
+
+.spinner-dot {
+  width:230px;
+  height:230px;
+  position: relative;
+  top: 0;
+}
+
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.path {
+  stroke-dasharray: 170;
+  stroke-dashoffset: 20;
+}
+
+#label-spinner {
+  font-size: 20px;
+}

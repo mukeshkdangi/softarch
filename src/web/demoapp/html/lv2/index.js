@@ -155,6 +155,16 @@ var pack = d3.pack()
         .attr("height", height)
         .attr("class", "in_depedences_box")
         .style("fill", function(d) { return d.c; })
+        .style("cursor", "pointer")
+        .on("click", function(d) {
+            var temp = d.name.split(".")
+            var classname = temp[temp.length - 1]
+            var category_position = lv2_data_full.map(function(x) {return x.name; }).indexOf(d.category)
+            var classList = lv2_data_full[category_position].clusterNames.listOfFiles
+            var elementPos = classList.map(function(x) {return x.name; }).indexOf(classname);
+            overlay(classList[elementPos])
+            d3.event.stopPropagation(); 
+        })
 
         var text =  g2.selectAll("text")
         .data(dp)
@@ -165,6 +175,16 @@ var pack = d3.pack()
         .attr("text-anchor", "middle")
         .attr("font-size", "15px")
         .text(function(d) { return d.name; })
+        .style("cursor", "pointer")
+        .on("click", function(d) {
+            var temp = d.name.split(".")
+            var classname = temp[temp.length - 1]
+            var category_position = lv2_data_full.map(function(x) {return x.name; }).indexOf(d.category)
+            var classList = lv2_data_full[category_position].clusterNames.listOfFiles
+            var elementPos = classList.map(function(x) {return x.name; }).indexOf(classname);
+            overlay(classList[elementPos])
+            d3.event.stopPropagation(); 
+        })
     }
 
     function drawCircleAndTextSubLv2View(circleAttr) {
@@ -189,10 +209,18 @@ var pack = d3.pack()
                        .attr("dy", ".35em")
                        .attr("text-anchor", "middle")
                        .attr("font-size", "15px")
+                       .attr("id", "selected-circle")
                        .attr("fill", function(d) { 
                             return circleAttr.vulnerable? "red": "black"
                         })
                        .text(circleAttr.name)
+                       .style("cursor", "pointer")
+                       .on("click", function() {
+                            var classname = d3.select("#selected-circle").text();
+                            var elementPos = lv2_data.map(function(x) {return x.name; }).indexOf(classname);
+                            overlay(lv2_data[elementPos])
+                            d3.event.stopPropagation(); 
+                        })
     }
 
     function findDiffBtwPosition(pos, r) {
@@ -268,53 +296,58 @@ var pack = d3.pack()
 
     function overlay(data) {
         if (document.getElementById("overlay")) {
-            document.getElementById("overlay").remove();
+          document.getElementById("overlay").remove();
+        }
+        try {
+          var overlay = document.createElement("div");
+          overlay.setAttribute("id","overlay");
+          var tempDiv = document.createElement("div");
+          // var buttonDiv = document.createElement("div");
+          // buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
+          // tempDiv.append(buttonDiv);
+          var containerDiv = document.createElement("div");
+          containerDiv.classList.add("containerDiv");
+          var informationDiv = document.createElement("div");
+          informationDiv.classList.add("informationDiv");
+          
+          informationDiv.innerHTML = "<div><h3 style='color:"+ category_to_color[data.category] +"'>" + data.name + "</h3><hr><div class='fileInfo'><p><b>Lines of Code</b>: " + data.linesOfCode + "</p><p><b>File Size</b>: " + data.fileSize + "Kb</p><p><b>Path to File</b>: " + data.pathToFile + "</p><p><b>Category</b>: <span style='color:"+ category_to_color[data.category] +"'>" + data.category + "</span></p>";
+          informationDiv.innerHTML += "<p><b>Incoming Dependencies</b></p><ul>"
+          var TEXT_LIMIT = 64
+          for (x of data.inputDeps) {
+              if (x.name.length > TEXT_LIMIT) {
+                  informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+              } else {
+                  informationDiv.innerHTML += "<li>" + x.name +"</li>"
+              }
           }
-        var overlay = document.createElement("div");
-        overlay.setAttribute("id","overlay");
-        var tempDiv = document.createElement("div");
-        var buttonDiv = document.createElement("div");
-        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
-        tempDiv.append(buttonDiv);
-        var containerDiv = document.createElement("div");
-        containerDiv.classList.add("containerDiv");
-        var informationDiv = document.createElement("div");
-        informationDiv.classList.add("informationDiv");
-        
-        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
-        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
-        var TEXT_LIMIT = 55
-        for (x of data.inputDeps) {
-            if (x.name.length > TEXT_LIMIT) {
-                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
-            } else {
-                informationDiv.innerHTML += "<li>" + x.name +"</li>"
-            }
-        }
-        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
-        informationDiv.innerHTML += "</ul>"
-        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
-        for (x of data.outputDeps) {
-            if (x.name.length > TEXT_LIMIT) {
-                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
-            } else {
-                informationDiv.innerHTML += "<li>" + x.name +"</li>"
-            }
-        }
-        informationDiv.innerHTML += "</ul>"
+          informationDiv.innerHTML += "</ul>"
+          informationDiv.innerHTML += "<p><b>Outgoing Dependencies</b></p><ul>"
+          for (x of data.outputDeps) {
+              if (x.name.length > TEXT_LIMIT) {
+                  informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+              } else {
+                  informationDiv.innerHTML += "<li>" + x.name +"</li>"
+              }
+          }
+          informationDiv.innerHTML += "</ul>"
 
-        containerDiv.append(informationDiv);
-        
-        var imageDiv = document.createElement("div");
-        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
-        
-        containerDiv.append(imageDiv);
-        tempDiv.append(containerDiv);
-        overlay.append(tempDiv);
-        document.body.append(overlay);
-        document.getElementById('overlay').style.display = 'block';
-        }
+          containerDiv.append(informationDiv);
+          
+          //var imageDiv = document.createElement("div");
+          //imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
+          
+          //containerDiv.append(imageDiv);
+          tempDiv.append(containerDiv);
+          overlay.append(tempDiv);
 
-        function closeOverlay() {
-            document.getElementById("overlay").style.display = "none";
-        }
+          //imageDiv.onclick = function(event) {event.stopImmediatePropagation();}
+          informationDiv.onclick = function(event) {event.stopImmediatePropagation();}
+          overlay.onclick =  function(event) { closeOverlay()}
+          
+          document.body.append(overlay);
+          document.getElementById('overlay').style.display = 'block';
+        } catch(err) {}
+    }
+    function closeOverlay() {
+        document.getElementById("overlay").style.display = "none";
+    }

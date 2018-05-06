@@ -2,42 +2,94 @@
   <head>
       <link type="text/css" rel="stylesheet" href="../lv1/index.css">
       <link type="text/css" rel="stylesheet" href="../lv2/index.css">      
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
-    <script src="cloud.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+      <script src="cloud.js"></script>
+      <script src="../javascript/color.js"></script>
   </head>
   <body>
       <div id="title">
           CSCI578 - Final Project
           <button onClick="window.location.href='../lv1/index.html'">Back to Lv1</button>
       </div>
+      <section id="loader-cloud">
+        <svg class="spinner" width="174px" height="174px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+           <circle class="path" fill="transparent" stroke-width="2" cx="33" cy="33" r="30" stroke="url(#gradient)"/>
+             <linearGradient id="gradient">
+               <stop offset="50%" stop-color="#42d179" stop-opacity="1"/>
+               <stop offset="65%" stop-color="#42d179" stop-opacity=".5"/>
+               <stop offset="100%" stop-color="#42d179" stop-opacity="0"/>
+             </linearGradient>
+          </circle>
+           <svg class="spinner-dot dot" width="5px" height="5px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" x="37" y="1.5">
+             <circle class="path" fill="#42d179" cx="33" cy="33" r="30"/>
+            </circle>
+          </svg> 
+        </svg>
+        <div id="label-spinner">Breathe In</div>
+      </section>
     <div id="chart"></div>
+    <div id="expl">
+      <h3>Explanation:</h3>
+      <p>Larger the font size in the word cloud, more are the outgoing depedencies.
+    </div>
     <script>
       var  text_string = "";
-      var dict = {}
-      var lv2_data = {}
-      window.onload = function(){
+      var dict = {};
+      var lv2_data = {};
+      var rank = [];
+
+      function replaceText(toggle,count) {
+          if (toggle) {
+              document.getElementById("label-spinner").innerHTML = "Breathe Out";
+          }
+          else
+              document.getElementById("label-spinner").innerHTML = "Breathe In";
+          toggle = !toggle;
+          count++;
+          if (count < 30) {
+              setTimeout(replaceText, 1000);
+          }
+      }
+
+      window.onload = function() {
+          replaceText(true,0);
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
               if (this.readyState == 4 && this.status == 200) {
                 var a = xhttp.responseText;
                 var data = JSON.parse(a);
-                var cloudInfos = data["cloudInfo"]
-                lv2_data = data["levelTwo"]
+                var cloudInfos = data["cloudInfo"];
+                lv2_data = data["levelTwo"];
+                var counter = 30;
+                var cnt = 0;
+                //if array
+                // for (var aa = 0; aa < cloudInfos.length; aa++) {
+                //   var key = Object.keys(cloudInfos[aa])[0];
+                //   dict.push(cloudInfos[aa]);
+                //   for (var i = 0 ; i < counter ; i++) {
+                //     text_string += key + " "
+                //   }
+                //   counter--;
+                // }
+
+                //if dict
                 dict = cloudInfos;
-                var counter = 30
                 for (key of Object.keys(cloudInfos)) {
                   for (var i = 0 ; i < counter ; i++) {
+                    rank[cnt] = key;
                     text_string += key + " "
                   }
                   counter--;
+                  cnt++;
                 }
+                document.getElementById("loader-cloud").remove();
                 drawWordCloud(text_string);
+                document.getElementById("expl").style.display = "block";
               }
           };
-          xhttp.open("GET", "/data/data.json", true);
+          xhttp.open("GET", "/details", true);
           xhttp.send();
-
         }
 
       function drawWordCloud(text_string){
@@ -63,7 +115,6 @@
         var height = $(document).height();
 
         var fill = d3.scale.category20();
-          console.log(word_count)
         var word_entries = d3.entries(word_count);
         var xScale = d3.scale.linear()
            .domain([0, d3.max(word_entries, function(d) {
@@ -108,7 +159,10 @@
                   var word_cloud_detail = listOfFiles[data_position]
 
                   overlay(word_cloud_detail)
-                }, 
+                },
+                // "mouseover": function(d) {
+                //   console.log(rank.indexOf(d.text));
+                // }
               })
               .text(function(d) { return d.key; });
         }
@@ -121,49 +175,55 @@
         if (document.getElementById("overlay")) {
           document.getElementById("overlay").remove();
         }
-        var overlay = document.createElement("div");
-        overlay.setAttribute("id","overlay");
-        var tempDiv = document.createElement("div");
-        var buttonDiv = document.createElement("div");
-        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
-        tempDiv.append(buttonDiv);
-        var containerDiv = document.createElement("div");
-        containerDiv.classList.add("containerDiv");
-        var informationDiv = document.createElement("div");
-        informationDiv.classList.add("informationDiv");
-        
-        informationDiv.innerHTML = "<div><h3>" + data.name + "</h3><hr><div class='fileInfo'><p>Lines of Code: " + data.linesOfCode + "</p><p>File Size: " + data.fileSize + "Kb</p><p>Path to File: " + data.pathToFile + "</p>";
-        informationDiv.innerHTML += "<p>Input Dependencies</p><ul>"
-        var TEXT_LIMIT = 55
-        for (x of data.inputDeps) {
-            if (x.name.length > TEXT_LIMIT) {
-                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
-            } else {
-                informationDiv.innerHTML += "<li>" + x.name +"</li>"
-            }
-        }
-        // + "<li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
-        informationDiv.innerHTML += "</ul>"
-        informationDiv.innerHTML += "<p>Output Dependencies</p><ul>"
-        for (x of data.outputDeps) {
-            if (x.name.length > TEXT_LIMIT) {
-                informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
-            } else {
-                informationDiv.innerHTML += "<li>" + x.name +"</li>"
-            }
-        }
-        informationDiv.innerHTML += "</ul>"
+        try {
+          var overlay = document.createElement("div");
+          overlay.setAttribute("id","overlay");
+          var tempDiv = document.createElement("div");
+          // var buttonDiv = document.createElement("div");
+          // buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
+          // tempDiv.append(buttonDiv);
+          var containerDiv = document.createElement("div");
+          containerDiv.classList.add("containerDiv");
+          var informationDiv = document.createElement("div");
+          informationDiv.classList.add("informationDiv");
+          
+          informationDiv.innerHTML = "<div><h3 style='color:"+ category_to_color[data.category] +"'>" + data.name + "</h3><hr><div class='fileInfo'><p><b>Lines of Code</b>: " + data.linesOfCode + "</p><p><b>File Size</b>: " + data.fileSize + "Kb</p><p><b>Path to File</b>: " + data.pathToFile + "</p><p><b>Category</b>: <span style='color:"+ category_to_color[data.category] +"'>" + data.category + "</span></p>";
+          informationDiv.innerHTML += "<p><b>Incoming Dependencies</b></p><ul>"
+          var TEXT_LIMIT = 55
+          for (x of data.inputDeps) {
+              if (x.name.length > TEXT_LIMIT) {
+                  informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+              } else {
+                  informationDiv.innerHTML += "<li>" + x.name +"</li>"
+              }
+          }
+          informationDiv.innerHTML += "</ul>"
+          informationDiv.innerHTML += "<p><b>Outgoing Dependencies</b></p><ul>"
+          for (x of data.outputDeps) {
+              if (x.name.length > TEXT_LIMIT) {
+                  informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"
+              } else {
+                  informationDiv.innerHTML += "<li>" + x.name +"</li>"
+              }
+          }
+          informationDiv.innerHTML += "</ul>"
 
-        containerDiv.append(informationDiv);
-        
-        var imageDiv = document.createElement("div");
-        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
-        
-        containerDiv.append(imageDiv);
-        tempDiv.append(containerDiv);
-        overlay.append(tempDiv);
-        document.body.append(overlay);
-        document.getElementById('overlay').style.display = 'block';
+          containerDiv.append(informationDiv);
+          
+          //var imageDiv = document.createElement("div");
+          //imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
+          
+          //containerDiv.append(imageDiv);
+          tempDiv.append(containerDiv);
+          overlay.append(tempDiv);
+
+          //imageDiv.onclick = function(event) {event.stopImmediatePropagation();}
+          informationDiv.onclick = function(event) {event.stopImmediatePropagation();}
+          overlay.onclick =  function(event) { closeOverlay()}
+          
+          document.body.append(overlay);
+          document.getElementById('overlay').style.display = 'block';
+        } catch(err) {}
         }
 
         function closeOverlay() {

@@ -68,7 +68,21 @@ var angles = [];
                         .attr("r", small_circle_radias )
                         .style("fill", function(d) { return category_to_color[d['category']];})
                         .style("cursor", "pointer")
-                        .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.category });
+                        .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.category })
+                        .on("mouseover", function(d) { 
+                          var deps = d.dependency
+                          var text = ""
+                          for (var i = 0 ; i < deps.length ; i++) {
+                            var dep = deps[i]
+                            text += (dep.nameOfCategory + " : " + dep.count + "</br>")
+                          }
+                          document.getElementById("deps-detail").innerHTML = text;
+                          document.getElementById("deps-detail").style.display = "block";
+                        })
+                        .on("mouseout", function(d) { 
+                          document.getElementById("deps-detail").style.display = "none";
+
+                        })
 
   svgContainer.append("svg:defs").append("svg:marker")
         .attr("id", "triangle")
@@ -97,8 +111,8 @@ var angles = [];
   var text_label = []
   for (var i = 0 ; i < lv1_data.length ; i++) {
     var d = lv1_data[i]
-    text_label.push({x: d.x, y: d.y - 10, text: d.category})
-    text_label.push({x: d.x, y: d.y + 30, text: d.numberOfFiles})
+    text_label.push({x: d.x, y: d.y - 10, text: d.category, category: d.category, deps: d.dependency})
+    text_label.push({x: d.x, y: d.y + 30, text: d.numberOfFiles, category: d.category, deps: d.dependency})
   }
   
   var text = svgContainer.selectAll("text")
@@ -112,6 +126,22 @@ var angles = [];
                   .attr("font-family", "sans-serif")
                   .attr("font-size", "20px")
                   .style("text-anchor", "middle")
-                  .attr("fill", "black");
+                  .attr("fill", "black")
+                  .style("cursor", "pointer")
+                  .on("click", function(d) { window.location.href = "/lv2/index.html?cluster_name="+d.category })
+                  .on("mouseover", function(d) { 
+                    var deps = d.deps
+                    var text = ""
+                    for (var i = 0 ; i < deps.length ; i++) {
+                      var dep = deps[i]
+                      text += (dep.nameOfCategory + " : " + dep.count + "</br>")
+                    }
+                    document.getElementById("deps-detail").innerHTML = text;
+                    document.getElementById("deps-detail").style.display = "block";
+                  })
+                  .on("mouseout", function(d) { 
+                    document.getElementById("deps-detail").style.display = "none";
+
+                  })
 }
                  
