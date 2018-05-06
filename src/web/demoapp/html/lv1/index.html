@@ -1,33 +1,66 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="index.css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">        <title>CSCI578-Project</title>
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <title>CSCI578-Project</title>
     </head>
     <body>     
         <div id="title">
             CSCI578 - Final Project
             <button onClick="window.location.href='../word-cloud/word-cloud.html'">Word Cloud</button>
         </div>
-
+        <section id="loader-lv1">
+          <svg class="spinner" width="174px" height="174px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+             <circle class="path" fill="transparent" stroke-width="2" cx="33" cy="33" r="30" stroke="url(#gradient)"/>
+               <linearGradient id="gradient">
+                 <stop offset="50%" stop-color="#42d179" stop-opacity="1"/>
+                 <stop offset="65%" stop-color="#42d179" stop-opacity=".5"/>
+                 <stop offset="100%" stop-color="#42d179" stop-opacity="0"/>
+               </linearGradient>
+            </circle>
+             <svg class="spinner-dot dot" width="5px" height="5px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" x="37" y="1.5">
+               <circle class="path" fill="#42d179" cx="33" cy="33" r="30"/>
+              </circle>
+            </svg> 
+          </svg>
+          <div id="label-spinner">Breathe In</div>
+        </section>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- <script src="../data/data.js"></script> -->
         <script src="../javascript/color.js"></script>
         <script src="index.js"></script>
         <script>
-            window.onload = function(){
+            function replaceText(toggle,count) {
+                if (toggle) {
+                    document.getElementById("label-spinner").innerHTML = "Breathe Out";
+                }
+                else
+                    document.getElementById("label-spinner").innerHTML = "Breathe In";
+                toggle = !toggle;
+                count++;
+                if (count < 30) {
+                    console.log("check")
+                    setTimeout(replaceText, 1000);
+                }
+            }
+
+            window.onload = function() {
+                replaceText(true,0);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var a = xhttp.responseText;
                         var data = JSON.parse(a);
-                        var lv1_data = data["levelOne"]
+                        var lv1_data = data["levelOne"];
                         drawSVG(lv1_data);
+                        document.getElementById('loader-lv1').remove();
                     }
                 };
-                xhttp.open("GET", "/data/data.json", true);
+                // xhttp.open("GET", "/data/data.json", true);
+                xhttp.open("GET", "/details", true);
                 xhttp.send();
-
                 }
+
         </script>
     </body>
 </html>

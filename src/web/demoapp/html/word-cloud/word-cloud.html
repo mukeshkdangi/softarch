@@ -11,33 +11,77 @@
           CSCI578 - Final Project
           <button onClick="window.location.href='../lv1/index.html'">Back to Lv1</button>
       </div>
+      <section id="loader-cloud">
+        <svg class="spinner" width="174px" height="174px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+           <circle class="path" fill="transparent" stroke-width="2" cx="33" cy="33" r="30" stroke="url(#gradient)"/>
+             <linearGradient id="gradient">
+               <stop offset="50%" stop-color="#42d179" stop-opacity="1"/>
+               <stop offset="65%" stop-color="#42d179" stop-opacity=".5"/>
+               <stop offset="100%" stop-color="#42d179" stop-opacity="0"/>
+             </linearGradient>
+          </circle>
+           <svg class="spinner-dot dot" width="5px" height="5px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" x="37" y="1.5">
+             <circle class="path" fill="#42d179" cx="33" cy="33" r="30"/>
+            </circle>
+          </svg> 
+        </svg>
+        <div id="label-spinner">Breathe In</div>
+      </section>
     <div id="chart"></div>
+    <div id="expl">
+      <h3>Explanation:</h3>
+      <p>Larger the font size in the word cloud, more are the outgoing depedencies.
+    </div>
     <script>
       var  text_string = "";
-      var dict = {}
-      var lv2_data = {}
-      window.onload = function(){
+      var dict = {};
+      var lv2_data = {};
+      var rank = [];
+
+      function replaceText(toggle,count) {
+          if (toggle) {
+              document.getElementById("label-spinner").innerHTML = "Breathe Out";
+          }
+          else
+              document.getElementById("label-spinner").innerHTML = "Breathe In";
+          toggle = !toggle;
+          count++;
+          if (count < 30) {
+              console.log("check")
+              setTimeout(replaceText, 1000);
+          }
+      }
+
+      window.onload = function() {
+          replaceText(true,0);
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
               if (this.readyState == 4 && this.status == 200) {
                 var a = xhttp.responseText;
                 var data = JSON.parse(a);
-                var cloudInfos = data["cloudInfo"]
-                lv2_data = data["levelTwo"]
+                var cloudInfos = data["cloudInfo"];
+                lv2_data = data["levelTwo"];
                 dict = cloudInfos;
-                var counter = 30
+                var counter = 30;
+                var cnt = 0;
                 for (key of Object.keys(cloudInfos)) {
                   for (var i = 0 ; i < counter ; i++) {
+                    rank[cnt] = key;
                     text_string += key + " "
                   }
                   counter--;
+                  cnt++;
                 }
+                console.log(cloudInfos);
+                console.log(rank);
+                console.log(text_string);
+                document.getElementById("loader-cloud").remove();
                 drawWordCloud(text_string);
+                document.getElementById("expl").style.display = "block";
               }
           };
-          xhttp.open("GET", "/data/data.json", true);
+          xhttp.open("GET", "/details", true);
           xhttp.send();
-
         }
 
       function drawWordCloud(text_string){
@@ -108,7 +152,10 @@
                   var word_cloud_detail = listOfFiles[data_position]
 
                   overlay(word_cloud_detail)
-                }, 
+                },
+                // "mouseover": function(d) {
+                //   console.log(rank.indexOf(d.text));
+                // }
               })
               .text(function(d) { return d.key; });
         }
