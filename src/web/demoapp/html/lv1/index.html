@@ -10,11 +10,24 @@
         </div>
 
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="../data/data.js"></script>
-        <script>
-            var lv1_data = data["levelOne"];
-        </script>
+        <!-- <script src="../data/data.js"></script> -->
         <script src="../javascript/color.js"></script>
         <script src="index.js"></script>
+        <script>
+            window.onload = function(){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var a = xhttp.responseText;
+                        var data = JSON.parse(a);
+                        var lv1_data = data["levelOne"]
+                        drawSVG(lv1_data);
+                    }
+                };
+                xhttp.open("GET", "/data/data.json", true);
+                xhttp.send();
+
+                }
+        </script>
     </body>
 </html>
