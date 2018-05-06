@@ -155,6 +155,16 @@ var pack = d3.pack()
         .attr("height", height)
         .attr("class", "in_depedences_box")
         .style("fill", function(d) { return d.c; })
+        .style("cursor", "pointer")
+        .on("click", function(d) {
+            var temp = d.name.split(".")
+            var classname = temp[temp.length - 1]
+            var category_position = lv2_data_full.map(function(x) {return x.name; }).indexOf(d.category)
+            var classList = lv2_data_full[category_position].clusterNames.listOfFiles
+            var elementPos = classList.map(function(x) {return x.name; }).indexOf(classname);
+            overlay(classList[elementPos])
+            d3.event.stopPropagation(); 
+        })
 
         var text =  g2.selectAll("text")
         .data(dp)
@@ -165,6 +175,16 @@ var pack = d3.pack()
         .attr("text-anchor", "middle")
         .attr("font-size", "15px")
         .text(function(d) { return d.name; })
+        .style("cursor", "pointer")
+        .on("click", function(d) {
+            var temp = d.name.split(".")
+            var classname = temp[temp.length - 1]
+            var category_position = lv2_data_full.map(function(x) {return x.name; }).indexOf(d.category)
+            var classList = lv2_data_full[category_position].clusterNames.listOfFiles
+            var elementPos = classList.map(function(x) {return x.name; }).indexOf(classname);
+            overlay(classList[elementPos])
+            d3.event.stopPropagation(); 
+        })
     }
 
     function drawCircleAndTextSubLv2View(circleAttr) {

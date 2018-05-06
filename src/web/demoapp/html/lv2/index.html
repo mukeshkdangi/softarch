@@ -43,6 +43,7 @@
       <script>
         var svgWidth = window.innerWidth;
         var svgHeight = window.innerHeight - 70;
+        var lv2_data_full = undefined;
         var d = document.getElementById("main-svg");
         d.setAttribute("width", svgWidth);
         d.setAttribute("height", svgHeight);
@@ -52,6 +53,7 @@
               if (this.readyState == 4 && this.status == 200) {
                 var a = xhttp.responseText;
                 var data = JSON.parse(a);
+                lv2_data_full = data["levelTwo"];
                 var category_position = data["levelTwo"].map(function(x) {return x.name; }).indexOf(category)
                 var lv2_data = data["levelTwo"][category_position].clusterNames.listOfFiles
                 var root = modifyData(lv2_data, category)
