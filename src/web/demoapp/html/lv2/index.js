@@ -2,9 +2,15 @@
 var SVG_HEIGHT = svgHeight;
 var SVG_WIDTH = svgWidth;
 var DEPENDENCIES_BOX_HEIGHT = 50;
-var DEPENDENCIES_BOX_WIDTH = 200;
+var DEPENDENCIES_BOX_WIDTH = 400;
 var DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT = 50;
 var CIRCLE_COLOR = '#ccc'
+
+// var svg = d3.select("body").append("svg")
+//                     .attr("width", SVG_WIDTH)
+//                     .attr("height", SVG_HEIGHT)
+//                     .attr("transform", "translate(" + window.innerWidth / 4 + "," + 0 + ")");
+ 
 
 var svg = d3.select("svg"),
     margin = 20,
@@ -239,7 +245,7 @@ var pack = d3.pack()
         clearSubLv2View()
         var dp = prepareSubLv2Data(focus)
         drawBoxAndTextSubLv2View(dp)
-        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r * 0.6};
+        var circleAttr= {name: focus.data.name, x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2, r:focus.r};
         drawCircleAndTextSubLv2View(circleAttr)
         var lines = prepareLineData(dp, circleAttr)
         drawLineSubLv2View(lines)
