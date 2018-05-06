@@ -11,3 +11,12 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 25px;
 }
+
+button {
+  float: right;
+  height: 30px;
+  border-radius: 4px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}

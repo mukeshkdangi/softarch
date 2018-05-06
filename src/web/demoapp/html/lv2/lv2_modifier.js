@@ -1,161 +1,163 @@
-var lv2_data = [{
-    "nameOfCluster": "classNameA",
-    "listOfFiles": [{
-            "name": "FileA",
-            "inputDeps": [{
-                    "name": "FileB",
-                    "category": "io"
-                },
-                {
-                    "name": "FileC",
-                    "category": "sql"
-                }
-            ],
-            "outputDeps": [{
-                    "name": "FileD",
-                    "category": "networking"
-                },
-                {
-                    "name": "FileE",
-                    "category": "graphics"
-                }
-            ],
-            "inputOverallCategories": [
-                "io",
-                "sql"
-            ],
-            "outputOverallCategories": [
-                "networking",
-                "graphics"
-            ],
-            "pathToFile": "/jena-core/src/main/test",
-            "linesOfCode": 4521,
-            "category": "sql",
-            "fileSize": 32,
-            "vulnerable": true
-        },
-        {
-            "name": "FileX",
-            "inputDeps": [{
-                    "name": "FileB",
-                    "category": "io"
-                },
-                {
-                    "name": "FileC",
-                    "category": "sql"
-                }
-            ],
-            "outputDeps": [{
-                    "name": "FileD",
-                    "category": "networking"
-                },
-                {
-                    "name": "FileE",
-                    "category": "graphics"
-                }
-            ],
-            "inputOverallCategories": [
-                "io",
-                "sql"
-            ],
-            "outputOverallCategories": [
-                "networking",
-                "graphics"
-            ],
-            "pathToFile": "/jena-core/src/main/test",
-            "linesOfCode": 4521,
-            "category": "sql",
-            "fileSize": 32,
-            "vulnerable": true
-        }
-    ]
-},
-{
-    "nameOfCluster": "classNameB",
-    "listOfFiles": [{
-            "name": "FileA",
-            "inputDeps": [{
-                    "name": "FileB",
-                    "category": "io"
-                },
-                {
-                    "name": "FileC",
-                    "category": "sql"
-                }
-            ],
-            "outputDeps": [{
-                    "name": "FileD",
-                    "category": "networking"
-                },
-                {
-                    "name": "FileE",
-                    "category": "graphics"
-                }
-            ],
-            "inputOverallCategories": [
-                "io",
-                "sql"
-            ],
-            "outputOverallCategories": [
-                "networking",
-                "graphics"
-            ],
-            "pathToFile": "/jena-core/src/main/test",
-            "linesOfCode": 4521,
-            "category": "sql",
-            "fileSize": 32,
-            "vulnerable": true
-        },
-        {
-            "name": "FileX",
-            "inputDeps": [{
-                    "name": "FileB",
-                    "category": "io"
-                },
-                {
-                    "name": "FileC",
-                    "category": "sql"
-                }
-            ],
-            "outputDeps": [{
-                    "name": "FileD",
-                    "category": "networking"
-                },
-                {
-                    "name": "FileE",
-                    "category": "graphics"
-                }
-            ],
-            "inputOverallCategories": [
-                "io",
-                "sql"
-            ],
-            "outputOverallCategories": [
-                "networking",
-                "graphics"
-            ],
-            "pathToFile": "/jena-core/src/main/test",
-            "linesOfCode": 4521,
-            "category": "sql",
-            "fileSize": 32,
-            "vulnerable": true
-        }
-    ]
-}
-]
+// var lv2_data = [{
+//     "nameOfCluster": "classNameA",
+//     "listOfFiles": [{
+//             "name": "FileA",
+//             "inputDeps": [{
+//                     "name": "FileB",
+//                     "category": "io"
+//                 },
+//                 {
+//                     "name": "FileC",
+//                     "category": "sql"
+//                 }
+//             ],
+//             "outputDeps": [{
+//                     "name": "FileD",
+//                     "category": "networking"
+//                 },
+//                 {
+//                     "name": "FileE",
+//                     "category": "graphics"
+//                 }
+//             ],
+//             "inputOverallCategories": [
+//                 "io",
+//                 "sql"
+//             ],
+//             "outputOverallCategories": [
+//                 "networking",
+//                 "graphics"
+//             ],
+//             "pathToFile": "/jena-core/src/main/test",
+//             "linesOfCode": 4521,
+//             "category": "sql",
+//             "fileSize": 32,
+//             "vulnerable": true
+//         },
+//         {
+//             "name": "FileX",
+//             "inputDeps": [{
+//                     "name": "FileB",
+//                     "category": "io"
+//                 },
+//                 {
+//                     "name": "FileC",
+//                     "category": "sql"
+//                 }
+//             ],
+//             "outputDeps": [{
+//                     "name": "FileD",
+//                     "category": "networking"
+//                 },
+//                 {
+//                     "name": "FileE",
+//                     "category": "graphics"
+//                 }
+//             ],
+//             "inputOverallCategories": [
+//                 "io",
+//                 "sql"
+//             ],
+//             "outputOverallCategories": [
+//                 "networking",
+//                 "graphics"
+//             ],
+//             "pathToFile": "/jena-core/src/main/test",
+//             "linesOfCode": 4521,
+//             "category": "sql",
+//             "fileSize": 32,
+//             "vulnerable": true
+//         }
+//     ]
+// },
+// {
+//     "nameOfCluster": "classNameB",
+//     "listOfFiles": [{
+//             "name": "FileA",
+//             "inputDeps": [{
+//                     "name": "FileB",
+//                     "category": "io"
+//                 },
+//                 {
+//                     "name": "FileC",
+//                     "category": "sql"
+//                 }
+//             ],
+//             "outputDeps": [{
+//                     "name": "FileD",
+//                     "category": "networking"
+//                 },
+//                 {
+//                     "name": "FileE",
+//                     "category": "graphics"
+//                 }
+//             ],
+//             "inputOverallCategories": [
+//                 "io",
+//                 "sql"
+//             ],
+//             "outputOverallCategories": [
+//                 "networking",
+//                 "graphics"
+//             ],
+//             "pathToFile": "/jena-core/src/main/test",
+//             "linesOfCode": 4521,
+//             "category": "sql",
+//             "fileSize": 32,
+//             "vulnerable": true
+//         },
+//         {
+//             "name": "FileX",
+//             "inputDeps": [{
+//                     "name": "FileB",
+//                     "category": "io"
+//                 },
+//                 {
+//                     "name": "FileC",
+//                     "category": "sql"
+//                 }
+//             ],
+//             "outputDeps": [{
+//                     "name": "FileD",
+//                     "category": "networking"
+//                 },
+//                 {
+//                     "name": "FileE",
+//                     "category": "graphics"
+//                 }
+//             ],
+//             "inputOverallCategories": [
+//                 "io",
+//                 "sql"
+//             ],
+//             "outputOverallCategories": [
+//                 "networking",
+//                 "graphics"
+//             ],
+//             "pathToFile": "/jena-core/src/main/test",
+//             "linesOfCode": 4521,
+//             "category": "sql",
+//             "fileSize": 32,
+//             "vulnerable": true
+//         }
+//     ]
+// }
+// ]
 
 var directory_structure = { name: "sql", children: []}
 for (ele of lv2_data) {
-    var name = ele['nameOfCluster']
-    var fileDetail = ele.listOfFiles[0];
-    var inputDeps = fileDetail.inputDeps;
-    var outputDeps = fileDetail.outputDeps;
-    var pathToFile = fileDetail.pathToFile;
-    var linesOfCode = fileDetail.linesOfCode;
-    var category = fileDetail.category;
-    var fileSize = fileDetail.fileSize
-    var valueable = fileDetail.vulnerable;
+    var dummy_filepath = ["a/b/c/d/e/f","a/b/","a/g/h/u", "c/s/d", "c/v/r/t"]
+    var random_path = dummy_filepath[Math.floor(Math.random() * Math.floor(dummy_filepath.length))]
 
+    var name = ele.name
+    var inputDeps = ele.inputDeps;
+    var outputDeps = ele.outputDeps;
+    var pathToFile = random_path;//ele.pathToFile;
+    var linesOfCode = ele.linesOfCode;
+    var category = ele.category;
+    var fileSize = ele.fileSize
+    var valueable = ele.vulnerable;
+    
     var detail = {
         "name": name,
         "inputDeps": inputDeps,

@@ -1,4 +1,4 @@
-var data = {
+var data =  {
 	"levelOne": [
 		{
 			"category": "io",
@@ -135,9 +135,10 @@ var data = {
 		{
 			"name": "io",
 			"clusterNames": {
-				"nameOfCluster": "StatusListener",
+				"nameOfCluster": "",
 				"listOfFiles": [
 					{
+						"name": "StatusListener",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.Level",
@@ -163,16 +164,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "MultiformatMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "MultiformatMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -190,16 +184,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "MapMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "MapMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.EnglishEnums",
@@ -245,16 +232,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "StatusConsoleListener",
-				"listOfFiles": [
+					},
 					{
+						"name": "StatusConsoleListener",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.status.StatusListener",
@@ -275,16 +255,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "StringBuilders",
-				"listOfFiles": [
+					},
 					{
+						"name": "StringBuilders",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Chars",
@@ -318,16 +291,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "ThreadDumpMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadDumpMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ThreadDumpMessage$ThreadDumpMessageProxy",
@@ -393,16 +359,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "SimpleLoggerContext",
-				"listOfFiles": [
+					},
 					{
+						"name": "SimpleLoggerContext",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -452,16 +411,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "ExitMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ExitMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.FlowMessage",
@@ -491,16 +443,9 @@ var data = {
 						"category": "io",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "io",
-			"clusterNames": {
-				"nameOfCluster": "EntryMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "EntryMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.FlowMessage",
@@ -545,9 +490,10 @@ var data = {
 		{
 			"name": "no_match",
 			"clusterNames": {
-				"nameOfCluster": "LoggerRegistry$WeakMapFactory",
+				"nameOfCluster": "",
 				"listOfFiles": [
 					{
+						"name": "LoggerRegistry$WeakMapFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.LoggerRegistry$MapFactory",
@@ -573,16 +519,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "LoaderUtil$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoaderUtil$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil",
@@ -604,16 +543,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "Unbox$WebSafeState",
-				"listOfFiles": [
+					},
 					{
+						"name": "Unbox$WebSafeState",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Unbox",
@@ -635,16 +567,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "LoaderUtil$UrlResource",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoaderUtil$UrlResource",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil",
@@ -666,16 +591,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "LoaderUtil$ThreadContextClassLoaderGetter",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoaderUtil$ThreadContextClassLoaderGetter",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil$1",
@@ -697,16 +615,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "MarkerManager$Log4jMarker",
-				"listOfFiles": [
+					},
 					{
+						"name": "MarkerManager$Log4jMarker",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.MarkerManager",
@@ -732,16 +643,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "Unbox$State",
-				"listOfFiles": [
+					},
 					{
+						"name": "Unbox$State",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Unbox",
@@ -759,16 +663,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContext$EmptyThreadContextStack",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContext$EmptyThreadContextStack",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -802,16 +699,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "SortedArrayStringMap$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "SortedArrayStringMap$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.SortedArrayStringMap",
@@ -837,16 +727,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadDumpMessage$ThreadInfoFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadDumpMessage$ThreadInfoFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ThreadInformation",
@@ -876,16 +759,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "LoggerRegistry$ConcurrentMapFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoggerRegistry$ConcurrentMapFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.LoggerRegistry$MapFactory",
@@ -911,16 +787,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ReflectionUtil$PrivateSecurityManager",
-				"listOfFiles": [
+					},
 					{
+						"name": "ReflectionUtil$PrivateSecurityManager",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.ReflectionUtil",
@@ -938,16 +807,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContext$EmptyIterator",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContext$EmptyIterator",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -973,16 +835,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ParameterizedNoReferenceMessageFactory$StatusMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ParameterizedNoReferenceMessageFactory$StatusMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -1004,16 +859,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "CloseableThreadContext$Instance",
-				"listOfFiles": [
+					},
 					{
+						"name": "CloseableThreadContext$Instance",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -1039,16 +887,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "StructuredDataMessage$Format",
-				"listOfFiles": [
+					},
 					{
+						"name": "StructuredDataMessage$Format",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.StructuredDataMessage",
@@ -1066,16 +907,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadDumpMessage$ThreadDumpMessageProxy",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadDumpMessage$ThreadDumpMessageProxy",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ThreadDumpMessage$1",
@@ -1097,16 +931,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "LoggerRegistry$MapFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoggerRegistry$MapFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.ExtendedLogger",
@@ -1136,16 +963,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "Unbox$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "Unbox$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Unbox",
@@ -1167,16 +987,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "DefaultThreadContextMap$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "DefaultThreadContextMap$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.DefaultThreadContextMap",
@@ -1194,16 +1007,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ExtendedThreadInformation$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "ExtendedThreadInformation$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ExtendedThreadInformation",
@@ -1221,16 +1027,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "DefaultFlowMessageFactory$SimpleExitMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "DefaultFlowMessageFactory$SimpleExitMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -1264,16 +1063,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "MapMessage$MapFormat",
-				"listOfFiles": [
+					},
 					{
+						"name": "MapMessage$MapFormat",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MapMessage",
@@ -1295,16 +1087,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "GarbageFreeSortedArrayThreadContextMap$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "GarbageFreeSortedArrayThreadContextMap$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.StringMap",
@@ -1330,16 +1115,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "CloseableThreadContext$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "CloseableThreadContext$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.CloseableThreadContext",
@@ -1361,16 +1139,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadDumpMessage$BasicThreadInfoFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadDumpMessage$BasicThreadInfoFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.BasicThreadInformation",
@@ -1404,16 +1175,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContext$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContext$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -1439,16 +1203,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "DefaultFlowMessageFactory$SimpleEntryMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "DefaultFlowMessageFactory$SimpleEntryMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -1478,16 +1235,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "StatusData",
-				"listOfFiles": [
+					},
 					{
+						"name": "StatusData",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Chars",
@@ -1521,16 +1271,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "MessageSupplier",
-				"listOfFiles": [
+					},
 					{
+						"name": "MessageSupplier",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -1560,16 +1303,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "CopyOnWriteSortedArrayThreadContextMap$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "CopyOnWriteSortedArrayThreadContextMap$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.CopyOnWriteSortedArrayThreadContextMap",
@@ -1595,16 +1331,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadDumpMessage$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadDumpMessage$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ThreadDumpMessage",
@@ -1634,16 +1363,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "StatusLogger$BoundedQueue",
-				"listOfFiles": [
+					},
 					{
+						"name": "StatusLogger$BoundedQueue",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.status.StatusLogger",
@@ -1661,16 +1383,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "MapMessage$1",
-				"listOfFiles": [
+					},
 					{
+						"name": "MapMessage$1",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MapMessage",
@@ -1692,16 +1407,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadDumpMessage$ExtendedThreadInfoFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadDumpMessage$ExtendedThreadInfoFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ExtendedThreadInformation",
@@ -1735,16 +1443,9 @@ var data = {
 						"category": "no_match",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "no_match",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContext$ContextStack",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContext$ContextStack",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -1785,9 +1486,10 @@ var data = {
 		{
 			"name": "networking",
 			"clusterNames": {
-				"nameOfCluster": "LocalizedMessageFactory",
+				"nameOfCluster": "",
 				"listOfFiles": [
 					{
+						"name": "LocalizedMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.AbstractMessageFactory",
@@ -1808,16 +1510,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "Logger",
-				"listOfFiles": [
+					},
 					{
+						"name": "Logger",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -1899,16 +1594,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ProviderUtil",
-				"listOfFiles": [
+					},
 					{
+						"name": "ProviderUtil",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.Logger",
@@ -1954,16 +1642,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "FlowMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "FlowMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -1993,16 +1674,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "Provider",
-				"listOfFiles": [
+					},
 					{
+						"name": "Provider",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.Logger",
@@ -2040,16 +1714,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "LoggerContext",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoggerContext",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -2091,16 +1758,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "Activator",
-				"listOfFiles": [
+					},
 					{
+						"name": "Activator",
 						"inputDeps": [
 							{
 								"name": "org.osgi.framework.wiring.BundleWiring",
@@ -2165,16 +1825,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ExtendedThreadInformation",
-				"listOfFiles": [
+					},
 					{
+						"name": "ExtendedThreadInformation",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ExtendedThreadInformation$1",
@@ -2204,16 +1857,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "MessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "MessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -2279,16 +1925,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "MessageFactory2",
-				"listOfFiles": [
+					},
 					{
+						"name": "MessageFactory2",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -2322,16 +1961,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "SimpleLoggerContextFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "SimpleLoggerContextFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.LoggerContextFactory",
@@ -2357,16 +1989,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "LoggerRegistry",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoggerRegistry",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -2420,16 +2045,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "EventLogger",
-				"listOfFiles": [
+					},
 					{
+						"name": "EventLogger",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.MarkerManager",
@@ -2470,16 +2088,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "DefaultFlowMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "DefaultFlowMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.SimpleMessage",
@@ -2541,16 +2152,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ExtendedLoggerWrapper",
-				"listOfFiles": [
+					},
 					{
+						"name": "ExtendedLoggerWrapper",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -2583,16 +2187,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "Constants",
-				"listOfFiles": [
+					},
 					{
+						"name": "Constants",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil",
@@ -2622,16 +2219,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "LoggerContextKey",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoggerContextKey",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -2648,16 +2238,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "LoaderUtil",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoaderUtil",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil$1",
@@ -2727,16 +2310,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ParameterizedNoReferenceMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ParameterizedNoReferenceMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.AbstractMessageFactory",
@@ -2774,16 +2350,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "PropertiesUtil",
-				"listOfFiles": [
+					},
 					{
+						"name": "PropertiesUtil",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil",
@@ -2861,16 +2430,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ReflectionUtil",
-				"listOfFiles": [
+					},
 					{
+						"name": "ReflectionUtil",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.Logger",
@@ -2912,16 +2474,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ReadOnlyStringMap",
-				"listOfFiles": [
+					},
 					{
+						"name": "ReadOnlyStringMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.BiConsumer",
@@ -2967,16 +2522,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "StatusLogger",
-				"listOfFiles": [
+					},
 					{
+						"name": "StatusLogger",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.status.StatusListener",
@@ -3086,16 +2634,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "ExtendedLogger",
-				"listOfFiles": [
+					},
 					{
+						"name": "ExtendedLogger",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.MessageSupplier",
@@ -3169,16 +2710,9 @@ var data = {
 						"category": "networking",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "networking",
-			"clusterNames": {
-				"nameOfCluster": "LogManager",
-				"listOfFiles": [
+					},
 					{
+						"name": "LogManager",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -3267,9 +2801,10 @@ var data = {
 		{
 			"name": "graphics",
 			"clusterNames": {
-				"nameOfCluster": "ReusableObjectMessage",
+				"nameOfCluster": "",
 				"listOfFiles": [
 					{
+						"name": "ReusableObjectMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -3303,16 +2838,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ReusableMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ReusableMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.ReusableObjectMessage",
@@ -3350,16 +2878,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "MessageFormatMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "MessageFormatMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.AbstractMessageFactory",
@@ -3380,16 +2901,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "Strings",
-				"listOfFiles": [
+					},
 					{
+						"name": "Strings",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Chars",
@@ -3447,16 +2961,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "StringFormatterMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "StringFormatterMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.AbstractMessageFactory",
@@ -3482,16 +2989,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "AbstractLoggerAdapter",
-				"listOfFiles": [
+					},
 					{
+						"name": "AbstractLoggerAdapter",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.LoaderUtil",
@@ -3516,16 +3016,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "MutableThreadContextStack",
-				"listOfFiles": [
+					},
 					{
+						"name": "MutableThreadContextStack",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -3551,16 +3044,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "DefaultThreadContextStack",
-				"listOfFiles": [
+					},
 					{
+						"name": "DefaultThreadContextStack",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.MutableThreadContextStack",
@@ -3594,16 +3080,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "LocalizedMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "LocalizedMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.LoggerNameAwareMessage",
@@ -3633,16 +3112,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "DefaultThreadContextMap",
-				"listOfFiles": [
+					},
 					{
+						"name": "DefaultThreadContextMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.BiConsumer",
@@ -3688,16 +3160,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "SimpleLogger",
-				"listOfFiles": [
+					},
 					{
+						"name": "SimpleLogger",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -3751,16 +3216,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "FormattedMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "FormattedMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFormatMessage",
@@ -3794,16 +3252,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "CopyOnWriteSortedArrayThreadContextMap",
-				"listOfFiles": [
+					},
 					{
+						"name": "CopyOnWriteSortedArrayThreadContextMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.ThreadContextMap2",
@@ -3853,16 +3304,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "StructuredDataMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "StructuredDataMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.EnglishEnums",
@@ -3896,16 +3340,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "AbstractMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "AbstractMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.SimpleMessage",
@@ -3959,16 +3396,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ObjectArrayMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ObjectArrayMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -3981,16 +3411,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ParameterizedMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ParameterizedMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.AbstractMessageFactory",
@@ -4016,16 +3439,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "SimpleMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "SimpleMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -4071,16 +3487,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "Unbox",
-				"listOfFiles": [
+					},
 					{
+						"name": "Unbox",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Constants",
@@ -4134,16 +3543,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "LambdaUtil",
-				"listOfFiles": [
+					},
 					{
+						"name": "LambdaUtil",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -4173,16 +3575,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContext",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContext",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.ThreadContextMap2",
@@ -4288,16 +3683,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "BasicThreadInformation",
-				"listOfFiles": [
+					},
 					{
+						"name": "BasicThreadInformation",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Chars",
@@ -4323,16 +3711,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "MessageFactory2Adapter",
-				"listOfFiles": [
+					},
 					{
+						"name": "MessageFactory2Adapter",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.MessageFactory",
@@ -4362,16 +3743,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "MarkerManager",
-				"listOfFiles": [
+					},
 					{
+						"name": "MarkerManager",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.Marker",
@@ -4401,16 +3775,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ReusableParameterizedMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ReusableParameterizedMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -4444,16 +3811,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ReusableSimpleMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ReusableSimpleMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.SimpleMessage",
@@ -4483,16 +3843,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ObjectMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ObjectMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -4522,16 +3875,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "SimpleMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "SimpleMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.AbstractMessageFactory",
@@ -4552,16 +3898,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ParameterizedMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "ParameterizedMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.Message",
@@ -4607,16 +3946,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "FormattedMessageFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "FormattedMessageFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.message.FormattedMessage",
@@ -4637,16 +3969,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "NoOpThreadContextMap",
-				"listOfFiles": [
+					},
 					{
+						"name": "NoOpThreadContextMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.ThreadContextMap",
@@ -4664,16 +3989,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "AbstractLogger",
-				"listOfFiles": [
+					},
 					{
+						"name": "AbstractLogger",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Constants",
@@ -4807,16 +4125,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "SortedArrayStringMap",
-				"listOfFiles": [
+					},
 					{
+						"name": "SortedArrayStringMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.BiConsumer",
@@ -4858,16 +4169,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "ParameterFormatter",
-				"listOfFiles": [
+					},
 					{
+						"name": "ParameterFormatter",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.StringBuilderFormattable",
@@ -4889,16 +4193,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "StructuredDataId",
-				"listOfFiles": [
+					},
 					{
+						"name": "StructuredDataId",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Strings",
@@ -4916,16 +4213,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "LoggerContextFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "LoggerContextFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.LoggerContext",
@@ -4959,16 +4249,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "GarbageFreeSortedArrayThreadContextMap",
-				"listOfFiles": [
+					},
 					{
+						"name": "GarbageFreeSortedArrayThreadContextMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.ThreadContextMap2",
@@ -5014,16 +4297,9 @@ var data = {
 						"category": "graphics",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "graphics",
-			"clusterNames": {
-				"nameOfCluster": "StringFormattedMessage",
-				"listOfFiles": [
+					},
 					{
+						"name": "StringFormattedMessage",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.Logger",
@@ -5064,9 +4340,10 @@ var data = {
 		{
 			"name": "sql",
 			"clusterNames": {
-				"nameOfCluster": "StringMap",
+				"nameOfCluster": "",
 				"listOfFiles": [
 					{
+						"name": "StringMap",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.ReadOnlyStringMap",
@@ -5108,16 +4385,9 @@ var data = {
 						"category": "sql",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "sql",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContextStack",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContextStack",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.ThreadContext",
@@ -5151,16 +4421,9 @@ var data = {
 						"category": "sql",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "sql",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContextMap2",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContextMap2",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.spi.ThreadContextMap",
@@ -5190,16 +4453,9 @@ var data = {
 						"category": "sql",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "sql",
-			"clusterNames": {
-				"nameOfCluster": "ThreadContextMapFactory",
-				"listOfFiles": [
+					},
 					{
+						"name": "ThreadContextMapFactory",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.util.Constants",
@@ -5261,16 +4517,9 @@ var data = {
 						"category": "sql",
 						"fileSize": 100,
 						"vulnerable": true
-					}
-				]
-			}
-		},
-		{
-			"name": "sql",
-			"clusterNames": {
-				"nameOfCluster": "CloseableThreadContext",
-				"listOfFiles": [
+					},
 					{
+						"name": "CloseableThreadContext",
 						"inputDeps": [
 							{
 								"name": "org.apache.logging.log4j.CloseableThreadContext$1",
@@ -5301,4 +4550,4 @@ var data = {
 			}
 		}
 	]
-}
+} 

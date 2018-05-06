@@ -1,0 +1,124 @@
+<html>
+  <head>
+      <link type="text/css" rel="stylesheet" href="../lv1/index.css">
+      <link type="text/css" rel="stylesheet" href="../lv2/index.css">      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="cloud.js"></script>
+  </head>
+  <body>
+      <div id="title">
+          CSCI578 - Final Project
+          <button onClick="window.location.href='../lv1/index.html'">Back to Lv1</button>
+      </div>
+    <div id="chart"></div>
+    <script>
+      var text_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempor pharetra sodales. Aenean convallis, erat at iaculis pretium, velit felis feugiat lectus, vitae rhoncus sem augue a velit. Phasellus sit.";
+    
+      $(document).ready(function () {
+        drawWordCloud(text_string);
+      });
+
+      function drawWordCloud(text_string){
+        var word_count = {};
+        var words = text_string.split(/[ '\-\(\)\*":;\[\]|{},.!?]+/);
+          if (words.length == 1){
+            word_count[words[0]] = 1;
+          } else {
+            words.forEach(function(word){
+              var word = word.toLowerCase();
+              if (word != "" && word.length>1){
+                if (word_count[word]){
+                  word_count[word]++;
+                } else {
+                  word_count[word] = 1;
+                }
+              }
+            })
+          }
+
+        var svg_location = "#chart";
+        var width = $(document).width();
+        var height = $(document).height();
+
+        var fill = d3.scale.category20();
+
+        var word_entries = d3.entries(word_count);
+        var xScale = d3.scale.linear()
+           .domain([0, d3.max(word_entries, function(d) {
+              return d.value;
+            })
+           ])
+           .range([10,100]);
+
+        d3.layout.cloud().size([width, height])
+          .timeInterval(20)
+          .words(word_entries)
+          .fontSize(function(d) { return xScale(+d.value); })
+          .text(function(d) { return d.key; })
+          .rotate(function() { return ~~(Math.random() * 2) * 90; })
+          .font("Impact")
+          .on("end", draw)
+          .start();
+
+        function draw(words) {
+          d3.select(svg_location).append("svg")
+              .attr("width", width)
+              .attr("height", height)
+            .append("g")
+              .attr("transform", "translate(" + [width >> 1, height >> 1] + ")")
+            .selectAll("text")
+              .data(words)
+            .enter().append("text")
+              .style("font-size", function(d) { return xScale(d.value) + "px"; })
+              .style("font-family", "Impact")
+              .style("fill", function(d, i) { return fill(i); })
+              .attr("text-anchor", "middle")
+              .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+              })
+              .on({
+                "click":  function(d) {
+                  console.log(d.text);
+                  overlay("sql",0)
+                }, 
+              })
+              .text(function(d) { return d.key; });
+        }
+
+        d3.layout.cloud().stop();
+      }
+    </script>
+    <script>
+      function overlay(category,positionInt) {
+        // lvl3[category][positionInt]
+        var overlay = document.createElement("div");
+        overlay.setAttribute("id","overlay");
+        var tempDiv = document.createElement("div");
+        var buttonDiv = document.createElement("div");
+        buttonDiv.innerHTML = "<button class='closeBtn' onClick='closeOverlay()'>X</button>";
+        tempDiv.append(buttonDiv);
+        var containerDiv = document.createElement("div");
+        containerDiv.classList.add("containerDiv");
+        var informationDiv = document.createElement("div");
+        informationDiv.classList.add("informationDiv");
+        
+        informationDiv.innerHTML = "<div><h3>Name of File</h3><hr><div class='fileInfo'><p>Lines of Code: 12344</p><p>File Size: 12Mb</p><p>Path to File: /jena-core/src/main/test</p><p>Input Dependencies</p><ul><li>file a</li><li>file b</li><li>file c</li></ul><p>Input Depedencies Categories: sql,io,networking</p><p>Output Depedencies</p><ul><li>file d</li><li>file e</li></ul><p>Output Depedencies Categories: graphics</p></div></div>";
+        containerDiv.append(informationDiv);
+        
+        var imageDiv = document.createElement("div");
+        imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/300x400'></div>";
+        
+        containerDiv.append(imageDiv);
+        tempDiv.append(containerDiv);
+        overlay.append(tempDiv);
+        document.body.append(overlay);
+        document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeOverlay() {
+          document.getElementById('overlay').style.display = "none";
+        }
+    </script>
+  </body>
+</html>

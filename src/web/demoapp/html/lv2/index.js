@@ -2,15 +2,9 @@
 var SVG_HEIGHT = svgHeight;
 var SVG_WIDTH = svgWidth;
 var DEPENDENCIES_BOX_HEIGHT = 50;
-var DEPENDENCIES_BOX_WIDTH = 400;
+var DEPENDENCIES_BOX_WIDTH = 500;
 var DEPENDENCIES_BOX_MARGIN_LEFT_RIGHT = 50;
 var CIRCLE_COLOR = '#ccc'
-
-// var svg = d3.select("body").append("svg")
-//                     .attr("width", SVG_WIDTH)
-//                     .attr("height", SVG_HEIGHT)
-//                     .attr("transform", "translate(" + window.innerWidth / 4 + "," + 0 + ")");
- 
 
 var svg = d3.select("svg"),
     margin = 20,
@@ -169,8 +163,11 @@ var pack = d3.pack()
                        .attr("cy", circleAttr.y)
                        .attr("r", circleAttr.r )
                        .style("fill", CIRCLE_COLOR)
+                       .style("cursor", "pointer")
+                    .style("z-index", "20")
                        .on("click", function(d) { 
                             overlay(0)
+                            d3.event.stopPropagation(); 
                         });
 
         var text =  g2.append("text")
@@ -254,12 +251,12 @@ var pack = d3.pack()
 
 
     function overlay(category,positionInt) {
-        lvl3[category][positionInt]
+        // lvl3[category][positionInt]
         var overlay = document.createElement("div");
         overlay.setAttribute("id","overlay");
         var tempDiv = document.createElement("div");
         var buttonDiv = document.createElement("div");
-        buttonDiv.innerHTML = "<button class='closeBtn' onclick='document.getElementById(\'overlay\').style.display = \'none\'>X</button>";
+        buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
         tempDiv.append(buttonDiv);
         var containerDiv = document.createElement("div");
         containerDiv.classList.add("containerDiv");
@@ -272,9 +269,13 @@ var pack = d3.pack()
         var imageDiv = document.createElement("div");
         imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/300x400'></div>";
         
-        containerDiv.append("imageDiv");
+        containerDiv.append(imageDiv);
         tempDiv.append(containerDiv);
         overlay.append(tempDiv);
         document.body.append(overlay);
         document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeOverlay() {
+            document.getElementById("overlay").style.display = "none";
         }
