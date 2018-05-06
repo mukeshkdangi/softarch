@@ -14,14 +14,30 @@
       </div>
     <div id="chart"></div>
     <script>
-      var text_string = "StatusListener MultiformatMessage dolor sit amet, consectetur adipiscing elit. In tempor pharetra sodales. Aenean convallis, erat at iaculis pretium, velit felis feugiat lectus, vitae rhoncus sem augue a velit. Phasellus sit.";
-      var dict = {
-        "StatusListener" : "io",
-        "MultiformatMessage" : "io"
-      }
-      $(document).ready(function () {
-        drawWordCloud(text_string);
-      });
+      var  text_string = "";
+      var dict = {}
+      window.onload = function(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                var a = xhttp.responseText;
+                var data = JSON.parse(a);
+                var cloudInfos = data["cloudInfo"]
+                dict = cloudInfos;
+                var counter = 30
+                for (key of Object.keys(cloudInfos)) {
+                  for (var i = 0 ; i < counter ; i++) {
+                    text_string += key + " "
+                  }
+                  counter--;
+                }
+                drawWordCloud(text_string);
+              }
+          };
+          xhttp.open("GET", "/data/data.json", true);
+          xhttp.send();
+
+        }
 
       function drawWordCloud(text_string){
         var word_count = {};
@@ -46,7 +62,7 @@
         var height = $(document).height();
 
         var fill = d3.scale.category20();
-
+          console.log(word_count)
         var word_entries = d3.entries(word_count);
         var xScale = d3.scale.linear()
            .domain([0, d3.max(word_entries, function(d) {
@@ -66,6 +82,7 @@
           .start();
 
         function draw(words) {
+          console.log(words)
           d3.select(svg_location).append("svg")
               .attr("width", width)
               .attr("height", height)
@@ -101,6 +118,9 @@
     </script>
     <script>
       function overlay(data) {
+        if (document.getElementById("overlay")) {
+          document.getElementById("overlay").remove();
+        }
         var overlay = document.createElement("div");
         overlay.setAttribute("id","overlay");
         var tempDiv = document.createElement("div");

@@ -267,6 +267,9 @@ var pack = d3.pack()
 
 
     function overlay(data) {
+        if (document.getElementById("overlay")) {
+            document.getElementById("overlay").remove();
+          }
         var overlay = document.createElement("div");
         overlay.setAttribute("id","overlay");
         var tempDiv = document.createElement("div");
