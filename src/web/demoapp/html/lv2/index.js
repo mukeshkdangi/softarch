@@ -162,7 +162,20 @@ var pack = d3.pack()
             var category_position = lv2_data_full.map(function(x) {return x.name; }).indexOf(d.category)
             var classList = lv2_data_full[category_position].clusterNames.listOfFiles
             var elementPos = classList.map(function(x) {return x.name; }).indexOf(classname);
-            overlay(classList[elementPos])
+            if (elementPos == -1) {
+                var data = {
+                    category: d.category,
+                    pathToFile: d.name.replace(/\./g, "/")+".java",//d.name.replace(".", "/"),
+                    fileSize: "-",
+                    linesOfCode: "-",
+                    outputDeps: [],
+                    inputDeps: [],
+                    name: classname
+                }
+                overlay(data)
+            } else {
+                overlay(classList[elementPos])
+            }
             d3.event.stopPropagation(); 
         })
 
@@ -182,7 +195,20 @@ var pack = d3.pack()
             var category_position = lv2_data_full.map(function(x) {return x.name; }).indexOf(d.category)
             var classList = lv2_data_full[category_position].clusterNames.listOfFiles
             var elementPos = classList.map(function(x) {return x.name; }).indexOf(classname);
-            overlay(classList[elementPos])
+            if (elementPos == -1) {
+                var data = {
+                    category: d.category,
+                    pathToFile: d.name.replace(/\./g, "/")+".java",//d.name.replace(".", "/"),
+                    fileSize: "-",
+                    linesOfCode: "-",
+                    outputDeps: [],
+                    inputDeps: [],
+                    name: classname
+                }
+                overlay(data)
+            } else {
+                overlay(classList[elementPos])
+            }
             d3.event.stopPropagation(); 
         })
     }
