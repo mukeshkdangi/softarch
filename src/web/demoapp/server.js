@@ -5,6 +5,7 @@ const app = express();
 const request = require('request');
 var router = express.Router();
 var debug = true;
+var local = true;
 app.use(express.static(path.join(__dirname, 'html')));
 
 app.get('/', (req, res) => {
@@ -20,23 +21,24 @@ app.get('/details', (req, res) => {
 	});
 });
 
+if (local) {
+	const port = process.env.PORT || '3000';
+	app.set('port', port);
 
-// const port = process.env.PORT || '3000';
-// app.set('port', port);
+	const server = http.createServer(app);
 
-// const server = http.createServer(app);
-
-// server.listen(port, function(request,response) {
-// 	if (debug)
-// 		console.log('listen');
-// });
-
-
-if (module === require.main) {
-// Start the server
-	var server = app.listen(process.env.port || 8081, function () {
-	var port = server.address().port;
-});
+	server.listen(port, function(request,response) {
+		if (debug)
+			console.log('listen');
+	});
 }
+else {
+	if (module === require.main) {
+		var server = app.listen(process.env.port || 8081, function () {
+		var port = server.address().port;
+	});
+	}
+}
+
 module.exports = app;
 //module.exports = router;
