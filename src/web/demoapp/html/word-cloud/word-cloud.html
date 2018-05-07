@@ -1,7 +1,8 @@
 <html>
   <head>
       <link type="text/css" rel="stylesheet" href="../lv1/index.css">
-      <link type="text/css" rel="stylesheet" href="../lv2/index.css">      
+      <link type="text/css" rel="stylesheet" href="../lv2/index.css"> 
+      <link rel="shortcut icon" type="image/png" href="../data/favicon.png">     
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
       <script src="cloud.js"></script>
@@ -132,7 +133,7 @@
             .selectAll("text")
               .data(words)
             .enter().append("text")
-              .style("font-size", function(d) { return xScale(d.value) + "px"; })
+              .style("font-size", function(d) {return xScale(d.value) + "px"; })
               .style("font-family", "Impact")
               .style("cursor", "pointer")
               .style("fill", function(d, i) { return fill(i); })
