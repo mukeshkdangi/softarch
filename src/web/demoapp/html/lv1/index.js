@@ -74,14 +74,13 @@ var angles = [];
                           var text = ""
                           for (var i = 0 ; i < deps.length ; i++) {
                             var dep = deps[i]
-                            text += (dep.nameOfCategory + " : " + dep.count + "</br>")
+                            text += ("<span style='color:" + category_to_color[dep.nameOfCategory] + "'>" + dep.nameOfCategory + "</span> : " + dep.count + "</br>")
                           }
                           document.getElementById("deps-detail").innerHTML = text;
                           document.getElementById("deps-detail").style.display = "block";
                         })
                         .on("mouseout", function(d) { 
                           document.getElementById("deps-detail").style.display = "none";
-
                         })
 
   svgContainer.append("svg:defs").append("svg:marker")
@@ -134,7 +133,7 @@ var angles = [];
                     var text = ""
                     for (var i = 0 ; i < deps.length ; i++) {
                       var dep = deps[i]
-                      text += (dep.nameOfCategory + " : " + dep.count + "</br>")
+                      text += ("<span style='color:" + category_to_color[dep.nameOfCategory] + "'>" + dep.nameOfCategory + "</span> : " + dep.count + "</br>")
                     }
                     document.getElementById("deps-detail").innerHTML = text;
                     document.getElementById("deps-detail").style.display = "block";

@@ -1,7 +1,8 @@
 <html>
   <head>
       <link type="text/css" rel="stylesheet" href="../lv1/index.css">
-      <link type="text/css" rel="stylesheet" href="../lv2/index.css">      
+      <link type="text/css" rel="stylesheet" href="../lv2/index.css"> 
+      <link rel="shortcut icon" type="image/png" href="../data/favicon.png">     
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
       <script src="cloud.js"></script>
@@ -64,24 +65,14 @@
                 var counter = 30;
                 var cnt = 0;
                 //if array
-                // for (var aa = 0; aa < cloudInfos.length; aa++) {
-                //   var key = Object.keys(cloudInfos[aa])[0];
-                //   dict.push(cloudInfos[aa]);
-                //   for (var i = 0 ; i < counter ; i++) {
-                //     text_string += key + " "
-                //   }
-                //   counter--;
-                // }
-
-                //if dict
-                dict = cloudInfos;
-                for (key of Object.keys(cloudInfos)) {
+                for (var aa = cloudInfos.length-1; aa >= 0; aa--) {
+                  var key = cloudInfos[aa].name;
+                  var cat = cloudInfos[aa].category
+                  dict[key] = cat;
                   for (var i = 0 ; i < counter ; i++) {
-                    rank[cnt] = key;
                     text_string += key + " "
                   }
                   counter--;
-                  cnt++;
                 }
                 document.getElementById("loader-cloud").remove();
                 drawWordCloud(text_string);
@@ -142,7 +133,7 @@
             .selectAll("text")
               .data(words)
             .enter().append("text")
-              .style("font-size", function(d) { return xScale(d.value) + "px"; })
+              .style("font-size", function(d) {return xScale(d.value) + "px"; })
               .style("font-family", "Impact")
               .style("cursor", "pointer")
               .style("fill", function(d, i) { return fill(i); })
