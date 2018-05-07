@@ -158,7 +158,9 @@ function modifyData(lv2_data, category) {
         var category = ele.category;
         var fileSize = ele.fileSize
         var vulnerable = ele.vulnerable;
-        
+        if (fileSize === 0 || fileSize === 0.0) {
+            fileSize = 1.0;
+        }
         var detail = {
             "name": name,
             "inputDeps": inputDeps,
