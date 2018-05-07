@@ -26,7 +26,7 @@
       </script>
   </head>
   <body>
-      <div id="title">CSCI578 - Final Project 
+      <div id="title"><span class="titleText" onClick="window.location.href='../index.html'">CSCI578 - Final Project</span>
         <button class="lv2-button" onClick="window.location.href='/lv1/index.html'">Go back to Lv1</button>
         <button class="lv2-button" onClick="window.location.href='/word-cloud/word-cloud.html'">Word Cloud</button>
       </div>
@@ -75,7 +75,6 @@
             toggle = !toggle;
             count++;
             if (count < 30) {
-                console.log("check")
                 setTimeout(replaceText, 1000);
             }
         }
@@ -95,8 +94,12 @@
                 drawSVG(root, lv2_data);
               }
           };
-          // xhttp.open("GET", "/data/data.json", true);
-          xhttp.open("GET", "/details", true);
+          var url = "";
+          if (window.sessionStorage.getItem("url"))
+              url = "/" + window.sessionStorage.getItem("url");
+          else
+              url = "/details-log"
+          xhttp.open("GET", url, true);
           xhttp.send();
 
         }

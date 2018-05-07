@@ -2,6 +2,10 @@ body {
   margin: 0px;
 }
 
+.titleText:hover {
+  cursor: pointer;
+}
+
 #title {
   background: black;
   color: white;
