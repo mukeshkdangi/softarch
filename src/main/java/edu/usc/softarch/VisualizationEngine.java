@@ -69,18 +69,19 @@ public class VisualizationEngine {
 
 
             lines.stream().forEach(str -> {
+                if (!str.contains("$")) {
+                    String[] depenArray = str.split(" ");
+                    Map<String, String> innerDepMap;
+                    innerDepMap = dependencMap.get(depenArray[1]) == null ? new HashMap<>() : dependencMap.get(depenArray[1]);
+                    String fileTypeLocal = FileUtility.getFileTypeFromClusterMap(depenArray[2], clusterMap);
+                    innerDepMap.put(depenArray[2], fileTypeLocal);
+                    dependencMap.put(depenArray[1], innerDepMap);
 
-                String[] depenArray = str.split(" ");
-                Map<String, String> innerDepMap;
-                innerDepMap = dependencMap.get(depenArray[1]) == null ? new HashMap<>() : dependencMap.get(depenArray[1]);
-                String fileTypeLocal = FileUtility.getFileTypeFromClusterMap(depenArray[2], clusterMap);
-                innerDepMap.put(depenArray[2], fileTypeLocal);
-                dependencMap.put(depenArray[1], innerDepMap);
-
-                innerDepMap = outDependencMap.get(depenArray[2]) == null ? new HashMap<>() : outDependencMap.get(depenArray[2]);
-                fileTypeLocal = FileUtility.getFileTypeFromClusterMap(depenArray[1], clusterMap);
-                innerDepMap.put(depenArray[1], fileTypeLocal);
-                outDependencMap.put(depenArray[2], innerDepMap);
+                    innerDepMap = outDependencMap.get(depenArray[2]) == null ? new HashMap<>() : outDependencMap.get(depenArray[2]);
+                    fileTypeLocal = FileUtility.getFileTypeFromClusterMap(depenArray[1], clusterMap);
+                    innerDepMap.put(depenArray[1], fileTypeLocal);
+                    outDependencMap.put(depenArray[2], innerDepMap);
+                }
             });
 
         } catch (Exception e) {
@@ -100,14 +101,15 @@ public class VisualizationEngine {
             List<String> lines = FileUtils.readLines(file);
 
             lines.stream().forEach(str -> {
-
-                String[] depenArray = str.split(" ");
-                String filePath = depenArray[2];
-                String fileName = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".java", "");
-                List<String> fileFullPathType = new ArrayList<>();
-                fileFullPathType.add(filePath);
-                fileFullPathType.add(depenArray[1]);
-                clusterMap.put(fileName, fileFullPathType);
+                if (!str.contains("$")) {
+                    String[] depenArray = str.split(" ");
+                    String filePath = depenArray[2];
+                    String fileName = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".java", "");
+                    List<String> fileFullPathType = new ArrayList<>();
+                    fileFullPathType.add(filePath);
+                    fileFullPathType.add(depenArray[1]);
+                    clusterMap.put(fileName, fileFullPathType);
+                }
             });
         } catch (Exception e) {
             e.printStackTrace();
