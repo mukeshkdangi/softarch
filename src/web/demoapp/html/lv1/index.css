@@ -84,4 +84,6 @@ section {
     top: 40;
     position: absolute;
     padding: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
 }
