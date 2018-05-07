@@ -64,24 +64,14 @@
                 var counter = 30;
                 var cnt = 0;
                 //if array
-                // for (var aa = 0; aa < cloudInfos.length; aa++) {
-                //   var key = Object.keys(cloudInfos[aa])[0];
-                //   dict.push(cloudInfos[aa]);
-                //   for (var i = 0 ; i < counter ; i++) {
-                //     text_string += key + " "
-                //   }
-                //   counter--;
-                // }
-
-                //if dict
-                dict = cloudInfos;
-                for (key of Object.keys(cloudInfos)) {
+                for (var aa = cloudInfos.length-1; aa >= 0; aa--) {
+                  var key = cloudInfos[aa].name;
+                  var cat = cloudInfos[aa].category
+                  dict[key] = cat;
                   for (var i = 0 ; i < counter ; i++) {
-                    rank[cnt] = key;
                     text_string += key + " "
                   }
                   counter--;
-                  cnt++;
                 }
                 document.getElementById("loader-cloud").remove();
                 drawWordCloud(text_string);
