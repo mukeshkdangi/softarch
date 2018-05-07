@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
  */
 
 public class VisualizationEngine {
-
+    private static String defaultClusterDepFile = "log4j-api_relax_clusters_fn.rsf";
+    private static String defaultDepFile = "log4j-api_deps.rsf";
 
     /**
      * dependencMap : fileA -> {File B: File B type}
@@ -49,10 +50,10 @@ public class VisualizationEngine {
      */
 
     public void init(String depedency_file, String cluster_dep_file) {
-
-        //  this.dep_fileName = depedency_file;
-        // this.clusters_fn = cluster_dep_file;
-
+        if (StringUtils.isNotBlank(cluster_dep_file) && StringUtils.isNotBlank(depedency_file)) {
+            defaultClusterDepFile = cluster_dep_file;
+            defaultDepFile = depedency_file;
+        }
 
         clusterMap = new HashMap<>();
         dependencMap = new HashMap<>();
@@ -66,7 +67,7 @@ public class VisualizationEngine {
      */
     public Map<String, Map<String, String>> createDependencyInfo() {
         try {
-            List<String> lines = FileUtils.readLines(S3Manager.getFileFromS3("log4j-api_deps.rsf"));
+            List<String> lines = FileUtils.readLines(S3Manager.getFileFromS3(defaultDepFile));
 
 
             lines.stream().forEach(str -> {
@@ -98,7 +99,7 @@ public class VisualizationEngine {
     public Map<String, List<String>> createClusterInfo() {
 
         try {
-            File file = S3Manager.getFileFromS3("log4j-api_relax_clusters_fn.rsf");
+            File file = S3Manager.getFileFromS3(defaultClusterDepFile);
             List<String> lines = FileUtils.readLines(file);
 
             lines.stream().forEach(str -> {
@@ -250,9 +251,6 @@ public class VisualizationEngine {
 
             });
 
-            List<WordCloudInfo> wordCloudInfoList = new ArrayList<>();
-            wordCloudInfoList = this.crunchDataForWordCloud();
-
             listOfLevelTwoInfo.parallelStream().forEach(list -> {
                 list.getClusterNames().getListOfFiles().forEach(files -> {
                     if (filesWithOutGoingDependency.get(files.getName()) != null) {
@@ -260,6 +258,9 @@ public class VisualizationEngine {
                     }
                 });
             });
+
+            List<WordCloudInfo> wordCloudInfoList = this.crunchDataForWordCloud();
+
             return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).cloudInfo(wordCloudInfoList).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -273,7 +274,7 @@ public class VisualizationEngine {
      */
     private List<WordCloudInfo> crunchDataForWordCloud() {
         List<WordCloudInfo> wordCloudInfoList = new ArrayList<>();
-        Map<String, String> mapList = new HashMap<>();
+
         filesWithOutGoingDependency = filesWithOutGoingDependency.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder())).limit(30)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
@@ -284,6 +285,8 @@ public class VisualizationEngine {
             WordCloudInfo wordCloudInfo = WordCloudInfo.builder().name(key).category(FileUtility.getFileTypeFromClusterMap(key, clusterMap)).build();
             if (Objects.nonNull(wordCloudInfo)) wordCloudInfoList.add(wordCloudInfo);
         }));
+        wordCloudInfoList.removeAll(Collections.singleton(null));
+
         return wordCloudInfoList;
     }
 

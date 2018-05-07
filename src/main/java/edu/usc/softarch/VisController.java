@@ -4,6 +4,7 @@ package edu.usc.softarch;
 import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -22,8 +23,8 @@ public class VisController {
 
 
     @GetMapping(value = "/getLevelOneDetails")
-    public String getLevelOne() {
-        return new Gson().toJson(new VisProcessorImpl().init("", ""));
+    public String getLevelOne(@RequestParam("fileDep") String dependenct_file, @RequestParam("clusterDep") String cluster_dep_file) {
+        return new Gson().toJson(new VisProcessorImpl().init(dependenct_file, cluster_dep_file));
     }
 
 }
