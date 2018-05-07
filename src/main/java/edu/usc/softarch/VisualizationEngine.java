@@ -251,6 +251,8 @@ public class VisualizationEngine {
 
             });
 
+            List<WordCloudInfo> wordCloudInfoList = this.crunchDataForWordCloud();
+            
             listOfLevelTwoInfo.parallelStream().forEach(list -> {
                 list.getClusterNames().getListOfFiles().forEach(files -> {
                     if (filesWithOutGoingDependency.get(files.getName()) != null) {
@@ -259,7 +261,7 @@ public class VisualizationEngine {
                 });
             });
 
-            List<WordCloudInfo> wordCloudInfoList = this.crunchDataForWordCloud();
+
 
             return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).cloudInfo(wordCloudInfoList).build();
         } catch (Exception e) {

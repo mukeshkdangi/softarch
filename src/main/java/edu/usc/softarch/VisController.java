@@ -23,7 +23,7 @@ public class VisController {
 
 
     @GetMapping(value = "/getLevelOneDetails")
-    public String getLevelOne(@RequestParam("fileDep") String dependenct_file, @RequestParam("clusterDep") String cluster_dep_file) {
+    public String getLevelOne(@RequestParam(value = "fileDep", required = false) String dependenct_file, @RequestParam(value = "clusterDep", required = false) String cluster_dep_file) {
         return new Gson().toJson(new VisProcessorImpl().init(dependenct_file, cluster_dep_file));
     }
 
