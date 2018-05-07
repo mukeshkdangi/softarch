@@ -48,7 +48,6 @@
           toggle = !toggle;
           count++;
           if (count < 30) {
-              console.log("check")
               setTimeout(replaceText, 1000);
           }
       }
@@ -73,9 +72,6 @@
                   counter--;
                   cnt++;
                 }
-                console.log(cloudInfos);
-                console.log(rank);
-                console.log(text_string);
                 document.getElementById("loader-cloud").remove();
                 drawWordCloud(text_string);
                 document.getElementById("expl").style.display = "block";
@@ -108,7 +104,6 @@
         var height = $(document).height();
 
         var fill = d3.scale.category20();
-          console.log(word_count)
         var word_entries = d3.entries(word_count);
         var xScale = d3.scale.linear()
            .domain([0, d3.max(word_entries, function(d) {
@@ -173,9 +168,9 @@
           var overlay = document.createElement("div");
           overlay.setAttribute("id","overlay");
           var tempDiv = document.createElement("div");
-          var buttonDiv = document.createElement("div");
-          buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
-          tempDiv.append(buttonDiv);
+          // var buttonDiv = document.createElement("div");
+          // buttonDiv.innerHTML = "<button class='closeBtn' onclick='closeOverlay()'>X</button>";
+          // tempDiv.append(buttonDiv);
           var containerDiv = document.createElement("div");
           containerDiv.classList.add("containerDiv");
           var informationDiv = document.createElement("div");
@@ -204,14 +199,14 @@
 
           containerDiv.append(informationDiv);
           
-          var imageDiv = document.createElement("div");
-          imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
+          //var imageDiv = document.createElement("div");
+          //imageDiv.innerHTML = "<div class='classImageDiv'><img src='http:\/\/via.placeholder.com/450x600'></div>";
           
-          containerDiv.append(imageDiv);
+          //containerDiv.append(imageDiv);
           tempDiv.append(containerDiv);
           overlay.append(tempDiv);
 
-          imageDiv.onclick = function(event) {event.stopImmediatePropagation();}
+          //imageDiv.onclick = function(event) {event.stopImmediatePropagation();}
           informationDiv.onclick = function(event) {event.stopImmediatePropagation();}
           overlay.onclick =  function(event) { closeOverlay()}
           
