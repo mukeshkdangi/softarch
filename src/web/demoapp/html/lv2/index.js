@@ -312,7 +312,7 @@ var pack = d3.pack()
           
           informationDiv.innerHTML = "<div><h3 style='color:"+ category_to_color[data.category] +"'>" + data.name + "</h3><hr><div class='fileInfo'><p><b>Lines of Code</b>: " + data.linesOfCode + "</p><p><b>File Size</b>: " + data.fileSize + "Kb</p><p><b>Path to File</b>: " + data.pathToFile + "</p><p><b>Category</b>: <span style='color:"+ category_to_color[data.category] +"'>" + data.category + "</span></p>";
           informationDiv.innerHTML += "<p><b>Incoming Dependencies</b></p><ul>"
-          var TEXT_LIMIT = 55
+          var TEXT_LIMIT = 64
           for (x of data.inputDeps) {
               if (x.name.length > TEXT_LIMIT) {
                   informationDiv.innerHTML += "<li>" + x.name.substring(0, TEXT_LIMIT) + "</br>" + x.name.substring(TEXT_LIMIT)  +"</li>"

@@ -61,9 +61,20 @@
                 var data = JSON.parse(a);
                 var cloudInfos = data["cloudInfo"];
                 lv2_data = data["levelTwo"];
-                dict = cloudInfos;
                 var counter = 30;
                 var cnt = 0;
+                //if array
+                // for (var aa = 0; aa < cloudInfos.length; aa++) {
+                //   var key = Object.keys(cloudInfos[aa])[0];
+                //   dict.push(cloudInfos[aa]);
+                //   for (var i = 0 ; i < counter ; i++) {
+                //     text_string += key + " "
+                //   }
+                //   counter--;
+                // }
+
+                //if dict
+                dict = cloudInfos;
                 for (key of Object.keys(cloudInfos)) {
                   for (var i = 0 ; i < counter ; i++) {
                     rank[cnt] = key;
