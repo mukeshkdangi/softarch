@@ -24,7 +24,7 @@ app.get('/details-hadoop', (req, res) => {
 
 app.get('/details-log', (req, res) => {
 	//console.log("log details retrieved");
-    var url = "http://sarch.us-east-1.elasticbeanstalk.com/getLevelOneDetails?fileDep=log4j-api_relax_clusters_fn.rsf&&clusterDep=log4j-api_deps.rsf";
+    var url = "http://sarch.us-east-1.elasticbeanstalk.com/getLevelOneDetails?fileDep=log4j-api_deps.rsf&clusterDep=log4j-api_relax_clusters_fn.rsf";
 	request.get(url,function(error, response, body) {
 		if (error === null) {
 			res.send(body);

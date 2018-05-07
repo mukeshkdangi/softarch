@@ -75,7 +75,6 @@
             toggle = !toggle;
             count++;
             if (count < 30) {
-                console.log("check")
                 setTimeout(replaceText, 1000);
             }
         }
@@ -91,8 +90,8 @@
                 var category_position = data["levelTwo"].map(function(x) {return x.name; }).indexOf(category);
                 var lv2_data = data["levelTwo"][category_position].clusterNames.listOfFiles;
                 var root = modifyData(lv2_data, category);
-                drawSVG(root, lv2_data);
                 document.getElementById('loader-lv2').remove();
+                drawSVG(root, lv2_data);
               }
           };
           var url = "";
