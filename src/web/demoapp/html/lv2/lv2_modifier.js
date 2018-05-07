@@ -158,7 +158,9 @@ function modifyData(lv2_data, category) {
         var category = ele.category;
         var fileSize = ele.fileSize
         var vulnerable = ele.vulnerable;
-        
+        if (fileSize === 0 || fileSize === 0.0) {
+            fileSize = 1.0;
+        }
         var detail = {
             "name": name,
             "inputDeps": inputDeps,
@@ -185,9 +187,15 @@ function modifyData(lv2_data, category) {
     }
 
     while (true) {
-        if (directory_structure.children.length == 1) {
+        if (directory_structure.children !== undefined && directory_structure.children.length == 1) {
             directory_structure = directory_structure.children[0];
         } else {
+            if (directory_structure.children === undefined) {
+                directory_structure = {
+                    name: directory_structure.category,
+                    children: [directory_structure]
+                }
+            }
             break;
         }
     }
