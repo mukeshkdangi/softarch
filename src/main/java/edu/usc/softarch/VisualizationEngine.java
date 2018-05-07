@@ -4,6 +4,7 @@ import edu.usc.softarch.LevelOnePojo.Category;
 import edu.usc.softarch.LevelOnePojo.Dependency;
 import edu.usc.softarch.S3upload.S3Manager;
 import edu.usc.softarch.Utils.FileUtility;
+import edu.usc.softarch.WordCloudPojo.WordCloudInfo;
 import edu.usc.softarch.levelTwoPojo.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +33,7 @@ public class VisualizationEngine {
     private Map<String, Map<String, String>> outDependencMap = new HashMap<>();
     private Map<String, Map<String, Integer>> levelOneMap = new HashMap<>();
 
-    private Map<String, Integer> filesWithOutGoingDependency = new HashMap<>();
+    private Map<String, Integer> filesWithOutGoingDependency = new LinkedHashMap<>();
 
     /**
      * Level 3 Map {File Category Key -> {List of Maps  {File 1 -> type}}}
@@ -249,8 +250,8 @@ public class VisualizationEngine {
 
             });
 
-            Map<String, String> fileWithType = new HashMap<>();
-            fileWithType = this.crunchDataForWordCloud(fileWithType);
+            List<WordCloudInfo> wordCloudInfoList = new ArrayList<>();
+            wordCloudInfoList = this.crunchDataForWordCloud();
 
             listOfLevelTwoInfo.parallelStream().forEach(list -> {
                 list.getClusterNames().getListOfFiles().forEach(files -> {
@@ -259,7 +260,7 @@ public class VisualizationEngine {
                     }
                 });
             });
-            return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).cloudInfo(fileWithType).build();
+            return VisInformation.builder().levelOne(levelOne).levelTwo(listOfLevelTwoInfo).cloudInfo(wordCloudInfoList).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -268,20 +269,22 @@ public class VisualizationEngine {
     }
 
     /**
-     * @param fileWithType
+     * @return
      */
-    private Map<String, String> crunchDataForWordCloud(Map<String, String> fileWithType) {
-
+    private List<WordCloudInfo> crunchDataForWordCloud() {
+        List<WordCloudInfo> wordCloudInfoList = new ArrayList<>();
+        Map<String, String> mapList = new HashMap<>();
         filesWithOutGoingDependency = filesWithOutGoingDependency.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(30)
+                .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder())).limit(30)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
 
         filesWithOutGoingDependency.keySet().parallelStream().forEach((key -> {
-            fileWithType.put(key, FileUtility.getFileTypeFromClusterMap(key, clusterMap));
+            WordCloudInfo wordCloudInfo = WordCloudInfo.builder().name(key).category(FileUtility.getFileTypeFromClusterMap(key, clusterMap)).build();
+            if (Objects.nonNull(wordCloudInfo)) wordCloudInfoList.add(wordCloudInfo);
         }));
-        return fileWithType;
+        return wordCloudInfoList;
     }
 
 
