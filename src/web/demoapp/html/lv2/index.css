@@ -67,9 +67,8 @@
     float: right;
   }
   .informationDiv {
-    float: left;
     height: 600px;
-    width: 450px;
+    width: 500px;
     background-color: white;
     border-radius: 2%;
     overflow-y: scroll;
@@ -84,6 +83,9 @@
     padding: 10px;
     overflow-x: hidden;
     word-wrap: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   h3 {
     font-size: 20px;
