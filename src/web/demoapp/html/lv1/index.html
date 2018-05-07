@@ -7,7 +7,7 @@
     </head>
     <body>     
         <div id="title">
-            CSCI578 - Final Project
+            <span class="titleText" onClick="window.location.href='../index.html'">CSCI578 - Final Project</span>
             <button onClick="window.location.href='../word-cloud/word-cloud.html'">Word Cloud</button>
         </div>
         <div id="deps-detail"></div>
@@ -59,7 +59,13 @@
                     }
                 };
                 // xhttp.open("GET", "/data/data.json", true);
-                xhttp.open("GET", "/details", true);
+                var url = "";
+                //console.log(window.sessionStorage.getItem("url"));
+                if (window.sessionStorage.getItem("url"))
+                    url = "/" + window.sessionStorage.getItem("url");
+                else
+                    url = "/details-log"
+                xhttp.open("GET", url, true);
                 xhttp.send();
                 }
 

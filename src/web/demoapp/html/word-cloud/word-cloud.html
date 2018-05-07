@@ -10,7 +10,7 @@
   </head>
   <body>
       <div id="title">
-          CSCI578 - Final Project
+          <span class="titleText" onClick="window.location.href='../index.html'">CSCI578 - Final Project</span>
           <button onClick="window.location.href='../lv1/index.html'">Back to Lv1</button>
       </div>
       <section id="loader-cloud">
@@ -74,12 +74,17 @@
                   }
                   counter--;
                 }
-                document.getElementById("loader-cloud").remove();
                 drawWordCloud(text_string);
                 document.getElementById("expl").style.display = "block";
+                document.getElementById("loader-cloud").remove();
               }
           };
-          xhttp.open("GET", "/details", true);
+          var url = "";
+          if (window.sessionStorage.getItem("url"))
+              url = "/" + window.sessionStorage.getItem("url");
+          else
+              url = "/details-log"
+          xhttp.open("GET", url, true);
           xhttp.send();
         }
 
@@ -102,8 +107,8 @@
           }
 
         var svg_location = "#chart";
-        var width = $(document).width();
-        var height = $(document).height() - 30;
+        var width = window.innerWidth;
+        var height = window.innerHeight - 30;
 
         var fill = d3.scale.category20();
         var word_entries = d3.entries(word_count);

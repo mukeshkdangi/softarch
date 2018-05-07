@@ -9,11 +9,22 @@ var local = false;
 app.use(express.static(path.join(__dirname, 'html')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'html/lv1/index.html'));
+    res.sendFile(path.join(__dirname, 'html/index.html'));
 });
 
-app.get('/details', (req, res) => {
-    var url = "http://sarch.us-east-1.elasticbeanstalk.com/getLevelOneDetails";
+app.get('/details-hadoop', (req, res) => {
+	//console.log("hadoop details retrieved");
+	var url = "http://sarch.us-east-1.elasticbeanstalk.com/getLevelOneDetails?fileDep=hadoop-0.1.0_deps.rsf&clusterDep=hadoop-0.1.0_relax_clusters_fn.rsf";
+	request.get(url,function(error, response, body) {
+		if (error === null) {
+			res.send(body);
+		}
+	});
+});
+
+app.get('/details-log', (req, res) => {
+	//console.log("log details retrieved");
+    var url = "http://sarch.us-east-1.elasticbeanstalk.com/getLevelOneDetails?fileDep=log4j-api_relax_clusters_fn.rsf&&clusterDep=log4j-api_deps.rsf";
 	request.get(url,function(error, response, body) {
 		if (error === null) {
 			res.send(body);
