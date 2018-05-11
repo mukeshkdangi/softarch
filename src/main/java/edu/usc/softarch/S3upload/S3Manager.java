@@ -25,8 +25,8 @@ import java.nio.file.StandardCopyOption;
 @Data
 public class S3Manager {
     private static AmazonS3 s3Client;
-    private static String KEY = "AKIAJYANWLBQGLIRO2YA";
-    private static String VALUE = "7S9mHyrxLpgd1aZD1x0TnNSkbCiOilAjwtOr27g0";
+    private static String KEY = "";
+    private static String VALUE = "";
 
     public static File getFileFromS3(String fileKey) throws IOException {
         String bucketName = "softarch";
