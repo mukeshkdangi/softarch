@@ -2,7 +2,7 @@
 
 Welcome to the softarch wiki!
 
-![Output] https://github.com/mukeshkdangi/softarch/blob/master/CS%20570%20Soft%20Arch%20Vis.pdf
+![Given Image] (https://github.com/mukeshkdangi/softarch/blob/master/CS%20570%20Soft%20Arch%20Vis.pdf)
 
 ## Aim
 The software aims to provide a visualization that is meaningful for the architect, developer and the user. Neither of the three recovery methods provide a clear visualization of the system’s abstract/overall architecture. We propose building a visualization tool that will provide hierarchy and levels to the system’s architecture. Along with this, the visualization will highlight areas of vulnerability in the software which will provide the architect with a better understanding of the system’s core components.
