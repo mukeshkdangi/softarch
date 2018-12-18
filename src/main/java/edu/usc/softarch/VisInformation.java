@@ -17,6 +17,8 @@ import java.util.Map;
 @Data
 public class VisInformation {
     private List<Category> levelOne;
+    
     private List<FileTypeMap> levelTwo;
+    
     private List<WordCloudInfo> cloudInfo;
 }
