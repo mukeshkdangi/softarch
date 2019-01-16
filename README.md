@@ -22,3 +22,11 @@ Details of each individual file (such as file size, inheritance, lines of code, 
 Along with this we propose to implement the following a visualization for the n most coupled nodes. This would be in the form of a word cloud. Each name would be associated with a list of key features of the file such as lines of code, dependencies and source files which would help identify why the file has been flagged as vulnerable.
 
 As inputs, we propose to use the output provided by the RELAX recovery method as well as third party libraries to elicit class diagrams of files. The software itself will be built using D3.js.
+
+> Results: 
+![Level 1](https://github.com/mukeshkdangi/softarch/blob/master/Screenshot%202019-01-16%20at%201.53.59%20PM.png)
+![Level 2](https://github.com/mukeshkdangi/softarch/blob/master/Screenshot%202019-01-16%20at%201.54.18%20PM.png)
+![Level 3](https://github.com/mukeshkdangi/softarch/blob/master/Screenshot%202019-01-16%20at%201.54.26%20PM.png)
+![Level 4](https://github.com/mukeshkdangi/softarch/blob/master/Screenshot%202019-01-16%20at%201.54.36%20PM.png)
+
+
